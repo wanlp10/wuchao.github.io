@@ -1,16 +1,16 @@
 ---
 layout:     post
-title:      "Liquibase 的简单实用"
+title:      "Liquibase 的简单使用"
 subtitle:   " \"Maven + SpringBoot + Liquibase\""
 date:       2017-02-25 11:50:00
-author:     "Hux"
+author:     "chao"
 header-img: ""
 catalog: true
 tags:
     - Liquibase
 ---
 
-> Liquibase 配合 SpringBoot 的简单实用。
+> Liquibase 配合 SpringBoot 的简单使用。
 
 ## Maven + SpringBoot + Liquibase
 

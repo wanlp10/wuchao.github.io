@@ -92,5 +92,9 @@ friends: [
     {
         title: "全栈钱的技术经验分享",
         href: "http://qianhongxin.github.io"
+    },
+    {
+        title: "天才宝宝的博客园",
+        href: "https://www.cnblogs.com/wu-chao"
     }
 ]

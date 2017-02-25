@@ -1,5 +1,4 @@
-.idea/
-target/
-*.iml
-*.ipr
-*.iws
+_site
+.sass-cache
+Gemfile.lock
+*.gem

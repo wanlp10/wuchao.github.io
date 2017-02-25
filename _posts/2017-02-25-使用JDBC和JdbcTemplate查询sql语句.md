@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "使用Jdbc和JdbcTemplate查询sql语句返回List<Map>"
+title:      "使用Jdbc和JdbcTemplate查询sql语句返回List\<Map\>"
 subtitle:   " \"\""
 date:       2017-02-25 11:50:00
 author:     "chao"
@@ -11,7 +11,7 @@ tags:
     - JdbcTemplate
 ---
 
-使用JDBC执行sql语句返回`List<Map>` 类型：  
+使用JDBC执行sql语句返回`List<Map>` 类型：
 
 
     public class JdbcUtil {    

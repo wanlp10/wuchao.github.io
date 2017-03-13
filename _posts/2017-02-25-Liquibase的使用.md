@@ -7,7 +7,7 @@
 > 1. [使用 LiquiBase 管理数据库的迁移 - 推酷](http://www.tuicool.com/articles/B7ziIrv)
 > 2. [在 Web 项目中使用 LiquiBase 实现数据库自动更新](http://blog.csdn.net/jianyi7659/article/details/7804144)
 
-### 1. 添加依赖
+#### 1. 添加依赖
 
 ```
 <dependency>
@@ -16,7 +16,7 @@
 </dependency>
 ```
 
-### 2. 配置 SpringBoot 的 Liquibase 属性
+#### 2. 配置 SpringBoot 的 Liquibase 属性
 
 ```
 liquibase.change-log=classpath:db/changelog/db.changelog-master.yaml
@@ -38,7 +38,7 @@ spring.datasource.password=
 
 在 SpringBoot 中也可以不指定 datasource，默认使用内存数据库，前提是要引入内存数据的依赖。
 
-### 3. 创建 changelog 文件
+#### 3. 创建 changelog 文件
 
 Liquibase 日志文件支持 XML, YAML, JSON 等多种格式，这里选择 YAML 格式，官网示例如下：
 
@@ -100,7 +100,7 @@ INSERT INTO PUBLIC.DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDERE
 
 
 
-### 4. 测试 changeSet
+#### 4. 测试 changeSet
 
 ```
 spring.jpa.hibernate.ddl-auto=validate
@@ -112,7 +112,7 @@ spring.jpa.hibernate.ddl-auto=validate
 
 [Hibernate 配置详解 (12) 其实我也不想用这么土的名字](http://blog.csdn.net/stefwu/article/details/10584161)
 
-### 5. 启动项目
+#### 5. 启动项目
 
 顺利启动项目过后，LIquibase 会在数据库中生成 DATABASECHANGELOG 表和 DATABASECHANGELOGLOCK 表，如果修改了原来的 changeSet ，则在下次启动时回去检查每一个 changeSet，即使 id 和 author 没有改变，但是 MD5 校验值改变了，控制台会报错，具体参考 [使用 LiquiBase 管理数据库的迁移](http://www.tuicool.com/articles/B7ziIrv)。
 

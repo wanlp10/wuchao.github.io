@@ -1,26 +1,11 @@
----
-layout:     post
-title:      "Liquibase 的简单使用"
-subtitle:   " \"Maven + SpringBoot + Liquibase\""
-date:       2017-02-25 11:50:00
-author:     "chao"
-header-img: ""
-catalog: true
-tags:
-    - Liquibase
----
-
-> Liquibase 配合 SpringBoot 的简单使用。
-
 ## Maven + SpringBoot + Liquibase
 
 > 官网：http://www.liquibase.org/documentation/index.html
 >
 > 参考：
 >
-> 1. http://www.tuicool.com/articles/B7ziIrv
->
-> 2. http://blog.csdn.net/jianyi7659/article/details/7804144
+> 1. [使用 LiquiBase 管理数据库的迁移 - 推酷](http://www.tuicool.com/articles/B7ziIrv)
+> 2. [在 Web 项目中使用 LiquiBase 实现数据库自动更新](http://blog.csdn.net/jianyi7659/article/details/7804144)
 
 ### 1. 添加依赖
 
@@ -103,7 +88,7 @@ databaseChangeLog:
 
 上面 changeSet 的 "changes" 属性中使用了 "createTable" 和 "addColumn" 表明该 changeSet 的操作，更多操作可以在 [http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd](http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd) 中查找。
 
-我创建了 changelog 文件后，按照规范手动写了changeSet，但是在启动后报了以下错误：
+我创建了 changelog 文件后，按照规范写了changeSet，但是在启动后报了以下错误：
 
 ```
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: Invocation of init method failed; nested exception is liquibase.exception.DatabaseException: NULL not allowed for column "ID"; SQL statement:
@@ -113,7 +98,7 @@ Caused by: liquibase.exception.DatabaseException: NULL not allowed for column "I
 INSERT INTO PUBLIC.DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, CONTEXTS, LABELS, LIQUIBASE, DEPLOYMENT_ID) VALUES (NULL, NULL, 'classpath:db/development/changelog/db.changelog-master.yaml', NOW(), 1, '7:d41d8cd98f00b204e9800998ecf8427e', 'empty', '', 'EXECUTED', NULL, NULL, '3.5.1', '6904122279')
 ```
 
-原因可能是手写的导致格式不规范，从官网将上面的 changelog 复制下来，然后按照它的格式修改文件重启一下就好了。
+
 
 ### 4. 测试 changeSet
 
@@ -121,11 +106,13 @@ INSERT INTO PUBLIC.DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDERE
 spring.jpa.hibernate.ddl-auto=validate
 ```
 
-https://www.cnblogs.com/feilong3540717/archive/2011/12/19/2293038.html
+当使用`spring.jpa.hibernate.ddl-auto` 设置成 `validate` 时，将不会再执行在配置中使用 `spring.jpa.properties.hibernate.hbm2ddl.import_files` 指定的 sql 脚本文件，这时要导入数据，可以在 changelog 文件中使用 include 引入要执行的 sql 文件。
+
+[hibernate.hbm2ddl.auto 配置详解](http://www.cnblogs.com/feilong3540717/archive/2011/12/19/2293038.html)
+
+[Hibernate 配置详解 (12) 其实我也不想用这么土的名字](http://blog.csdn.net/stefwu/article/details/10584161)
 
 ### 5. 启动项目
 
-顺利启动项目过后，LIquibase 会在数据库中生成 DATABASECHANGELOG 表和 DATABASECHANGELOGLOCK 表，如果修改了原来的 changeSet ，则在下次启动时会去检查每一个 changeSet，即使 id 和 author 没有改变，但是 MD5 校验值改变了，控制台会报错，具体参考 [http://www.tuicool.com/articles/B7ziIrv](http://www.tuicool.com/articles/B7ziIrv)。
-
-这是可以到数据库的 DATABASECHANGELOG 表中将该条记录删除，然后重新运行，或者新建一个 changeSet 来记录数据库表结构的变更。
+顺利启动项目过后，LIquibase 会在数据库中生成 DATABASECHANGELOG 表和 DATABASECHANGELOGLOCK 表，如果修改了原来的 changeSet ，则在下次启动时回去检查每一个 changeSet，即使 id 和 author 没有改变，但是 MD5 校验值改变了，控制台会报错，具体参考 [使用 LiquiBase 管理数据库的迁移](http://www.tuicool.com/articles/B7ziIrv)。
 

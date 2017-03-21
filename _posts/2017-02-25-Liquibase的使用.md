@@ -6,6 +6,7 @@
 >
 > 1. [使用 LiquiBase 管理数据库的迁移 - 推酷](http://www.tuicool.com/articles/B7ziIrv)
 > 2. [在 Web 项目中使用 LiquiBase 实现数据库自动更新](http://blog.csdn.net/jianyi7659/article/details/7804144)
+> 3. [让开发自动化: 实现自动化数据库迁移](https://www.ibm.com/developerworks/cn/java/j-ap08058/index.html)
 
 #### 1. 添加依赖
 

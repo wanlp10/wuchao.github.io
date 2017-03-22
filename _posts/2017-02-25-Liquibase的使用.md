@@ -115,5 +115,20 @@ spring.jpa.hibernate.ddl-auto=validate
 
 #### 5. 启动项目
 
-顺利启动项目过后，LIquibase 会在数据库中生成 DATABASECHANGELOG 表和 DATABASECHANGELOGLOCK 表，如果修改了原来的 changeSet ，则在下次启动时回去检查每一个 changeSet，即使 id 和 author 没有改变，但是 MD5 校验值改变了，控制台会报错，具体参考 [使用 LiquiBase 管理数据库的迁移](http://www.tuicool.com/articles/B7ziIrv)。
+顺利启动项目过后，LIquibase 会在数据库中生成 DATABASECHANGELOG 表和 DATABASECHANGELOGLOCK 表。
 
+如果修改了原来的 changeSet ，则在下次启动时会去检查每一个 changeSet，即使 id 和 author 没有改变，但是由于 MD5 校验值改变了，启动项目时会报以下错误，changeSet 标签内部修改的内容不会更新到数据库中。
+```
+Caused by: liquibase.exception.ValidationFailedException: Validation Failed:
+     1 change sets check sum
+          classpath:db/develop/db.changelog-master.yaml::47::xxx was: 7:f2ea6ec961a20a0c7af2c99ada7a75d2 but is now: 7:1fd94acb9eb54da3a9f5695189a99871
+```
+（其中47表示 changeSet 的 id 属性值,xxx 表示 changeSet 的 author 属性值。）
+
+如果修改了原来的 include 标签引用的 sql 文件，改记录的 MD5 校验值也会改变，项目启动时会报以下错误，sql 文件中修改的内容不会更新到数据库中。
+```
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: Invocation of init method failed; nested exception is liquibase.exception.ValidationFailedException: Validation Failed:
+     1 change sets check sum
+          classpath:db/production/import.sql::raw::includeAll was: 7:146a339a9d60827a9b0aa64c6337b0ef but is now: 7:6d2747840d5c1195eef9e709011567b8
+```
+具体参考 [使用 LiquiBase 管理数据库的迁移](http://www.tuicool.com/articles/B7ziIrv)。

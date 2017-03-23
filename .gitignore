@@ -1,3 +1,9 @@
+.idea/
+target/
+*.iml
+*.ipr
+*.iws
+
 _site/*
 _theme_packages/*
 

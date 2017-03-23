@@ -1,4 +1,13 @@
-## Maven + SpringBoot + Liquibase
+---
+layout: post
+title: Liquibase的学习和使用
+category : JavaEE
+tagline: "Supporting tagline"
+tags : [Liquibase]
+---
+{% include JB/setup %}
+# Liquibase的学习和使用（Maven + SpringBoot + Liquibase）
+---
 
 > 官网：http://www.liquibase.org/documentation/index.html
 >

@@ -18,8 +18,6 @@ author :
   github : username
   twitter : username
   feedburner : feedname
-theme :
-  name : twitter
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 

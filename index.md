@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 天才宝宝
-tagline: 一天为码农，终生为码农。
+tagline: "Supporting tagline"
 ---
 {% include JB/setup %}
 

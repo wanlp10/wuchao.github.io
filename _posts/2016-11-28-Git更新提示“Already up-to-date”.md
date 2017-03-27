@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Git 更新提示 “Already up-to-date”
-category : 学习问题记录
+category : [学习问题记录]
 tagline: "Supporting tagline"
 tags : [Git]
 ---

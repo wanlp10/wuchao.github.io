@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Spring 的学习和使用
+title: SpringDataJPA的学习和使用
 category : [JavaEE, Spring]
 tagline: "Supporting tagline"
-tags : [Spring]
+tags : [Spring Data JPA]
 ---
 {% include JB/setup %}
-# Spring 的学习和使用
+# SpringDataJPA的学习和使用
 ---

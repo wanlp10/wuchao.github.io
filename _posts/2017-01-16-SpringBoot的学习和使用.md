@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Spring 的学习和使用
+title: SpringBoot的学习和使用
 category : [JavaEE, Spring]
 tagline: "Supporting tagline"
-tags : [Spring]
+tags : [Spring Boot]
 ---
 {% include JB/setup %}
-# Spring 的学习和使用
+# SpringBoot的学习和使用
 ---

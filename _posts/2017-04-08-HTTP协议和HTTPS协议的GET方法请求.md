@@ -847,6 +847,8 @@ public int requestHttpsGet(String url) {
             Protocol.registerProtocol("https", easyHttps);
 
             HttpClient httpClient = new HttpClient();
+            httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(9000);
+            httpClient.getHttpConnectionManager().getParams().setSoTimeout(9000);
             httpClient.getParams().setContentCharset("UTF-8");
 
             httpGet = new GetMethod(url);

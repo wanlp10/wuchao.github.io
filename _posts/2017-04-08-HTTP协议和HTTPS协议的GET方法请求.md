@@ -554,7 +554,7 @@ public CloseableHttpClient createSSLHttpClient() {
 }
 
 
-public synchronized int requestHttpsGet(String identify, String url) {
+public synchronized int requestHttpsGet(String url) {
         HttpGet httpGet = new HttpGet(url);
         httpGet.setConfig(requestConfig);
         HttpResponse response = null;
@@ -578,7 +578,7 @@ public synchronized int requestHttpsGet(String identify, String url) {
     
 
 public int getStatusCode() {
-    return requestHttpsGet("fwjoe", url);
+    return requestHttpsGet(url);
 }
 ```
 

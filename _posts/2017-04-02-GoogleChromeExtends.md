@@ -25,23 +25,29 @@ tags : [Google Chrome]
 
 [360网盾安全保护](https://chrome.google.com/webstore/detail/360-internet-protection/glcimepnljoholdmjchkloafkggfoijh?utm_source=chrome-app-launcher-info-dialog)
 
+[Clear Cache](https://chrome.google.com/webstore/detail/clear-cache/cppjkneekbjaeellbfkmgnhonkkjfpdn/related?utm_source=chrome-ntp-icon)
+
 [Adblock Plus](https://chrome.google.com/webstore/detail/cfhdojbkjhnklbpkdaibdccddilifddb?utm_source=chrome-app-launcher-info-dialog)
 
 [LastPass](https://chrome.google.com/webstore/detail/lastpass-free-password-ma/hdokiejnpimakedhajhdlcegeplioahd?utm_source=chrome-app-launcher-info-dialog)
 
 [拓展管理](https://chrome.google.com/webstore/detail/extmanager/bgejgfcdaicmfbfphchgcdgnpnbcondb)
 
+[Bookmark Manager](https://chrome.google.com/webstore/detail/bookmark-manager/gmlllbghnfkpflemihljekbapjopfjik/related?utm_source=chrome-ntp-icon)
+
 [谷歌访问助手](https://chrome.google.com/webstore/detail/%E8%B0%B7%E6%AD%8C%E8%AE%BF%E9%97%AE%E5%8A%A9%E6%89%8B/gocklaboggjfkolaknpbhddbaopcepfp?utm_source=chrome-app-launcher-info-dialog)
 
 [Chrono下载管理器](https://chrome.google.com/webstore/detail/chrono-download-manager/mciiogijehkdemklbdcbfkefimifhecn?utm_source=chrome-app-launcher-info-dialog)
 
+[Checker Plus for Gmail™](https://chrome.google.com/webstore/detail/checker-plus-for-gmail/oeopbcgkkoapgobdbedcemjljbihmemj?utm_source=chrome-ntp-icon)
+
 [网易邮箱](https://chrome.google.com/webstore/detail/%E7%BD%91%E6%98%93%E9%82%AE%E7%AE%B1/degnllcmhlfjedphgljfbgjcdijpagpp?utm_source=chrome-app-launcher-info-dialog)
 
-[网易云音乐下载插件](https://chrome.google.com/webstore/detail/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD%E6%8F%92%E4%BB%B6/onjdlclpcjjopdlmokbdbkmhfhonkghd?utm_source=chrome-app-launcher-info-dialog)
+[Google Keep Chrome 扩展程序](https://chrome.google.com/webstore/detail/google-keep-chrome-extens/lpcaedmchfhocbbapmcbpinfpgnhiddi?utm_source=chrome-ntp-icon)
 
 [OneTab](https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall?utm_source=chrome-app-launcher-info-dialog)
 
-[眼睛护航]()
+[眼睛护航(下载该插件的 crx 文件，直接拖动到浏览器的拓展中心)](../attachments/fidmpnedniahpnkeomejhnepmbdamlhl_7.1.11_0.crx)
 
 [Infinity新标签页](https://chrome.google.com/webstore/detail/infinity-new-tab/dbfmnekepjoapopniengjbcpnbljalfg?utm_source=chrome-app-launcher-info-dialog)
 
@@ -57,7 +63,7 @@ tags : [Google Chrome]
 
 [Fatkun图片批量下载](https://chrome.google.com/webstore/detail/fatkun-batch-download-ima/nnjjahlikiabnchcpehcpkdeckfgnohf?utm_source=chrome-app-launcher-info-dialog)
 
-[ColorZilla](https://chrome.google.com/webstore/detail/colorzilla/bhlhnicpbhignbdhedgjhgdocnmhomnp?utm_source=chrome-app-launcher-info-dialog)
+[使用Google文档、表格和幻灯片来查看和编辑Microsoft Word、Excel和PowerPoint文件](https://chrome.google.com/webstore/detail/office-editing-for-docs-s/gbkeegbaiigmenfmjfclcdgdpimamgkj)
 
 [PDF Viewer](https://chrome.google.com/webstore/detail/pdf-viewer/oemmndcbldboiebfnladdacbdfmadadm?utm_source=chrome-app-launcher-info-dialog)
 
@@ -75,6 +81,7 @@ tags : [Google Chrome]
 
 [WhatFont](https://chrome.google.com/webstore/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm?utm_source=chrome-app-launcher-info-dialog)
 
+[ColorZilla](https://chrome.google.com/webstore/detail/colorzilla/bhlhnicpbhignbdhedgjhgdocnmhomnp?utm_source=chrome-app-launcher-info-dialog)
 
 
 

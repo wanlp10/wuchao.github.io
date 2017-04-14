@@ -49,7 +49,7 @@ tags : [Google Chrome]
 
 [OneTab](https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall?utm_source=chrome-app-launcher-info-dialog)
 
-[眼睛护航(下载该插件的 crx 文件，直接拖动到浏览器的拓展中心)](../attachments/fidmpnedniahpnkeomejhnepmbdamlhl_7.1.11_0.crx)
+[眼睛护航(下载该插件的 crx 文件，直接拖动到浏览器的拓展中心)](../../../attachments/fidmpnedniahpnkeomejhnepmbdamlhl_7.1.11_0.crx)
 
 [Infinity新标签页](https://chrome.google.com/webstore/detail/infinity-new-tab/dbfmnekepjoapopniengjbcpnbljalfg?utm_source=chrome-app-launcher-info-dialog)
 

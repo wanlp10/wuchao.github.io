@@ -49,6 +49,7 @@ public int getStatusCode() {
 ## HTTPS 协议请求（无法请求自签名的 HTTPS 协议）
 
 获取 HTTPS 协议请求状态码：
+
 ```
     public CloseableHttpClient createSSLHttpClient() {   
         char SEP = File.separatorChar;
@@ -100,6 +101,7 @@ public int getStatusCode() {
         return requestHttpsGet(url, requestConfig);
     }
 ```
+
 这个方法同时也可以获取 HTTP 协议请求的状态码。
 
 

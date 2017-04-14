@@ -589,10 +589,8 @@ public int getStatusCode() {
 #### 方法二
 
 > 参考：
->
 > https://hc.apache.org/httpclient-3.x/sslguide.html
->
-> ### [通过 HTTPClient 访问启用 SSL 的 Quickr REST API](http://chnwaterloo.iteye.com/blog/690549)
+> [通过 HTTPClient 访问启用 SSL 的 Quickr REST API](http://chnwaterloo.iteye.com/blog/690549)
 
 EasyX509TrustManager.java
 

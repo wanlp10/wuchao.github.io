@@ -394,6 +394,24 @@ public int requestHttpsGet(String url) {
             httpGet.releaseConnection();
         }
 }
+
+/**
+ * 获取URL链接的Scheme，返回https或者http
+ *
+ * @param url
+ * @return
+ */
+public static String getUrlScheme(String url) {
+    String scheme = "";
+    try {
+        scheme = new URL(url).toURI().getScheme();
+    } catch (URISyntaxException e) {
+        log.error("处理url出现错误：" + e.getMessage());
+    } catch (MalformedURLException e) {
+        log.error("处理url出现错误：" + e.getMessage());
+    }
+    return scheme;
+}
     
 public int getStatusCode() {
     return requestHttpsGet(url);
@@ -405,6 +423,13 @@ public int getStatusCode() {
 > 参考：[ java 访问 https 忽略证书](http://blog.csdn.net/xiyushiyi/article/details/46685387)
 
 ```
+/**
+  *import javax.net.ssl.*;
+  *import java.net.HttpURLConnection;
+  *import java.net.URL;
+  *import java.security.cert.X509Certificate;
+*/
+
 final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
 
         public boolean verify(String hostname, SSLSession session) {
@@ -943,23 +968,7 @@ public int getStatusCode() {
 对 HTTP 和 HTTPS 协议的其他一些操作：
 
 ```
-/**
-     * 获取URL链接的Scheme
-     *
-     * @param url
-     * @return
-     */
-    public static String getUrlScheme(String url) {
-        String scheme = "";
-        try {
-            scheme = new URL(url).toURI().getScheme();
-        } catch (URISyntaxException e) {
-            log.error("处理url出现错误：" + e.getMessage());
-        } catch (MalformedURLException e) {
-            log.error("处理url出现错误：" + e.getMessage());
-        }
-        return scheme;
-    }
+
     
 /**
      * 将url链接转换为ip:port形式

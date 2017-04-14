@@ -10,7 +10,7 @@ tags : [JdbcTemplate]
 ---
 
 使用JDBC执行sql语句返回`List<Map>` 类型：
-
+<!--break-->
 
     public class JdbcUtil {    
         private static Log log = LogFactory.getLog(JdbcUtil.class);

@@ -35,6 +35,7 @@ liquibase.default-schema= # default database schema to use
 liquibase.drop-first=false
 liquibase.enabled=true
 ```
+<!--break-->
 
 以上属性全部默认即可，但是如果 "liquibase.change-log" 属性也是默认的话， changelog 文件就要放在默认的位置上（classpath:db/changelog/db.changelog-master.yaml），并且文件名称为 "db.changelog-master.yaml" 。
 

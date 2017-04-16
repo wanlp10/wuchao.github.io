@@ -8,3 +8,5 @@ tags : [Spring Data JPA]
 {% include JB/setup %}
 # SpringDataJPA的学习和使用
 ---
+
+<!--break-->

@@ -25,6 +25,7 @@ tags : [Liquibase]
     <artifactId>liquibase-core</artifactId>
 </dependency>
 ```
+
 <!--break-->
 
 #### 2. 配置 SpringBoot 的 Liquibase 属性

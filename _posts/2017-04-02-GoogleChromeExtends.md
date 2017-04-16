@@ -16,16 +16,9 @@ tags : [Google Chrome]
 [有道云笔记网页版](https://chrome.google.com/webstore/detail/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0%E7%BD%91%E9%A1%B5%E7%89%88/elioneeoioodfaehlfkmjanmcbchjngd?utm_source=chrome-app-launcher-info-dialog)
 
 
-
 ## 插件
 
 [HTTPS Everywhere](https://chrome.google.com/webstore/detail/gcbommkclmclpchllfjekcdonpmejbdp?utm_source=chrome-app-launcher-info-dialog)
-
-[HTTP Status](https://chrome.google.com/webstore/detail/http-status/cknfnacbckhfpjahnmkblajcpledpfnp)
-
-[360网盾安全保护](https://chrome.google.com/webstore/detail/360-internet-protection/glcimepnljoholdmjchkloafkggfoijh?utm_source=chrome-app-launcher-info-dialog)
-
-[Clear Cache](https://chrome.google.com/webstore/detail/clear-cache/cppjkneekbjaeellbfkmgnhonkkjfpdn/related?utm_source=chrome-ntp-icon)
 
 [Adblock Plus](https://chrome.google.com/webstore/detail/cfhdojbkjhnklbpkdaibdccddilifddb?utm_source=chrome-app-launcher-info-dialog)
 
@@ -33,13 +26,11 @@ tags : [Google Chrome]
 
 [拓展管理](https://chrome.google.com/webstore/detail/extmanager/bgejgfcdaicmfbfphchgcdgnpnbcondb)
 
-[Bookmark Manager](https://chrome.google.com/webstore/detail/bookmark-manager/gmlllbghnfkpflemihljekbapjopfjik/related?utm_source=chrome-ntp-icon)
-
 [谷歌访问助手](https://chrome.google.com/webstore/detail/%E8%B0%B7%E6%AD%8C%E8%AE%BF%E9%97%AE%E5%8A%A9%E6%89%8B/gocklaboggjfkolaknpbhddbaopcepfp?utm_source=chrome-app-launcher-info-dialog)
 
-[Chrono下载管理器](https://chrome.google.com/webstore/detail/chrono-download-manager/mciiogijehkdemklbdcbfkefimifhecn?utm_source=chrome-app-launcher-info-dialog)
-
 <!--break-->
+
+[Chrono下载管理器](https://chrome.google.com/webstore/detail/chrono-download-manager/mciiogijehkdemklbdcbfkefimifhecn?utm_source=chrome-app-launcher-info-dialog)
 
 [Checker Plus for Gmail™](https://chrome.google.com/webstore/detail/checker-plus-for-gmail/oeopbcgkkoapgobdbedcemjljbihmemj?utm_source=chrome-ntp-icon)
 

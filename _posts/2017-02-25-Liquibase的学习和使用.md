@@ -141,6 +141,9 @@ spring.jpa.hibernate.ddl-auto=validate
 ```
 
 这样项目启动时就不会执行指定的 sql 脚本了，这时如果要引入 sql 脚本，可以在 changelog 文件中使用 include 标签引入。
+将该属性设置为 validate 在使用像mysql这样的可持久化数据库是非常必要的，因为使用了可持久化数据库，下次启动项目时会保留
+以前持久化到数据库中的所有数据，如果不设置该属性将使用了 `spring.jpa.properties.hibernate.hbm2ddl.import_files`
+指定的 sql 脚本文件过滤掉会污染数据库。
 
 > [hibernate.hbm2ddl.auto 配置详解](http://www.cnblogs.com/feilong3540717/archive/2011/12/19/2293038.html)
   [Hibernate 配置详解 (12) 其实我也不想用这么土的名字](http://blog.csdn.net/stefwu/article/details/10584161)

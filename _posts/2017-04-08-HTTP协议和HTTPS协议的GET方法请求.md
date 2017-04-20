@@ -81,24 +81,24 @@ public int requestHttpGet(String getUrl) {
     
     
     public int requestHttpGet(String url, RequestConfig requestConfig) {
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setConfig(requestConfig);
-            CloseableHttpClient httpClient = null;
-            HttpResponse response = null;
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.setConfig(requestConfig);
+        CloseableHttpClient httpClient = null;
+        HttpResponse response = null;
+        try {
+            httpClient = createSSLHttpClient();
+            response = httpClient.execute(httpGet);
+            return response.getStatusLine().getStatusCode();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 408;
+        } finally {
             try {
-                httpClient = createSSLHttpClient();
-                response = httpClient.execute(httpGet);
-                return response.getStatusLine().getStatusCode();
-            } catch (Exception e) {
+                httpClient.close();
+            } catch (IOException e) {
                 e.printStackTrace();
-                return 408;
-            } finally {
-                try {
-                    httpClient.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
+        }
     }
         
         
@@ -110,7 +110,6 @@ public int requestHttpGet(String getUrl) {
 ```
 
 这个方法同时也可以获取 HTTP 协议请求的状态码。
-
 
 
 ## HTTPS 协议请求（可以请求自签名的 HTTPS 协议）
@@ -368,32 +367,32 @@ compile('commons-httpclient:commons-httpclient:3.1')
 
 ```
 public int requestHttpsGet(String url) {
-        EasySSLProtocolSocketFactory easySSL;
-        GetMethod httpGet = null;
-        try {
-            easySSL = new EasySSLProtocolSocketFactory();
+    EasySSLProtocolSocketFactory easySSL;
+    GetMethod httpGet = null;
+    try {
+        easySSL = new EasySSLProtocolSocketFactory();
 
-            Protocol easyHttps = new Protocol("https", easySSL, 443);
-            Protocol.registerProtocol("https", easyHttps);
+        Protocol easyHttps = new Protocol("https", easySSL, 443);
+        Protocol.registerProtocol("https", easyHttps);
 
-            HttpClient httpClient = new HttpClient();
-            httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(9000);
-            httpClient.getHttpConnectionManager().getParams().setSoTimeout(9000);
-            httpClient.getParams().setContentCharset("UTF-8");
+        HttpClient httpClient = new HttpClient();
+        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(9000);
+        httpClient.getHttpConnectionManager().getParams().setSoTimeout(9000);
+        httpClient.getParams().setContentCharset("UTF-8");
 
-            httpGet = new GetMethod(url);
-            long startTime = System.currentTimeMillis();
-            httpClient.executeMethod(httpGet);
-            long endTime = System.currentTimeMillis();
-            time = endTime - startTime;
-            return httpGet.getStatusCode();
-        } catch (Exception e) {
-            log.error("HTTPS 协议 GET 请求出错：" + e.getMessage());
-            time = 9000;
-            return 408;
-        } finally {
-            httpGet.releaseConnection();
-        }
+        httpGet = new GetMethod(url);
+        long startTime = System.currentTimeMillis();
+        httpClient.executeMethod(httpGet);
+        long endTime = System.currentTimeMillis();
+        time = endTime - startTime;
+        return httpGet.getStatusCode();
+    } catch (Exception e) {
+        log.error("HTTPS 协议 GET 请求出错：" + e.getMessage());
+        time = 9000;
+        return 408;
+    } finally {
+        httpGet.releaseConnection();
+    }
 }
 
 /**
@@ -433,67 +432,66 @@ public int getStatusCode() {
 
 final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
 
-        public boolean verify(String hostname, SSLSession session) {
-            return true;
-        }
+    public boolean verify(String hostname, SSLSession session) {
+        return true;
+    }
 };
 
 public int requestHttpsGet(String getUrl) {
-        HttpURLConnection conn;
-        try {
-            // Create a trust manager that does not validate certificate chains
-            trustAllHosts();
+    HttpURLConnection conn;
+    try {
+        // Create a trust manager that does not validate certificate chains
+        trustAllHosts();
 
-            URL url = new URL(getUrl);
+        URL url = new URL(getUrl);
 
-            HttpsURLConnection https = (HttpsURLConnection) url.openConnection();
-            if (url.getProtocol().toLowerCase().equals("https")) {
-                https.setHostnameVerifier(DO_NOT_VERIFY);
-                conn = https;
-                conn.connect();
-                return conn.getResponseCode();
-            }
-        } catch (Exception e) {
-            return 408;
+        HttpsURLConnection https = (HttpsURLConnection) url.openConnection();
+        if (url.getProtocol().toLowerCase().equals("https")) {
+            https.setHostnameVerifier(DO_NOT_VERIFY);
+            conn = https;
+            conn.connect();
+            return conn.getResponseCode();
         }
+    } catch (Exception e) {
+        return 408;
     }
+}
 
 /**
  * Trust every server - don't check for any certificate
 */
 private static void trustAllHosts() {
 
-        // Create a trust manager that does not validate certificate chains
-        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+    // Create a trust manager that does not validate certificate chains
+    TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
 
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return new java.security.cert.X509Certificate[]{};
-            }
-
-            public void checkClientTrusted(X509Certificate[] chain, String authType) {
-
-            }
-
-            public void checkServerTrusted(X509Certificate[] chain, String authType) {
-
-            }
-        }};
-
-        // Install the all-trusting trust manager
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (Exception e) {
-            e.printStackTrace();
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            return new java.security.cert.X509Certificate[]{};
         }
+
+        public void checkClientTrusted(X509Certificate[] chain, String authType) {
+
+        }
+
+        public void checkServerTrusted(X509Certificate[] chain, String authType) {
+
+        }
+    }};
+
+    // Install the all-trusting trust manager
+    try {
+        SSLContext sc = SSLContext.getInstance("TLS");
+        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 }
 ```
 
 #### 方法三
 
 > 参考：[SunCertPathBuilderException: unable to find valid certification path to requested target](https://www.mkyong.com/webservices/jax-ws/suncertpathbuilderexception-unable-to-find-valid-certification-path-to-requested-target/)
-
 
 InstallCert.java（网上下载的源代码）
 
@@ -915,48 +913,48 @@ public class InstallCert {
 
 ```
 public CloseableHttpClient createSSLHttpClient() {
-        char SEP = File.separatorChar;
-        System.setProperty("javax.net.ssl.trustStore", System.getProperty("user.dir") + SEP + "jssecacerts");
-        final SSLConnectionSocketFactory sslsf;
-        try {
-            sslsf = new SSLConnectionSocketFactory(SSLContext.getDefault(),
-                    NoopHostnameVerifier.INSTANCE);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        final Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-                .register("http", new PlainConnectionSocketFactory())
-                .register("https", sslsf)
-                .build();
-        final PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(registry);
-        cm.setMaxTotal(100);
-        return HttpClients.custom()
-                .setSSLSocketFactory(sslsf)
-                .setConnectionManager(cm)
-                .build();
+    char SEP = File.separatorChar;
+    System.setProperty("javax.net.ssl.trustStore", System.getProperty("user.dir") + SEP + "jssecacerts");
+    final SSLConnectionSocketFactory sslsf;
+    try {
+        sslsf = new SSLConnectionSocketFactory(SSLContext.getDefault(),
+                NoopHostnameVerifier.INSTANCE);
+    } catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException(e);
+    }
+    final Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
+            .register("http", new PlainConnectionSocketFactory())
+            .register("https", sslsf)
+            .build();
+    final PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(registry);
+    cm.setMaxTotal(100);
+    return HttpClients.custom()
+            .setSSLSocketFactory(sslsf)
+            .setConnectionManager(cm)
+            .build();
 }
 
 
 public synchronized int requestHttpsGet(String url) {
-        HttpGet httpGet = new HttpGet(url);
-        httpGet.setConfig(requestConfig);
-        HttpResponse response = null;
-        CloseableHttpClient httpClient = null;
-        InstallCert.installCert(url);
+    HttpGet httpGet = new HttpGet(url);
+    httpGet.setConfig(requestConfig);
+    HttpResponse response = null;
+    CloseableHttpClient httpClient = null;
+    InstallCert.installCert(url);
+    try {
+        httpClient = createSSLHttpClient();
+        response = httpClient.execute(httpGet);
+        return response.getStatusLine().getStatusCode();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return 408;
+    } finally {
         try {
-            httpClient = createSSLHttpClient();
-            response = httpClient.execute(httpGet);
-            return response.getStatusLine().getStatusCode();
-        } catch (Exception e) {
+            httpClient.close();
+        } catch (IOException e) {
             e.printStackTrace();
-            return 408;
-        } finally {
-            try {
-                httpClient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+    }
 }
 
 
@@ -965,12 +963,9 @@ public int getStatusCode() {
 }
 ```
 
-
 对 HTTP 和 HTTPS 协议的其他一些操作：
 
 ```
-
-    
 /**
      * 将url链接转换为ip:port形式
      *

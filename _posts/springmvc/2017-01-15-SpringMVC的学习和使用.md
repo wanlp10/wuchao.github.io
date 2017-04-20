@@ -11,8 +11,6 @@ tags : [Spring MVC]
 
 > [Spring Web MVC Framework](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html)
 
-<!--break-->
-
 ## DispatcherServlet
 
 `DispatcherServlet` 是一个 Servlet，它继承自 `HttpServlet`。下面是一个标准的 Java EE Servlet 配置，它显示了 `DispatcherServlet` 的声明和映射：
@@ -31,6 +29,8 @@ tags : [Spring MVC]
 
 </web-app>
 ```
+
+<!--break-->
 
 上面的配置中，所有以 `/example` 开头的请求都会被名为 `example` 的 `DispatcherServlet` 实例处理。在 Servlet 3.0+ 环境中，你也可以选择以代码的方式来配置 Servlet 容器。
 下面是与上面等价的基于代码的配置方式：

@@ -17,7 +17,8 @@ tags : [Liquibase]
 > 2. [在 Web 项目中使用 LiquiBase 实现数据库自动更新](http://blog.csdn.net/jianyi7659/article/details/7804144)
 > 3. [让开发自动化: 实现自动化数据库迁移](https://www.ibm.com/developerworks/cn/java/j-ap08058/index.html)
 
-#### 1. 引入依赖（其他依赖根据需要引入）
+
+## 引入依赖（其他依赖根据需要引入）
 
 ```
 <dependency>
@@ -28,7 +29,7 @@ tags : [Liquibase]
 
 <!--break-->
 
-#### 2. 配置 SpringBoot 的 Liquibase 属性
+## 配置 SpringBoot 的 Liquibase 属性
 
 ```
 liquibase.change-log=classpath:db/changelog/db.changelog-master.yaml
@@ -50,7 +51,8 @@ spring.datasource.password=
 
 在 SpringBoot 中也可以不指定 datasource，默认使用内存数据库，这时需要引入内存数据库相关的依赖。
 
-#### 3. 创建 changelog 文件
+
+## 创建 changelog 文件
 
 Liquibase 日志文件支持 XML, YAML, JSON 等多种格式，这里选择 YAML 格式，官网示例如下：
 
@@ -110,7 +112,7 @@ Caused by: liquibase.exception.DatabaseException: NULL not allowed for column "I
 INSERT INTO PUBLIC.DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, CONTEXTS, LABELS, LIQUIBASE, DEPLOYMENT_ID) VALUES (NULL, NULL, 'classpath:db/development/changelog/db.changelog-master.yaml', NOW(), 1, '7:d41d8cd98f00b204e9800998ecf8427e', 'empty', '', 'EXECUTED', NULL, NULL, '3.5.1', '6904122279')
 ```
 
-#### 4. 启动项目
+## 启动项目
 
 顺利启动项目过后，Liquibase 会在数据库中生成 DATABASECHANGELOG 表和 DATABASECHANGELOGLOCK 表。
 
@@ -139,6 +141,9 @@ spring.jpa.hibernate.ddl-auto=validate
 ```
 
 这样项目启动时就不会执行指定的 sql 脚本了，这时如果要引入 sql 脚本，可以在 changelog 文件中使用 include 标签引入。
+将该属性设置为 validate 在使用像mysql这样的可持久化数据库是非常必要的，因为使用了可持久化数据库，下次启动项目时会保留
+以前持久化到数据库中的所有数据，如果不设置该属性将使用了 `spring.jpa.properties.hibernate.hbm2ddl.import_files`
+指定的 sql 脚本文件过滤掉会污染数据库。
 
 > [hibernate.hbm2ddl.auto 配置详解](http://www.cnblogs.com/feilong3540717/archive/2011/12/19/2293038.html)
   [Hibernate 配置详解 (12) 其实我也不想用这么土的名字](http://blog.csdn.net/stefwu/article/details/10584161)

@@ -6,7 +6,7 @@ tagline: "Supporting tagline"
 tags : [markdown]
 ---
 {% include JB/setup %}
-# Template
+# GitHub Markdown 语法
 ---
 
 > [](https://www.cnblogs.com/yabin/p/6366151.html)

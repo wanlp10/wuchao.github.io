@@ -10,7 +10,7 @@ tags : [Spring Security]
 ---
 
 > 参考：  
-> 
+>
 > [Spring Security Reference](http://docs.spring.io/spring-security/site/docs/current/reference/html/) 
 >
 > [Spring Security 中文文档](http://www.mossle.com/docs/springsecurity3/html/springsecurity.html) 
@@ -27,9 +27,7 @@ Spring 是一个非常流行和成功的 Java 应用开发框架。Spring Securi
 
 ## UserDetailsService 
 
-
-
-#### org.springframework.security.core.userdetails.UserDetailsService.java  
+### org.springframework.security.core.userdetails.UserDetailsService.java
 
 ``` 
 public interface UserDetailsService { 
@@ -37,7 +35,28 @@ public interface UserDetailsService {
 } 
 ```
 
+UserDetailsService 接口的实现类如下: 
 
+#### org.springframework.security.provisioning.InMemoryUserDetailsManager.java (InMemoryDaoImpl.java) 
+
+ ``` 
+public class InMemoryUserDetailsManager implements UserDetailsManager { 
+	
+	... 
+	
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserDetails user = (UserDetails)this.users.get(username.toLowerCase());
+        if(user == null) {
+            throw new UsernameNotFoundException(username);
+        } else {
+            return new User(user.getUsername(), user.getPassword(), user.isEnabled(), user.isAccountNonExpired(), user.isCredentialsNonExpired(), user.isAccountNonLocked(), user.getAuthorities());
+        }
+    } 
+    
+    ... 
+    
+}
+ ```
 
 #### org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl.java 
 
@@ -185,7 +204,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 ## 验证过程（以 JDBC 验证为例）
 
-根据提交的用户名和密码构造 Token . 
+> [](http://docs.spring.io/spring-security/site/docs/current/reference/html/technical-overview.html)  
+>
+> [](http://blog.sina.com.cn/s/blog_5c0522dd0101doey.html) 
+
+根据提交的用户名和密码构造 Token (org.springframework.security.authentication.UsernamePasswordAuthenticationToken) , 并将该 Token 对象带入 `AuthenticationManager` (org.springframework.security.authentication.ProviderManager) 验证, 验证成功后返回一个 `Authentication` 对象 .  
 
 ```
 package org.springframework.security.web.authentication; 
@@ -241,6 +264,57 @@ public class UsernamePasswordAuthenticationFilter extends
 		return this.getAuthenticationManager().authenticate(authRequest);
 	} 
 } 	
+```
+
+验证成功: 
+
+``` 
+package org.springframework.security.web.authentication; 
+
+public abstract class AbstractAuthenticationProcessingFilter extends GenericFilterBean implements ApplicationEventPublisherAware, MessageSourceAware {
+
+	... 
+
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        if(this.logger.isDebugEnabled()) {
+            this.logger.debug("Authentication success. Updating SecurityContextHolder to contain: " + authResult);
+        }
+
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+        this.rememberMeServices.loginSuccess(request, response, authResult);
+        if(this.eventPublisher != null) {
+            this.eventPublisher.publishEvent(new InteractiveAuthenticationSuccessEvent(authResult, this.getClass()));
+        }
+
+        this.successHandler.onAuthenticationSuccess(request, response, authResult);
+    } 
+    
+    ... 
+    
+}    
+```
+
+跳转页面: 
+
+``` 
+package org.springframework.security.web.authentication;
+
+public abstract class AbstractAuthenticationTargetUrlRequestHandler { 
+
+... 
+
+protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        String targetUrl = this.determineTargetUrl(request, response);
+        if(response.isCommitted()) {
+            this.logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+        } else {
+            this.redirectStrategy.sendRedirect(request, response, targetUrl);
+        }
+    } 
+    
+... 
+
+} 
 ```
 
 

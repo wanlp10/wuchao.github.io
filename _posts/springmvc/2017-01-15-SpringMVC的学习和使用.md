@@ -1,12 +1,12 @@
 ---
 layout: post
-title: SpringMVC的学习和使用
+title: Spring MVC 的学习和使用
 category : [JavaEE, Spring]
 tagline: "Supporting tagline"
 tags : [Spring MVC]
 ---
 {% include JB/setup %}
-# SpringMVC的学习和使用
+# Spring MVC 的学习和使用
 ---
 
 > [Spring Web MVC Framework](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html)

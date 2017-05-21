@@ -11,22 +11,8 @@ tags : [Thymeleaf]
 
 <!--break-->
 
-## 表单提交
-aaa
-
-## 表单验证
-Thymeleaf 的表单验证。
-
-### thymelaef
-
-### BeanValidation
-
-### Validator
-
-
-### 示例
-
-#### index.html
+### 表单提交
+**index.html** 
 ```
 <form id="addUser" role="form" class="form form-validate" novalidate="novalidate"
       th:method="post" th:action="@{/users}"
@@ -117,7 +103,8 @@ Thymeleaf 的表单验证。
 </form>
 ```
 
-#### UserCommand.java
+### BeanValidation
+**UserCommand.java** 
 ```
 @Getter
 @Setter
@@ -145,7 +132,9 @@ public class UserCommand {
 }
 ```
 
-#### UserValidator.java
+### Validator
+实现 `Validator` 接口 
+**UserValidator.java** 
 ```
 @Component
 public class UserValidator implements Validator {
@@ -171,8 +160,8 @@ public class UserValidator implements Validator {
     }
 }
 ```
-
-#### UserIndexController.java
+### Controller 类 
+**UserIndexController.java** 
 ```
 @RequestMapping("/users")
 public String index(@ModelAttribute UserCommand userCommand, Model model) {
@@ -184,7 +173,7 @@ public String index(@ModelAttribute UserCommand userCommand, Model model) {
 }
 ```
 
-#### UserCreateController.java
+**UserCreateController.java** 
 ```
 @Controller
 @RequestMapping(value = "/users")
@@ -214,7 +203,7 @@ public class UserCreateController {
 }
 ```
 
-#### 验证
+### 验证
 ![images_2017-4-25_15-13-40](../../../images/images_2017-4-25_15-13-40.png)
 
 ### FAQ

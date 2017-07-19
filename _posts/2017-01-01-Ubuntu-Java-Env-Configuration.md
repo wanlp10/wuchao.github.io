@@ -16,7 +16,9 @@ tags : [Ubuntu, Java]
 ``` 
 ($ sudo apt-get remove vim-common)
 $ sudo apt-get install vim
-```
+``` 
+
+<!--break-->
 
 ### 阿里源   
 

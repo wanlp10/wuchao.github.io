@@ -511,5 +511,138 @@ As with `@RequestBody` and `@ResponseBody`, Spring uses `HttpMessageConverter` t
 
 #### Using @ModelAttribute on a method 
 
+一个 `@ModelAttribute` 注解在一个方法上表明这个方法是用来添加一个或多个 model attribute 的。 `@ModelAttribute` 注解所在方法支持的参数类型 `@RequestMapping` 注解方法所支持的参数类型相同，但是不能直接被映射到 request 请求中。在 Controller 中， `@ModelAttribute` 注解所在方法会在所有 `@RequestMapping  ` 所在方法前被执行。
 
+``` 
+// Add one attribute
+// The return value of the method is added to the model under the name "account"
+// You can customize the name via @ModelAttribute("myAccount")
+
+@ModelAttribute
+public Account addAccount(@RequestParam String number) {
+    return accountManager.findAccount(number);
+}
+
+// Add multiple attributes
+
+@ModelAttribute
+public void populateModel(@RequestParam String number, Model model) {
+    model.addAttribute(accountManager.findAccount(number));
+    // add more ...
+} 
+```
+
+`@ModelAttribute` 方法被用来把所需的公共属性填充到 model 对象中，例如要获取一个 command 对象
+
+在 HTML 的 form 表单中使用。
+
+注意两种样式的 `@ModelAttribute` 方法。第一种是隐式的添加一个属性并返回它，第二种是方法形参中接收一个 `Model` 对象并添加任意数量的属性到该对象中。按需选择使用方式。 
+
+一个 `Controller` 可以有任意数量的 `@ModelAttribute` 方法，同一个 controller 中的所有的这些方法会在 `@RequestMapping` 方法之前被执行。 
+
+`@ModelAttribute` 方法也可以被定义在一个 `@ControllerAdvice` 注解的类里面，`@ControllerAdvice` 类里面的 `@ModelAttribute`  方法会被应用到所有 controller 上。See the [the section called “Advising controllers with the `@ControllerAdvice` annotation”](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-controller-advice) section for more details. 
+
+> What happens when a model attribute name is not explicitly specified? In such cases a default name is assigned to the model attribute based on its type. For example if the method returns an object of type `Account`, the default name used is "account". You can change that through the value of the `@ModelAttribute` annotation. If adding attributes directly to the `Model`, use the appropriate overloaded `addAttribute(..)` method - i.e., with or without an attribute name. 
+
+`@ModelAttribute` 注解也可以被在 `@RequestMapping` 方法中使用，这时 `@RequestMapping` 方法的返回值将被作为一个 model attribute 而不是一个 view name。The view name is derived from view name conventions instead much like for methods returning void — see [Section 17.13.3, “The View - RequestToViewNameTranslator”](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-coc-r2vnt). 
+
+
+
+#### Using @ModelAttribute on a method argument 
+
+`@ModelAttribute` 注解在一个方法形参上表示该形参会从 model 对象中获取相应的值，如果该参数在 model 中不存在，则该参数首先会被实例化，然后添加到 model 中；如果该参数在 model 中，则该参数中的所有字段会被用 request parameters 中与之 name 相匹配的参数填充值。这就是著名的 Spring MVC 数据绑定，一个非常有用的机制，这使你避免手动地解析每一个 form 属性。 
+
+``` 
+@RequestMapping(value="/owners/{ownerId}/pets/{petId}/edit", method = RequestMethod.POST)
+public String processSubmit(@ModelAttribute Pet pet) { } 
+```
+
+以上例子中，Pet 对象会如何得到？下面是几种观点： 
+
+- 它可能已经在 model 中，由于使用了 `@SessionAttributes` 注解 — see [the section called “Using @SessionAttributes to store model attributes in the HTTP session between requests”](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-sessionattrib). 
+- 它可能已经在 model 中，由于该 controller 中的 `@ModelAttribute` 方法。 
+- 它可能被获取基于一个 URI template 变量和 type converter 。 
+- 它可能被使用它自己的默认构造方法实例化。 
+
+一个 `@ModelAttribute` 方法是一个从数据库中获取数据的通用方式，这可以通过使用 `@SessionAttributes` 注解使数据被存储在 request 中。 某些情况下，他可能很方便通过 URI template 和一个 type converter 获取属性值： 
+
+``` 
+@RequestMapping(value="/accounts/{account}", method = RequestMethod.PUT)
+public String save(@ModelAttribute("account") Account account) {
+
+} 
+```
+
+该例子中 model 属性的名称（如："account"）匹配一个 URI template 变量的名称，如果你注册了 `Converter<String, Account>`  它就可以返回一个 `String` 型的 account 值到一个 `Account` 实例中，然后上面的例子就可以正常使用而不需要一个 `@ModelAttribute` 方法了。 
+
+下一步是数据绑定（data binding）。`WebDataBinder` 类会根据 request 的参数名称（包括 query string parameters 和 form fields）和 model attribute 的字段名称进行匹配，在类型转换（从 String  类型转换成目标字段类型）之后，匹配的字段将会被填充到 Model 中匹配对象的相应字段。Data binding and validation are covered in [Chapter 7, *Validation, Data Binding, and Type Conversion*](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/validation.html). Customizing the data binding process for a controller level is covered in [the section called “Customizing WebDataBinder initialization”](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-webdatabinder). 
+
+数据绑定可能会出现错误，例如缺少类必要的字段或者类型转换错误，这事可以紧接着 `@ModelAttribute` 参数后面添加一个 `BindingResult` 类型的参数： 
+
+``` 
+@RequestMapping(value="/owners/{ownerId}/pets/{petId}/edit", method = RequestMethod.POST)
+public String processSubmit(@ModelAttribute("pet") Pet pet, BindingResult result) {
+
+    if (result.hasErrors()) {
+        return "petForm";
+    }
+
+    // ...
+
+} 
+```
+
+With a `BindingResult` you can check if errors were found in which case it’s common to render the same form where the errors can be shown with the help of Spring’s `<errors>` form tag. 
+
+此外，数据绑定时你也可以使用自定义的 validator，`BindingResult` 对象也会记录数据绑定中出现的错误。这使数据绑定和验证错误集中在一个地方，然后再报告结果给用户： 
+
+``` 
+@RequestMapping(value="/owners/{ownerId}/pets/{petId}/edit", method = RequestMethod.POST)
+public String processSubmit(@ModelAttribute("pet") Pet pet, BindingResult result) {
+
+    new PetValidator().validate(pet, result);
+    if (result.hasErrors()) {
+        return "petForm";
+    }
+
+    // ...
+
+} 
+```
+
+或者你可以添加 JSR-303 的 `@Valid` 注解来自动调用验证： 
+
+``` 
+@RequestMapping(value="/owners/{ownerId}/pets/{petId}/edit", method = RequestMethod.POST)
+public String processSubmit(@Valid @ModelAttribute("pet") Pet pet, BindingResult result) {
+
+    if (result.hasErrors()) {
+        return "petForm";
+    }
+
+    // ...
+
+} 
+```
+
+See [Section 7.8, “Spring Validation”](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/validation.html#validation-beanvalidation) and [Chapter 7, *Validation, Data Binding, and Type Conversion*](http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/validation.html) for details on how to configure and use validation. 
+
+#### Using @SessionAttributes to store model attributes in the HTTP session between requests
+
+类级别的 `@SessionAttribute` 注解为一个特定的 handler 声明 session attributes, 这通常罗列出 将要被显示存储在 session 或者一些会话存储的 model attributes 的名称或类型,作为后续请求之间的表单bean. 
+
+下面的代码片段展示类这个注解的使用:
+
+``` 
+@Controller
+@RequestMapping("/editPet.do")
+@SessionAttributes("pet")
+public class EditPetForm {
+    // ...
+}
+```
+
+#### Specifying redirect and flash attributes 
+
+默认情况下,所有 model attributes 都作为 URI template 变量被显示在 redirect Url 中,其余的
 

@@ -20,6 +20,16 @@ $ sudo apt-get install vim
 
 <!--break-->
 
+## 解压工具 unar
+可以解决 ubuntu 下解压文件后文件名中文乱码的问题
+``` 
+$ sudo apt-get install unar   
+``` 
+使用: 
+``` 
+unar xxx.jar  
+```
+
 ### 阿里源   
 
 > http://blog.csdn.net/u011148119/article/details/50338355 

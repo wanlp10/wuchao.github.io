@@ -258,6 +258,15 @@ public String index(..., @ModelAttribute UserCommand userCommand) {
 public String index(..., Model model) {
     ...
 
+    /*   UserCommand中 的自定义对象和集合要手动创建,如:
+     *   UserCommand uc = new UserCommand();
+     *   uc.setXxx(new Xxx());
+     *   uc.setYyys(new ArrayList(){{
+     *       add(new Yyy());
+     *       add(new Yyy());
+     *   }})
+     *   model.addAttribute("userCommand", uc);
+    */
     model.addAttribute("userCommand", new UserCommand());
     return "users/index";
 }

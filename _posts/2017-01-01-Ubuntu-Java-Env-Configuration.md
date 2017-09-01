@@ -317,18 +317,60 @@ $ cat source.list.bak >> source.list
 ```
 
 安装 mysql-server： 
+Update: Before installing mysql, make sure that no other mysql packages are present:
+
+``` 
+dpkg -l | grep mysql - returns list of mysql packages.
+```
+
+Use apt-get purge <package name> to purge them. 
 
 ``` 
 $ sudo apt-get install mysql-server 
+$ sudo apt install mysql-client 
+$ sudo apt install libmysqlclient-dev 
 ```
+安装指定版本:
+```
+# 依赖
+$ sudo apt-get install mysql-client-core-5.6 mysql-client-5.6 
 
-设置账号密码，创建数据库：
+$ apt-get install mysql-server-5.6
+``` 
+或者通过下载安装包安装指定版本:   
 
 ``` 
-CREATE DATABASE `test2` DEFAULT CHARACTER SET utf8;  
+# 下载
+$ wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-server_5.6.34-1ubuntu14.04_amd64.deb-bundle.tar 
+
+# 解压 
+$ tar -xvf mysql-server_5.6.34-1ubuntu14.04_amd64.deb-bundle.tar 
+
+# 安装 
+> https://www.cnblogs.com/oldfish/p/5039772.html 
+```  
+
+
+新建数据库：
+
+``` 
+CREATE DATABASE test2 DEFAULT CHARACTER SET utf8;  
 ```
 
+## Mysql 的卸载 
+> http://www.linuxidc.com/Linux/2013-04/82934.htm 
 
+``` 
+# 删除 mysql
+
+$ sudo apt-get autoremove --purge mysql-server-5.x
+
+$ sudo apt-get remove mysql-common
+
+# 清理残留数据
+
+$ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P 
+```
 
 
 

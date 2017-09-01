@@ -210,4 +210,5 @@ typeMismatch.OrderCommand.price=\u53ea\u80fd\u586b\u5199\u6570\u5b57  # 只能�
 ``` 
 Resolved exception caused by Handler execution: java.lang.IllegalStateException: Invalid target for Validator ... 
 ```
+> https://stackoverflow.com/questions/14533488/adding-multiple-validators-using-initbinder 
 

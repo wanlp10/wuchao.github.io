@@ -1,7 +1,7 @@
 ---
 layout: page
-title: 天才宝宝
-tagline: ……
+title: 寂寞先生
+tagline: 这，是一个寂寞的世界……
 ---
 {% include JB/setup %}
 

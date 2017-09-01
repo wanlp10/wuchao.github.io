@@ -361,6 +361,31 @@ public Pet getPet(@PathVariable String petId, Model model) {
 } 
 ```
 
+> @RequestMapping(value = "/produces", produces = "application/json")：表示将功能处理方法将生产 json 格式的数据，此时根据请求头中的 Accept 进行匹配，如请求头 “Accept:application/json” 时即可匹配;
+>
+> @RequestMapping(value = "/produces", produces = "application/xml")：表示将功能处理方法将生产 [xml 格式](https://www.baidu.com/s?wd=xml%E6%A0%BC%E5%BC%8F&tn=44039180_cpr&fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1dBnHfvnyD3mWbznj6suAR30ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6KdThsqpZwYTjCEQLGCpyw9Uz4Bmy-bIi4WUvYETgN-TLwGUv3EnHm1rHb4nWcYP1Rvnj0drHDsn0)的数据，此时根据请求头中的 Accept 进行匹配，如请求头 “Accept:application/xml” 时即可匹配。
+>
+> 此种方式相对使用 @RequestMapping 的 “headers = "Accept=application/json"” 更能表明你的目的。
+>
+> 一、当你有如下 Accept 头：
+> ①Accept：text/html,application/xml,application/json
+> 将按照如下顺序进行 produces 的匹配 ①text/html ②application/xml ③application/json
+> ②Accept：application/xml;q=0.5,application/json;q=0.9,text/html
+> 将按照如下顺序进行 produces 的匹配 ①text/html ②application/json ③application/xml
+> q 参数为媒体类型的质量因子，越大则优先权越高 (从 0 到 1)
+> ③Accept：*/*,text/*,text/html
+> 将按照如下顺序进行 produces 的匹配 ①text/html ②text/* ③*/*
+>
+> 即匹配规则为：最明确的优先匹配。
+>
+> 二、窄化时是覆盖 而 非继承
+> 如类级别的映射为 @RequestMapping(value="/narrow", produces="text/html")，方法级别的为 @RequestMapping(produces="application/xml")，此时方法级别的映射将覆盖类级别的，因此请求头 “Accept:application/xml” 是成功的，而 “text/html” 将报 406 错误码，表示不支持的请求媒体类型。
+>
+> 只有生产者 / 消费者 模式 是 覆盖，其他的使用方法是继承，如 headers、params 等都是继承。
+>
+> 三、组合使用是 “或” 的关系
+> @RequestMapping(produces={"text/html", "application/json"}) ：将匹配 “Accept:text/html” 或 “Accept:application/json”。
+
 #### Request Parameters and Header Values 
 
 你也可以通过请求参数条件如 `"myParam"`， `"!myParam"`， `"myParam=myValue"` 来缩小请求匹配范围。

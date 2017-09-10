@@ -12,7 +12,7 @@ tags : [Hibernate, Criteria]
 
 
 
-###  
+### 
 
 ### JPA Criteria Multiselect 
 

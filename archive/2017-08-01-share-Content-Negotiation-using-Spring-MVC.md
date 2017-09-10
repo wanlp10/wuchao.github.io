@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Git 更新提示 “Already up-to-date”
-category : [学习问题记录]
+title: Content Negotiation using Spring MVC
+category : [JavaEE, Spring]
 tagline: "Supporting tagline"
-tags : [Git]
+tags : [Spring MVC]
 ---
 {% include JB/setup %}
 # Content Negotiation using Spring MVC

@@ -71,7 +71,9 @@ $ sudo apt-get upgrade
 
 ## JDK 的安装  
 
-> http://www.linuxidc.com/Linux/2016-11/136958.htm 
+> http://www.linuxidc.com/Linux/2016-11/136958.htm   
+> http://blog.csdn.net/gobitan/article/details/24322561  
+> http://www.wikihow.com/Install-Oracle-Java-JDK-on-Ubuntu-Linux  
 
 ### 1 JRE vs OpenJDK vs [Oracle](http://www.linuxidc.com/topicnews.aspx?tid=12) JDK 
 
@@ -113,31 +115,24 @@ Try: sudo apt-get install
 
 在`Ubuntu`和`Linux Mint`上安装`JRE`
 
-#### 3.1 安装 jre
-
-打开终端，使用下面的命令安装 JRE :
-
-```
-sudo apt-get install default-jre
-```
-
-#### 3.2 安装 OpenJDK
+#### 3.1 安装 OpenJDK
 
 在`Ubuntu`和`Linux Mint`上安装`OpenJDK`
 
 在终端，使用下面的命令安装 OpenJDK Java 开发工具包：
 
 ```
+sudo apt-get install default-jre
 sudo apt-get install default-jdk
 ```
 
-特殊地, 如果你想要安装`Java 8`, `Java 7`或者`Java 6`等等，你可以使用`openjdk-7-jdk/openjdk-6jdk`, 但是记住在此之前安装`openjdk-7-jre/openjdk-6-jre`
+特殊地, 如果你想要安装 `Java 7` 或者 `Java 6` 等等，你可以使用 `openjdk-7-jdk/openjdk-6jdk`, 但是记住在此之前安装 `openjdk-7-jre/openjdk-6-jre`
 
-#### 3.3 安装 Oracle JDK
+#### 3.2 安装 Oracle JDK
 
 在`Ubuntu`和`Linux Mint`上安装`Oracle JDK`
 
-##### 3.3.1 使用源安装
+##### 3.2.1 使用源安装
 
 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：
 
@@ -148,9 +143,9 @@ sudo apt-get install oracle-java8-installer
 sudo apt-get install oracle-java8-set-default
 ```
 
-如果你想安装`Java 8(i.e Java 1.8)`, 在上面的命令中用`java7`代替`java8`.
+如果你想安装`Java 7(i.e Java 1.7)`, 在上面的命令中用`java7`代替`java8`.
 
-##### 3.3.2 通过 bin 包安装
+##### 3.2.2 通过 bin 包安装
 
 此外可以用 Linux 上通用的 bin 包安装，下载官方 bin 包，终端下面安装解压，然后修改环境变量指向那个 jdk 便可
 
@@ -165,35 +160,21 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 使用如下命令解压：
 
 ```
-sudo tar zxvf ./jdk-8u101-linux-x64.tar.gz
+sudo tar zxvf ./jdk-8u144-linux-x64.tar.gz
 ```
 
-为了方便管理, 可将解压后的文件移至另一个文件夹, 笔者将文件移至了`/usr/java/jdk1.8.0_101`目录下。 
-
-##### 3.3.3 设置环境变量 
-
-编辑. bashrc 文件
-
-```
-JAVA_HOME=/usr/java/jdk1.8.0_101
+#### 3.3 配置环境变量 
+编辑 /etc/profile 文件：
+``` 
+JAVA_HOME=/usr/local/java/jdk1.8.0_144
 JRE_HOME=$JAVA_HOME/jre
-JAVA_BIN=$JAVA_HOME/bin
-CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
 PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
-export JAVA_HOME JRE_HOME PATH CLASSPATH
-```
-
-如果是使用源方法安装的, 则默认的安装路径是在`/usr/lib/jvm/java-8-oracle`中, 则配置对应的 JAVA_HOME 即可
+export JAVA_HOME JRE_HOME PATH
 
 ```
-JAVA_HOME=/usr/lib/jvm/java-8-oracle
-```
+如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的 JAVA_HOME 即可
 
-为了让更改立即生效，请在终端执行如下命令：
-
-```
-source ~/.bashrc
-```
+JAVA_HOME=/usr/lib/jvm/java-8-oracle 
 
 #### 3.4 验证
 
@@ -202,7 +183,33 @@ source ~/.bashrc
 ``` 
 java -version
 ```
+正确打印：
+``` 
+java version "1.8.0_144"
+Java(TM) SE Runtime Environment (build 1.8.0_144-b01)
+Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
+``` 
 
+如果打印：
+``` 
+openjdk version "1.8.0_131"
+OpenJDK Runtime Environment (build 1.8.0_131-8u131-b11-2ubuntu1.16.04.3-b11)
+OpenJDK 64-Bit Server VM (build 25.131-b11, mixed mode)
+``` 
+则配置如下：
+
+``` 
+# 配置 ubuntu 的 JDK 和 JRE 的位置
+$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk1.8.0_144/bin/java" 1
+$ sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk1.8.0_144/bin/javac" 1
+$ sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java/jdk1.8.0_144/bin/javaws" 1
+
+
+# 配置 Oracle 为系统默认 JDK/JRE
+$ sudo update-alternatives --set java /usr/local/java/jdk1.8.0_144/bin/java
+$ sudo update-alternatives --set javac /usr/local/java/jdk1.8.0_144/bin/javac
+$ sudo update-alternatives --set javaws /usr/local/java/jdk1.8.0_144/bin/javaws
+```
 
 
 ## Gradle 的安装
@@ -350,7 +357,6 @@ $ tar -xvf mysql-server_5.6.34-1ubuntu14.04_amd64.deb-bundle.tar
 > https://www.cnblogs.com/oldfish/p/5039772.html 
 ```  
 
-
 新建数据库：
 
 ``` 
@@ -372,5 +378,105 @@ $ sudo apt-get remove mysql-common
 $ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P 
 ```
 
+## CRUL 安装 
+``` 
+sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports  
+  
+sudo apt-get update  
+  
+sudo apt-get install curl  
+```
+
+## Node.JS 安装
+包方式安装
+``` 
+$ sudo apt-get install -y python-software-properties software-properties-common
+$ sudo add-apt-repository ppa:chris-lea/node.js
+$ sudo apt-get update
+$ sudo apt-get install nodejs  
+$ nodejs -v
+
+$ sudo apt install nodejs-legacy
+$ node -v 
+
+$ sudo apt-get install npm 
+$ npm -v 
+```  
+
+源码方式安装 
+> http://blog.csdn.net/awj3584/article/details/18401539  
+
+``` 
+# 下载源码包
+wget https://nodejs.org/dist/node-latest.tar.gz 
+
+# 首先确保系统安装来 python,gcc,g++, 如果没有则安装： 
+$ sudo apt-get install python 
+$ sudo apt-get install build-essential 
+$ sudo apt-get install gcc 
+$ sudo apt-get install g++ 
+
+# 解压
+tar -xzf node-latest.tar.gz 
+cd node-latest.tar.gz 
+
+# 编译并安装
+./configure
+make
+make install 
+
+
+# 测试安装成功
+node -v  
+```
+
+卸载
+``` 
+$ sudo apt-get autoremove nodejs-legacy
+$ sudo apt-get autoremove nodejs 
+```
+
+nodejs 更新 
+```
+$ sudo npm install -g n
+$ n stable
+
+```
+
+如果此时报：
+``` 
+cp: 无法获取 "/usr/local/n/versions/node/0.10.40/bin" 的文件状态 (stat): 没有那个文件或目录
+cp: 无法获取 "/usr/local/n/versions/node/0.10.40/lib" 的文件状态 (stat): 没有那个文件或目录
+cp: 无法获取 "/usr/local/n/versions/node/0.10.40/share" 的文件状态 (stat): 没有那个文件或目录
+```
+删除 `/usr/local/n/versions/node/` 目录，重试
+``` 
+$ sudo rm -fr /usr/local/n/versions/node/
+
+```
+出现下面的内容，说明更新成功：
+``` 
+
+     install : node-v8.4.0
+       mkdir : /usr/local/n/versions/node/8.4.0
+       fetch : https://nodejs.org/dist/v8.4.0/node-v8.4.0-linux-x64.tar.gz
+######################################################################## 100.0%
+   installed : v8.4.0
+
+``` 
+此时输入 `node -v`,打印：
+``` 
+v8.4.0
+```
+
+## Atom 安装
+``` 
+sudo add-apt-repository ppa:webupd8team/atom 
+
+sudo apt-get update  
+
+sudo apt-get install atom 
+
+```
 
 

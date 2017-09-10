@@ -1,3 +1,11 @@
+.gradle/
+.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+
 _site/*
 _theme_packages/*
 

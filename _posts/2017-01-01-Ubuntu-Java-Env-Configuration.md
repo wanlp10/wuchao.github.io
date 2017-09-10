@@ -390,17 +390,18 @@ sudo apt-get install curl
 ## Node.JS 安装
 包方式安装
 ``` 
-$ sudo apt-get install python-software-properties python g++ make
-$ sudo add-apt-repository -y ppa:chris-lea/node.js
+$ sudo apt-get install -y python-software-properties software-properties-common
+$ sudo add-apt-repository ppa:chris-lea/node.js
 $ sudo apt-get update
-$ sudo apt-get install npm 
-```  
- 
-此时提示 sudo apt install nodejs-legacy
-```
+$ sudo apt-get install nodejs  
+$ nodejs -v
+
 $ sudo apt install nodejs-legacy
 $ node -v 
-``` 
+
+$ sudo apt-get install npm 
+$ npm -v 
+```  
 
 源码方式安装 
 > http://blog.csdn.net/awj3584/article/details/18401539  
@@ -429,6 +430,12 @@ make install
 node -v  
 ```
 
+卸载
+``` 
+$ sudo apt-get autoremove nodejs-legacy
+$ sudo apt-get autoremove nodejs 
+```
+
 nodejs 更新 
 ```
 $ sudo npm install -g n
@@ -441,6 +448,25 @@ $ n stable
 cp: 无法获取 "/usr/local/n/versions/node/0.10.40/bin" 的文件状态 (stat): 没有那个文件或目录
 cp: 无法获取 "/usr/local/n/versions/node/0.10.40/lib" 的文件状态 (stat): 没有那个文件或目录
 cp: 无法获取 "/usr/local/n/versions/node/0.10.40/share" 的文件状态 (stat): 没有那个文件或目录
+```
+删除 `/usr/local/n/versions/node/` 目录，重试
+``` 
+$ sudo rm -fr /usr/local/n/versions/node/
+
+```
+出现下面的内容，说明更新成功：
+``` 
+
+     install : node-v8.4.0
+       mkdir : /usr/local/n/versions/node/8.4.0
+       fetch : https://nodejs.org/dist/v8.4.0/node-v8.4.0-linux-x64.tar.gz
+######################################################################## 100.0%
+   installed : v8.4.0
+
+``` 
+此时输入 `node -v`,打印：
+``` 
+v8.4.0
 ```
 
 ## Atom 安装

@@ -469,6 +469,23 @@ $ sudo rm -fr /usr/local/n/versions/node/
 v8.4.0
 ```
 
+## Yarn 安装
+``` 
+$ sudo npm install -g yarn 
+$ yarn -v 
+```
+
+## Bower 安装
+``` 
+# npm 方式安装
+$ sudo npm install -g bower
+$ bower -v 
+
+# yarn 方式安装
+$ 
+$ bower -v  
+```
+
 ## Atom 安装
 ``` 
 sudo add-apt-repository ppa:webupd8team/atom 

@@ -357,7 +357,6 @@ $ tar -xvf mysql-server_5.6.34-1ubuntu14.04_amd64.deb-bundle.tar
 > https://www.cnblogs.com/oldfish/p/5039772.html 
 ```  
 
-
 新建数据库：
 
 ``` 
@@ -379,5 +378,79 @@ $ sudo apt-get remove mysql-common
 $ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P 
 ```
 
+## CRUL 安装 
+``` 
+sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports  
+  
+sudo apt-get update  
+  
+sudo apt-get install curl  
+```
+
+## Node.JS 安装
+包方式安装
+``` 
+$ sudo apt-get install python-software-properties python g++ make
+$ sudo add-apt-repository -y ppa:chris-lea/node.js
+$ sudo apt-get update
+$ sudo apt-get install npm 
+```  
+ 
+此时提示 sudo apt install nodejs-legacy
+```
+$ sudo apt install nodejs-legacy
+$ node -v 
+``` 
+
+源码方式安装 
+> http://blog.csdn.net/awj3584/article/details/18401539  
+
+``` 
+# 下载源码包
+wget https://nodejs.org/dist/node-latest.tar.gz 
+
+# 首先确保系统安装来 python,gcc,g++, 如果没有则安装： 
+$ sudo apt-get install python 
+$ sudo apt-get install build-essential 
+$ sudo apt-get install gcc 
+$ sudo apt-get install g++ 
+
+# 解压
+tar -xzf node-latest.tar.gz 
+cd node-latest.tar.gz 
+
+# 编译并安装
+./configure
+make
+make install 
+
+
+# 测试安装成功
+node -v  
+```
+
+nodejs 更新 
+```
+$ sudo npm install -g n
+$ n stable
+
+```
+
+如果此时报：
+``` 
+cp: 无法获取 "/usr/local/n/versions/node/0.10.40/bin" 的文件状态 (stat): 没有那个文件或目录
+cp: 无法获取 "/usr/local/n/versions/node/0.10.40/lib" 的文件状态 (stat): 没有那个文件或目录
+cp: 无法获取 "/usr/local/n/versions/node/0.10.40/share" 的文件状态 (stat): 没有那个文件或目录
+```
+
+## Atom 安装
+``` 
+sudo add-apt-repository ppa:webupd8team/atom 
+
+sudo apt-get update  
+
+sudo apt-get install atom 
+
+```
 
 

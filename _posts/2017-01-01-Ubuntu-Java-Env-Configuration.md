@@ -425,7 +425,6 @@ cd node-latest.tar.gz
 make
 make install 
 
-
 # 测试安装成功
 node -v  
 ```

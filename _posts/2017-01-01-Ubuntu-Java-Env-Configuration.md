@@ -399,8 +399,6 @@ $ nodejs -v
 $ sudo apt install nodejs-legacy
 $ node -v 
 
-$ sudo apt-get install npm 
-$ npm -v 
 ```  
 
 源码方式安装 
@@ -435,11 +433,16 @@ $ sudo apt-get autoremove nodejs-legacy
 $ sudo apt-get autoremove nodejs 
 ```
 
-nodejs 更新 
+更新 
 ```
 $ sudo npm install -g n
 $ n stable
 
+```
+
+使用淘宝源 
+``` 
+npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 
 如果此时报：

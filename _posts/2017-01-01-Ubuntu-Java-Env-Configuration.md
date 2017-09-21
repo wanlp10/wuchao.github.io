@@ -211,12 +211,13 @@ $ sudo update-alternatives --set javac /usr/local/java/jdk1.8.0_144/bin/javac
 $ sudo update-alternatives --set javaws /usr/local/java/jdk1.8.0_144/bin/javaws
 ```
 
+## Gradle 的安装   
 
-## Gradle 的安装
+### 安装   
 
 > [install gradle](https://gradle.org/install)  
 
-### 1 package manager 安装  
+#### 方法1 package manager 安装  
 
 [SDKMAN!](http://sdkman.io/) is a tool for managing parallel versions of multiple Software Development Kits on most Unix-based systems.
 
@@ -238,7 +239,7 @@ $ brew update && brew install gradle
 $ scoop install gradle 
 ```
 
-### 2 下载 Gradle distribution 包安装
+#### 方法2 下载 Gradle distribution 包安装
 
 http://blog.csdn.net/stwstw0123/article/details/47809189  
 
@@ -248,19 +249,19 @@ http://blog.csdn.net/stwstw0123/article/details/47809189
 >
 > 所以，起码到现在 (2015-08-20), 不要用`$sudo apt-get install gradle`来安装 *gradle*，如果安装了，要用 `$ sudo apt-get remove gradle`卸载掉。 
 
-#### 下载 Gradle distribution 
+##### 下载 Gradle distribution 
 
 ``` 
 distribution 的地址： https://services.gradle.org/distributions/
 ```
 
-#### 安装
+##### 安装
 
 ``` 
 $ sudo unzip gradle-2.6-all.zip -d /opt/gradle/ 
 ```
 
-#### 配置 
+##### 配置 
 
 ``` 
 $ sudo vim /etc/profile
@@ -273,7 +274,7 @@ export GRADLE_HOME=/opt/gradle/gradle-2.6
 export PATH=$GRADLE_HOME/bin:$PATH 
 ```
 
-#### 重启
+##### 重启
 
 重启机器，然后就可以运行 `gradle -v`
 
@@ -282,7 +283,7 @@ $ sudo reboot
 $ gradle -v 
 ```
 
-### 3 Upgrade with the Gradle Wrapper 
+#### 方法3 Upgrade with the Gradle Wrapper 
 
 If your existing Gradle-based build uses the [Gradle Wrapper](https://docs.gradle.org/4.0.1/userguide/gradle_wrapper.html), you can easily upgrade by running the `wrapper` task, specifying the desired Gradle version:
 
@@ -299,9 +300,9 @@ Downloading https://services.gradle.org/distributions/gradle-4.0.1-bin.zip
 ... 
 ```
 
+## Git 的安装
 
-
-## Git 的安装 (apt 方式)
+### 安装   
 
 > http://blog.csdn.net/yhl_leo/article/details/50760140 
 
@@ -312,9 +313,9 @@ $ sudo apt-get install git
 $ git --version 
 ```
 
-
-
 ## Mysql 的安装 
+
+### 安装   
 
 替换了淘宝源后，mysql安装不了，把备份的初始源追加到淘宝源后面。
 
@@ -363,7 +364,7 @@ $ tar -xvf mysql-server_5.6.34-1ubuntu14.04_amd64.deb-bundle.tar
 CREATE DATABASE test2 DEFAULT CHARACTER SET utf8;  
 ```
 
-## Mysql 的卸载 
+### 卸载 
 > http://www.linuxidc.com/Linux/2013-04/82934.htm 
 
 ``` 
@@ -387,8 +388,10 @@ sudo apt-get update
 sudo apt-get install curl  
 ```
 
-## Node.JS 安装
-包方式安装
+## Node.JS 安装 
+
+### 安装 
+#### 方法1 包方式安装(推荐方式)
 ``` 
 $ sudo apt-get install -y python-software-properties software-properties-common
 $ sudo add-apt-repository ppa:chris-lea/node.js
@@ -401,7 +404,7 @@ $ node -v
 
 ```  
 
-源码方式安装 
+#### 方法2 源码方式安装 
 > http://blog.csdn.net/awj3584/article/details/18401539  
 
 ``` 
@@ -413,34 +416,36 @@ $ sudo apt-get install python
 $ sudo apt-get install build-essential 
 $ sudo apt-get install gcc 
 $ sudo apt-get install g++ 
-
+  
 # 解压
 tar -xzf node-latest.tar.gz 
 cd node-latest.tar.gz 
-
+  
 # 编译并安装
 ./configure
 make
 make install 
-
+  
 # 测试安装成功
 node -v  
 ```
 
-卸载
+### 卸载
 ``` 
 $ sudo apt-get autoremove nodejs-legacy
 $ sudo apt-get autoremove nodejs 
+$ sudo rm -fr /usr/local/bin/node (which node 命令查看路经)
+此时输入 node -v,没有打印版本号. 
 ```
 
-更新 
+### 更新 
 ```
 $ sudo npm install -g n
 $ n stable
 
 ```
 
-使用淘宝源 
+### 使用淘宝源 
 ``` 
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```

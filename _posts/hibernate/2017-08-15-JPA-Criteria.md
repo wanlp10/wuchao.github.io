@@ -3,16 +3,16 @@ layout: post
 title: JPA Criteria 
 category : [JavaEE, Hibernate]
 tagline: "Supporting tagline"
-tags : [Hibernate, Criteria]
+tags : [Java, Hibernate]
 ---
 {% include JB/setup %}
-# JPA Criteria
+# JPA Criteria 查询 
 
 > [JPA criteria 查询: 类型安全与面向对象](http://blog.csdn.net/dracotianlong/article/details/28445725) 
 
 
 
-### 
+###  
 
 ### JPA Criteria Multiselect 
 
@@ -164,6 +164,65 @@ public class AdvisorDtoRepositoryImpl implements AdvisorDtoRepository {
 
         return advisors;
   	}
+}
+```
+
+
+
+### Spring Data Jpa 的 Specification 查询 
+
+> [SpringDataJpa 的 Specification 查询](http://blog.csdn.net/baijunzhijiang_01/article/details/51557125)  
+
+Spring Data JPA 支持 JPA2.0 的 Criteria 查询，相应的接口是 JpaSpecificationExecutor。Criteria 查询：是一种类型安全和更面向对象的查询 。
+
+这个接口基本是围绕着 Specification 接口来定义的， Specification 接口中只定义了如下一个方法：
+
+``` 
+Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb);  
+```
+
+
+
+Specification 查询: 
+
+``` 
+public class AdvisorSpecs {
+  public static Specification<Advisor> findAdvisors( final Boolean activated, final String name, final Long managerNum) {
+    return (root, query, cb) -> {
+    	List<Predicate> predicates = new ArrayList<>(); 
+    
+    	if (managerNum != null) {   		query.groupBy(root.get(Advisor_.id)).orderBy(cb.desc(root.get(Advisor_.lastModifiedDate))).having(cb.greaterThan((cb.countDistinct(root.join(Advisor_.managers, JoinType.LEFT))), managerNum));
+        }
+        if (activated != null) {
+        	predicates.add(cb.equal(root.get(Advisor_.activated), activated));
+        }
+    	if (!StringUtils.isEmpty(name){
+    		predicates.add(cb.like(root.get(Advisor_.name), "%" + name + "%"));
+    	}
+  
+  		return cb.and(predicates.toArray(new Predicate[0]));
+  	}
+  }
+}
+```
+
+Spring Data Jpa 查询: 
+
+``` 
+@GetMapping("/advisors")
+public String index(@RequestParam(value = "activated", required = false, defaultValue = "") Boolean activated,
+@RequestParam(value = "name", required = false, defaultValue = "") String name,
+@RequestParam(value = "managerNum", required = false, defaultValue = "") Long managerNum,
+@PageableDefault(sort = "lastModifiedDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+	Specification<Advisor> specification = 	Specifications.where(AdvisorSpecs.findAdvisors(activated, name, managerNum));
+
+	Page<Advisor> advisors = advisorRepository.findAll(specification, pageable);
+
+	model.addAttribute("activated", activated);
+	model.addAttribute("name", name);
+	model.addAttribute("managerNum", managerNum);
+
+	return "advisors/list";
 }
 ```
 

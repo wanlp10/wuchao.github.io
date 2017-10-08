@@ -38,7 +38,7 @@ public class Advisor extends AbstractAuditingEntity implements Serializable{
     private Set<Product> products = new HashSet<>();
 
     @OneToMany(mappedBy = "advisor", fetch = FetchType.LAZY)
-    @OrderBy("created_date desc")
+    @OrderBy("lastModifiedDate desc")
     private Set<Manager> managers = new HashSet<>();
     
     //...
@@ -91,6 +91,7 @@ public class Manager extends AbstractAuditingEntity implements Serializable {
 }
 ```
 
+### multi select 查询
 现在要查询所有 Advisor 对象,并且查出 Advisor 对象中 managers 集合的个数和 products 集合中 rate 属性的最大值: 
 
 定义一个 DTO 对象,保存查询结果
@@ -101,6 +102,14 @@ public class AdvisorDto implements Serializable {
   private String name;
   private Long managerNum;
   private Double maxRate;
+  
+  //multiselect查询语句返回值需要参数个数和类型都匹配的一个构造方法
+  public AdvisorDto(Long id, String name, Long managerNum, Double maxRate) {
+    this.id = id;
+    this.name = name;
+    this.managerNum = managerNum;
+    this.maxRate = maxRate;
+  }
   //...
 }
 ```

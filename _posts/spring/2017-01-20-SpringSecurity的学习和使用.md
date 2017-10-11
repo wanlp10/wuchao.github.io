@@ -871,11 +871,13 @@ SecurityContextPersistenceFilter 会在请求开始时从配置好的 SecurityCo
  UsernamePasswordAuthenticationFilter 用于处理来自表单提交的认证。该表单必须提供对应的用户名和密码，对应的参数名默认为 j_username 和 j_password。如果不想使用默认的参数名，可以通过 UsernamePasswordAuthenticationFilter 的 usernameParameter 和 passwordParameter 进行指定。表单的提交路径默认是 “j_spring_security_check”，也可以通过 UsernamePasswordAuthenticationFilter 的 filterProcessesUrl 进行指定。通过属性 postOnly 可以指定只允许登录表单进行 post 请求，默认是 true。其内部还有登录成功或失败后进行处理的 AuthenticationSuccessHandler 和 AuthenticationFailureHandler，这些都可以根据需求做相关改变。此外，它还需要一个 AuthenticationManager 的引用进行认证，这个是没有默认配置的。
 
 ``` 
-<bean id="authenticationFilter"
+<bean id="usernamePasswordAuthenticationFilter"
    class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
       <property name="authenticationManager" ref="authenticationManager" />
-      <property name="usernameParameter" value="username"/>
-      <property name="passwordParameter" value="password"/>
+      <property name="authenticationFailureHandler" ref="failureHandler" />  
+      <property name="authenticationSuccessHandler" ref="successHandler" />
+      <property name="usernameParameter" value="username" />
+      <property name="passwordParameter" value="password" />
       <property name="filterProcessesUrl" value="/login.do" />
    </bean> 
 ```
@@ -904,11 +906,13 @@ SecurityContextPersistenceFilter 会在请求开始时从配置好的 SecurityCo
       <property name="loginFormUrl" value="/login.jsp"/>
    </bean>
    <!-- 认证过滤器 -->
-   <bean id="authenticationFilter"
+   <bean id="usernamePasswordAuthenticationFilter"
    class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
       <property name="authenticationManager" ref="authenticationManager" />
-      <property name="usernameParameter" value="username"/>
-      <property name="passwordParameter" value="password"/>
+      <property name="authenticationFailureHandler" ref="failureHandler" />  
+      <property name="authenticationSuccessHandler" ref="successHandler" />
+      <property name="usernameParameter" value="username" />
+      <property name="passwordParameter" value="password" />
       <property name="filterProcessesUrl" value="/login.do" />
    </bean>
   
@@ -929,6 +933,7 @@ SecurityContextPersistenceFilter 会在请求开始时从配置好的 SecurityCo
  
 </beans> 
 ```
+如果验证成功,进入 `SavedRequestAwareAuthenticationSuccessHandler` 的 `onAuthenticationSuccess` 方法，如果验证是否则进入 `SimpleUrlAuthenticationFailureHandler` 的 `onAuthenticationFailure` 方法。  
 
 
 

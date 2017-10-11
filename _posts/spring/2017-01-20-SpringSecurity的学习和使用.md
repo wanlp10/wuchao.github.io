@@ -19,6 +19,7 @@ tags : [Spring Security]
 >
 > [mkyong.com - Spring Security Tutorial](http://www.mkyong.com/spring-security/spring-security-hibernate-annotation-example/) 
 >
+> http://blog.sina.com.cn/s/blog_6fda308501016wjh.html 
 
 Spring 是一个非常流行和成功的 Java 应用开发框架。Spring Security 基于 Spring 框架，提供了一套 Web 应用安全性的完整解决方案。一般来说，Web 应用的安全性包括用户认证（Authentication）和用户授权（Authorization）两个部分。用户认证指的是验证某个用户是否为系统中的合法主体，也就是说用户能否访问该系统。用户认证一般要求用户提供用户名和密码。系统通过校验用户名和密码来完成认证过程。用户授权指的是验证某个用户是否有权限执行某个操作。在一个系统中，不同用户所具有的权限是不同的。比如对一个文件来说，有的用户只能进行读取，而有的用户可以进行修改。一般来说，系统会为不同的用户分配不同的角色，而每个角色则对应一系列的权限。 
 
@@ -776,6 +777,23 @@ Spring Security 底层是通过一系列的 Filter 来工作的，每个 Filter 
 使用 Spring Security 时，DelegatingFilterProxy 代理的就是一个 FilterChainProxy。一个 FilterChainProxy 中可以包含有多个 FilterChain，但是某个请求只会对应一个 FilterChain，而一个 FilterChain 中又可以包含有多个 Filter。当我们使用基于 Spring Security 的 NameSpace 进行配置时，系统会自动为我们注册一个名为 springSecurityFilterChain 类型为 FilterChainProxy 的 bean（这也是为什么我们在使用 SpringSecurity 时需要在 web.xml 中声明一个 name 为 springSecurityFilterChain 类型为 DelegatingFilterProxy 的 Filter 了。），而且每一个 http 元素的定义都将拥有自己的 FilterChain，而 FilterChain 中所拥有的 Filter 则会根据定义的服务自动增减。所以我们不需要显示的再定义这些 Filter 对应的 bean 了，除非你想实现自己的逻辑，又或者你想定义的某个属性 NameSpace 没有提供对应支持等。
 
 Spring security 允许我们在配置文件中配置多个 http 元素，以针对不同形式的 URL 使用不同的安全控制。Spring Security 将会为每一个 http 元素创建对应的 FilterChain，同时按照它们的声明顺序加入到 FilterChainProxy。所以当我们同时定义多个 http 元素时要确保将更具有特性的 URL 配置在前。
+
+``` 
+ <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">  
+    <sec:filter-chain-map path-type="ant">  
+        <sec:filter-chain pattern="/**" filters="  
+            securityContextPersistenceFilter,  
+            logoutFilter,  
+            usernamePasswordAuthenticationFilter,  
+            securityContextHolderAwareRequestFilte,  
+            rememberMeFilter,  
+            sessionManagementFilter,  
+            anonymousProcessingFilter,  
+            exceptionTranslationFilter,  
+            filterSecurityInterceptor" />  
+    </sec:filter-chain-map>  
+ </bean>
+```
 
 ### Spring Security 定义好的核心 Filter 
 

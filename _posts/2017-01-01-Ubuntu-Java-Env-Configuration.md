@@ -62,18 +62,22 @@ $ sudo apt-get update
 $ sudo apt-get upgrade 
 ```
 
-
-
 ## Idea 的安装 
+下载安装包
 
+解压
 
-
+运行启动脚本:
+``` 
+./bin/idea.sh 
+```
 
 ## JDK 的安装  
-
-> http://www.linuxidc.com/Linux/2016-11/136958.htm   
-> http://blog.csdn.net/gobitan/article/details/24322561  
-> http://www.wikihow.com/Install-Oracle-Java-JDK-on-Ubuntu-Linux  
+> [http://www.linuxidc.com/Linux/2016-11/136958.htm](http://www.linuxidc.com/Linux/2016-11/136958.htm)
+>    
+> [http://blog.csdn.net/gobitan/article/details/24322561](http://blog.csdn.net/gobitan/article/details/24322561)   
+> 
+> [http://www.wikihow.com/Install-Oracle-Java-JDK-on-Ubuntu-Linux](http://www.wikihow.com/Install-Oracle-Java-JDK-on-Ubuntu-Linux)   
 
 ### 1 JRE vs OpenJDK vs [Oracle](http://www.linuxidc.com/topicnews.aspx?tid=12) JDK 
 
@@ -170,7 +174,6 @@ JAVA_HOME=/usr/local/java/jdk1.8.0_144
 JRE_HOME=$JAVA_HOME/jre
 PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 export JAVA_HOME JRE_HOME PATH
-
 ```
 如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的 JAVA_HOME 即可
 
@@ -200,15 +203,15 @@ OpenJDK 64-Bit Server VM (build 25.131-b11, mixed mode)
 
 ``` 
 # 配置 ubuntu 的 JDK 和 JRE 的位置
-$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk1.8.0_144/bin/java" 1
-$ sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk1.8.0_144/bin/javac" 1
-$ sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java/jdk1.8.0_144/bin/javaws" 1
+$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk1.8.0_131/bin/java" 1
+$ sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk1.8.0_131/bin/javac" 1
+$ sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java/jdk1.8.0_131/bin/javaws" 1
 
 
 # 配置 Oracle 为系统默认 JDK/JRE
-$ sudo update-alternatives --set java /usr/local/java/jdk1.8.0_144/bin/java
-$ sudo update-alternatives --set javac /usr/local/java/jdk1.8.0_144/bin/javac
-$ sudo update-alternatives --set javaws /usr/local/java/jdk1.8.0_144/bin/javaws
+$ sudo update-alternatives --set java /usr/local/java/jdk1.8.0_131/bin/java
+$ sudo update-alternatives --set javac /usr/local/java/jdk1.8.0_131/bin/javac
+$ sudo update-alternatives --set javaws /usr/local/java/jdk1.8.0_131/bin/javaws
 ```
 
 ## Gradle 的安装   

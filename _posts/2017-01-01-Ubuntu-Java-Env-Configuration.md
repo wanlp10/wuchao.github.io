@@ -62,16 +62,6 @@ $ sudo apt-get update
 $ sudo apt-get upgrade 
 ```
 
-## Idea 的安装 
-下载安装包
-
-解压
-
-运行启动脚本:
-``` 
-./bin/idea.sh 
-```
-
 ## JDK 的安装  
 > [http://www.linuxidc.com/Linux/2016-11/136958.htm](http://www.linuxidc.com/Linux/2016-11/136958.htm)
 >    
@@ -495,6 +485,21 @@ $ bower -v
 $ 
 $ bower -v  
 ```
+
+## Idea 的安装 
+下载安装包
+
+解压
+
+运行启动脚本:
+``` 
+./bin/idea.sh 
+```
+
+## Eclipse 的安装 
+进入下载页面 [https://www.eclipse.org/downloads/packages/](https://www.eclipse.org/downloads/packages/)
+选择合适的系统版本点击下载. 
+
 
 ## Atom 安装
 ``` 

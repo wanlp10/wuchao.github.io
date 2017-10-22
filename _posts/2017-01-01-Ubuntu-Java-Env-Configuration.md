@@ -17,6 +17,14 @@ tags : [Ubuntu, Java]
 ($ sudo apt-get remove vim-common)
 $ sudo apt-get install vim
 ``` 
+如果出现下面的错误：
+``` 
+google-chrome-stable : 依赖: libappindicator1 但是它将不会被安装 
+```
+解决办法： 
+``` 
+sudo apt-get -f install libappindicator1 libindicator7 
+```
 
 <!--break-->
 
@@ -126,7 +134,7 @@ sudo apt-get install default-jdk
 
 在`Ubuntu`和`Linux Mint`上安装`Oracle JDK`
 
-##### 3.2.1 使用源安装
+##### 3.2.1 使用源安装（推荐方式）
 
 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：
 
@@ -165,9 +173,10 @@ JRE_HOME=$JAVA_HOME/jre
 PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 export JAVA_HOME JRE_HOME PATH
 ```
-如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的 JAVA_HOME 即可
-
+如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的 JAVA_HOME 即可（不配置也可以正常使用）
+``` 
 JAVA_HOME=/usr/lib/jvm/java-8-oracle 
+``` 
 
 #### 3.4 验证
 
@@ -202,6 +211,19 @@ $ sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java
 $ sudo update-alternatives --set java /usr/local/java/jdk1.8.0_131/bin/java
 $ sudo update-alternatives --set javac /usr/local/java/jdk1.8.0_131/bin/javac
 $ sudo update-alternatives --set javaws /usr/local/java/jdk1.8.0_131/bin/javaws
+```   
+
+## Git 的安装
+
+### 安装   
+
+> http://blog.csdn.net/yhl_leo/article/details/50760140 
+
+``` 
+$ sudo add-apt-repository ppa:git-core/ppa 
+$ sudo apt-get update
+$ sudo apt-get install git  
+$ git --version 
 ```
 
 ## Gradle 的安装   
@@ -222,8 +244,7 @@ $ sdk install gradle 4.0.1
 [Homebrew](http://brew.sh/) is “the missing package manager for macOS”.
 
 ```
-$ brew update && brew install gradle
-
+$ brew update && brew install gradle   
 ```
 
 [Scoop](http://scoop.sh/) is a command-line installer for Windows inspired by Homebrew.
@@ -281,8 +302,7 @@ $ gradle -v
 If your existing Gradle-based build uses the [Gradle Wrapper](https://docs.gradle.org/4.0.1/userguide/gradle_wrapper.html), you can easily upgrade by running the `wrapper` task, specifying the desired Gradle version:
 
 ```
-$ ./gradlew wrapper --gradle-version=4.0.1 --distribution-type=bin
-
+$ ./gradlew wrapper --gradle-version=4.0.1 --distribution-type=bin 
 ```
 
 Note that it is not necessary for Gradle to be installed to use the Gradle wrapper. The next invocation of `gradlew` or `gradlew.bat` will download and cache the specified version of Gradle.
@@ -291,19 +311,6 @@ Note that it is not necessary for Gradle to be installed to use the Gradle wrapp
 $ ./gradlew tasks
 Downloading https://services.gradle.org/distributions/gradle-4.0.1-bin.zip
 ... 
-```
-
-## Git 的安装
-
-### 安装   
-
-> http://blog.csdn.net/yhl_leo/article/details/50760140 
-
-``` 
-$ sudo add-apt-repository ppa:git-core/ppa 
-$ sudo apt-get update
-$ sudo apt-get install git  
-$ git --version 
 ```
 
 ## Mysql 的安装 
@@ -394,7 +401,6 @@ $ nodejs -v
 
 $ sudo apt install nodejs-legacy
 $ node -v 
-
 ```  
 
 #### 方法2 源码方式安装 
@@ -508,7 +514,6 @@ sudo add-apt-repository ppa:webupd8team/atom
 sudo apt-get update  
 
 sudo apt-get install atom 
-
 ```
 
 

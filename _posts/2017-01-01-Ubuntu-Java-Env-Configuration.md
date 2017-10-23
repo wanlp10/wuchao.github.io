@@ -1,12 +1,12 @@
 ---
 layout: post
 title: Ubuntu 系统的开发环境安装和配置
-category : [Ubuntu, Java]
+category : [Ubuntu]
 tagline: "Supporting tagline"
-tags : [Ubuntu, Java]
+tags : [Ubuntu]
 ---
 {% include JB/setup %}
-# Ubuntu 系统的开发环境安装和配置
+# Ubuntu 系统开发环境的安装和配置
 ---
 
 ## Vim 的安装 
@@ -173,7 +173,7 @@ JRE_HOME=$JAVA_HOME/jre
 PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 export JAVA_HOME JRE_HOME PATH
 ```
-如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的 JAVA_HOME 即可（不配置也可以正常使用）
+如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的 JAVA_HOME 即可
 ``` 
 JAVA_HOME=/usr/lib/jvm/java-8-oracle 
 ``` 
@@ -238,7 +238,6 @@ $ git --version
 
 ```
 $ sdk install gradle 4.0.1
-
 ```
 
 [Homebrew](http://brew.sh/) is “the missing package manager for macOS”.
@@ -388,7 +387,7 @@ sudo apt-get update
 sudo apt-get install curl  
 ```
 
-## Node.JS 安装 
+## Node.JS 的安装 
 
 ### 安装 
 #### 方法1 包方式安装(推荐方式)
@@ -441,7 +440,6 @@ $ sudo rm -fr /usr/local/bin/node (which node 命令查看路经)
 ```
 $ sudo npm install -g n
 $ n stable
-
 ```
 
 ### 使用淘宝源 
@@ -475,13 +473,13 @@ $ sudo rm -fr /usr/local/n/versions/node/
 v8.4.0
 ```
 
-## Yarn 安装
+## Yarn 的安装
 ``` 
 $ sudo npm install -g yarn 
 $ yarn -v 
 ```
 
-## Bower 安装
+## Bower 的安装
 ``` 
 # npm 方式安装
 $ sudo npm install -g bower
@@ -492,7 +490,34 @@ $
 $ bower -v  
 ```
 
-## Idea 的安装 
+## openssh-server 的安装
+安装
+``` 
+sudo apt-get install openssh-server
+```
+输入下面命令检查是否安装成功
+``` 
+ps -e|grep ssh
+```
+
+## Google Chrome 的安装 
+> [Ubuntu14.04下安装google chrome浏览器](http://blog.csdn.net/xuwenneng/article/details/52316743) 
+``` 
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
+dpkg -i google-chrome-stable_current_amd64.deb
+```
+安装时若提示：
+``` 
+dpkg: 依赖关系问题使得 google-chrome-stable 的配置工作不能继续：
+ google-chrome-stable 依赖于 libappindicator1；然而：
+  未安装软件包 libappindicator1。
+```
+解决办法：
+``` 
+sudo apt-get -f install libappindicator1 libindicator7
+```
+
+## IntelliJ IDEA 的安装 
 下载安装包
 
 解压
@@ -507,7 +532,7 @@ $ bower -v
 选择合适的系统版本点击下载. 
 
 
-## Atom 安装
+## Atom 的安装
 ``` 
 sudo add-apt-repository ppa:webupd8team/atom 
 

@@ -438,15 +438,10 @@ $ sudo rm -fr /usr/local/bin/node (which node 命令查看路经)
 
 ### 更新 
 ```
+$ sudo chmod -R 777 /usr/local 
 $ sudo npm install -g n
 $ n stable
 ```
-
-### 使用淘宝源 
-``` 
-npm install -g cnpm --registry=https://registry.npm.taobao.org
-```
-
 如果此时报：
 ``` 
 cp: 无法获取 "/usr/local/n/versions/node/0.10.40/bin" 的文件状态 (stat): 没有那个文件或目录
@@ -473,6 +468,11 @@ $ sudo rm -fr /usr/local/n/versions/node/
 v8.4.0
 ```
 
+### 使用淘宝源 
+``` 
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+```
+
 ## Yarn 的安装
 ``` 
 $ sudo npm install -g yarn 
@@ -488,6 +488,11 @@ $ bower -v
 # yarn 方式安装
 $ 
 $ bower -v  
+```
+
+## Gulp 的安装
+``` 
+npm install --global gulp-cli
 ```
 
 ## openssh-server 的安装

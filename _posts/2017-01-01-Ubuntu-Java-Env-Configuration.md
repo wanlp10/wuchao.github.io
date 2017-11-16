@@ -316,16 +316,8 @@ Downloading https://services.gradle.org/distributions/gradle-4.0.1-bin.zip
 
 ### 安装   
 
-替换了淘宝源后，mysql安装不了，把备份的初始源追加到淘宝源后面。
-
-``` 
-$ cd /etc/apt  
-$ cat source.list.bak >> source.list  
-```
-
 安装 mysql-server： 
 Update: Before installing mysql, make sure that no other mysql packages are present:
-
 ``` 
 dpkg -l | grep mysql - returns list of mysql packages.
 ```
@@ -333,10 +325,17 @@ dpkg -l | grep mysql - returns list of mysql packages.
 Use apt-get purge <package name> to purge them. 
 
 ``` 
-$ sudo apt-get install mysql-server 
+$ sudo apt-get install mysql-server (命令执行完成后会要求输入数据库密码)
 $ sudo apt install mysql-client 
 $ sudo apt install libmysqlclient-dev 
 ```
+> 替换了淘宝源后，mysql安装不了，把备份的初始源追加到淘宝源后面。
+>  
+>  ``` 
+>  $ cd /etc/apt  
+>  $ cat source.list.bak >> source.list  
+>  ```
+
 安装指定版本:
 ```
 # 依赖
@@ -533,7 +532,7 @@ sudo apt-get -f install libappindicator1 libindicator7
 ```
 
 ## Eclipse 的安装 
-进入下载页面 [https://www.eclipse.org/downloads/packages/](https://www.eclipse.org/downloads/packages/)
+进入下载页面 [https://www.1eclipse.org/downloads/packages/](https://www.eclipse.org/downloads/packages/)
 选择合适的系统版本点击下载. 
 
 

@@ -21,6 +21,8 @@ tags : [Java]
 path	classpath
 path variable is set for providing path for all java tools like java, javac, javap, javah, jar, appletviewer	classpath variable is set for provide path of all java classes which is used in our application.
 
+<!--break-->
+
 ### JDK Folder Hierarchy  
 
 ![](/images/2017-10-26-jdk-folder-hierarchy.png)

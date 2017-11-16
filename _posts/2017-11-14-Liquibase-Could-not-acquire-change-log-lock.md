@@ -14,6 +14,8 @@ Problem:
 Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'liquibase' defined in class path resource [stash-context.xml]: Invocation of init method failed; nested exception is liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by fe80:0:0:0:a00:27ff:fe6a:c787%2 (fe80:0:0:0:a00:27ff:fe6a:c787%2) since 12/6/12 2:08 PM 
 ```
 
+<!--break-->
+
 Cause
 The DATABASECHANGELOGLOCK table has not been updated with the release lock information.
 The likely cause of this is that the Stash instance was forced to quit while it was trying to migrate the database schema after an upgrade, with the consequence that the lock was not released. You should always wait for Stash to start up sufficiently for it to provide error messages if there are schema migration problems – never assume that it has hung and kill the process.

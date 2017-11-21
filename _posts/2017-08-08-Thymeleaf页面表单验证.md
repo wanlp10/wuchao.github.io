@@ -18,7 +18,7 @@ https://docs.spring.io/spring/docs/current/spring-framework-reference/html/valid
 
 https://www.mkyong.com/spring-mvc/combine-spring-validator-and-hibernate-validator/ 
 
-
+<!--break-->
 
 ### 前台验证
 

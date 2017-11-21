@@ -9,6 +9,9 @@ tags : [Ubuntu]
 # Ubuntu 系统开发环境的安装和配置
 ---
 
+<!--break-->
+
+
 ## Vim 的安装 
 
 > Ubuntu 无法安装 vim 软件包:  http://blog.csdn.net/haida_liudan/article/details/8768215

@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Difference between path and classpath in Java
-category : [JavaEE]
+category : [Java]
 tagline: "Supporting tagline"
-tags : [Java]
+tags : [Java, path, classpath]
 ---
 {% include JB/setup %}
 # Difference between path and classpath in Java
@@ -17,9 +17,10 @@ tags : [Java]
 ### classpath  
 `classpath` variable is set for providing path of all Java classes which is used in our application. All classes are available in lib/rt.jar so we set classpath upto lib/rt.jar.
 
-### Difference between path and classPath
-path	classpath
-path variable is set for providing path for all java tools like java, javac, javap, javah, jar, appletviewer	classpath variable is set for provide path of all java classes which is used in our application.
+### Difference between path and classPath 
+path variable is set for providing path for all java tools like java, javac, javap, javah, jar, appletviewer	
+
+classpath variable is set for provide path of all java classes which is used in our application.
 
 <!--break-->
 

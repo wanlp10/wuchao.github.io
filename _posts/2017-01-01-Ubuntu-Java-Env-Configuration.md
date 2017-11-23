@@ -1,13 +1,16 @@
 ---
 layout: post
 title: Ubuntu 系统的开发环境安装和配置
-category : [Ubuntu, Java]
+category : [Ubuntu]
 tagline: "Supporting tagline"
-tags : [Ubuntu, Java]
+tags : [Ubuntu]
 ---
 {% include JB/setup %}
-# Ubuntu 系统的开发环境安装和配置
+# Ubuntu 系统开发环境的安装和配置
 ---
+
+<!--break-->
+
 
 ## Vim 的安装 
 
@@ -17,6 +20,14 @@ tags : [Ubuntu, Java]
 ($ sudo apt-get remove vim-common)
 $ sudo apt-get install vim
 ``` 
+如果出现下面的错误：
+``` 
+google-chrome-stable : 依赖: libappindicator1 但是它将不会被安装 
+```
+解决办法： 
+``` 
+sudo apt-get -f install libappindicator1 libindicator7 
+```
 
 <!--break-->
 
@@ -62,18 +73,12 @@ $ sudo apt-get update
 $ sudo apt-get upgrade 
 ```
 
-
-
-## Idea 的安装 
-
-
-
-
 ## JDK 的安装  
-
-> http://www.linuxidc.com/Linux/2016-11/136958.htm   
-> http://blog.csdn.net/gobitan/article/details/24322561  
-> http://www.wikihow.com/Install-Oracle-Java-JDK-on-Ubuntu-Linux  
+> [http://www.linuxidc.com/Linux/2016-11/136958.htm](http://www.linuxidc.com/Linux/2016-11/136958.htm)
+>    
+> [http://blog.csdn.net/gobitan/article/details/24322561](http://blog.csdn.net/gobitan/article/details/24322561)   
+> 
+> [http://www.wikihow.com/Install-Oracle-Java-JDK-on-Ubuntu-Linux](http://www.wikihow.com/Install-Oracle-Java-JDK-on-Ubuntu-Linux)   
 
 ### 1 JRE vs OpenJDK vs [Oracle](http://www.linuxidc.com/topicnews.aspx?tid=12) JDK 
 
@@ -132,7 +137,7 @@ sudo apt-get install default-jdk
 
 在`Ubuntu`和`Linux Mint`上安装`Oracle JDK`
 
-##### 3.2.1 使用源安装
+##### 3.2.1 使用源安装（推荐方式）
 
 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：
 
@@ -170,11 +175,11 @@ JAVA_HOME=/usr/local/java/jdk1.8.0_144
 JRE_HOME=$JAVA_HOME/jre
 PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 export JAVA_HOME JRE_HOME PATH
-
 ```
 如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的 JAVA_HOME 即可
-
+``` 
 JAVA_HOME=/usr/lib/jvm/java-8-oracle 
+``` 
 
 #### 3.4 验证
 
@@ -200,36 +205,48 @@ OpenJDK 64-Bit Server VM (build 25.131-b11, mixed mode)
 
 ``` 
 # 配置 ubuntu 的 JDK 和 JRE 的位置
-$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk1.8.0_144/bin/java" 1
-$ sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk1.8.0_144/bin/javac" 1
-$ sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java/jdk1.8.0_144/bin/javaws" 1
+$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk1.8.0_131/bin/java" 1
+$ sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk1.8.0_131/bin/javac" 1
+$ sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java/jdk1.8.0_131/bin/javaws" 1
 
 
 # 配置 Oracle 为系统默认 JDK/JRE
-$ sudo update-alternatives --set java /usr/local/java/jdk1.8.0_144/bin/java
-$ sudo update-alternatives --set javac /usr/local/java/jdk1.8.0_144/bin/javac
-$ sudo update-alternatives --set javaws /usr/local/java/jdk1.8.0_144/bin/javaws
+$ sudo update-alternatives --set java /usr/local/java/jdk1.8.0_131/bin/java
+$ sudo update-alternatives --set javac /usr/local/java/jdk1.8.0_131/bin/javac
+$ sudo update-alternatives --set javaws /usr/local/java/jdk1.8.0_131/bin/javaws
+```   
+
+## Git 的安装
+
+### 安装   
+
+> http://blog.csdn.net/yhl_leo/article/details/50760140 
+
+``` 
+$ sudo add-apt-repository ppa:git-core/ppa 
+$ sudo apt-get update
+$ sudo apt-get install git  
+$ git --version 
 ```
 
+## Gradle 的安装   
 
-## Gradle 的安装
+### 安装   
 
 > [install gradle](https://gradle.org/install)  
 
-### 1 package manager 安装  
+#### 方法1 package manager 安装  
 
 [SDKMAN!](http://sdkman.io/) is a tool for managing parallel versions of multiple Software Development Kits on most Unix-based systems.
 
 ```
 $ sdk install gradle 4.0.1
-
 ```
 
 [Homebrew](http://brew.sh/) is “the missing package manager for macOS”.
 
 ```
-$ brew update && brew install gradle
-
+$ brew update && brew install gradle   
 ```
 
 [Scoop](http://scoop.sh/) is a command-line installer for Windows inspired by Homebrew.
@@ -238,7 +255,7 @@ $ brew update && brew install gradle
 $ scoop install gradle 
 ```
 
-### 2 下载 Gradle distribution 包安装
+#### 方法2 下载 Gradle distribution 包安装
 
 http://blog.csdn.net/stwstw0123/article/details/47809189  
 
@@ -248,19 +265,19 @@ http://blog.csdn.net/stwstw0123/article/details/47809189
 >
 > 所以，起码到现在 (2015-08-20), 不要用`$sudo apt-get install gradle`来安装 *gradle*，如果安装了，要用 `$ sudo apt-get remove gradle`卸载掉。 
 
-#### 下载 Gradle distribution 
+##### 下载 Gradle distribution 
 
 ``` 
 distribution 的地址： https://services.gradle.org/distributions/
 ```
 
-#### 安装
+##### 安装
 
 ``` 
 $ sudo unzip gradle-2.6-all.zip -d /opt/gradle/ 
 ```
 
-#### 配置 
+##### 配置 
 
 ``` 
 $ sudo vim /etc/profile
@@ -273,7 +290,7 @@ export GRADLE_HOME=/opt/gradle/gradle-2.6
 export PATH=$GRADLE_HOME/bin:$PATH 
 ```
 
-#### 重启
+##### 重启
 
 重启机器，然后就可以运行 `gradle -v`
 
@@ -282,13 +299,12 @@ $ sudo reboot
 $ gradle -v 
 ```
 
-### 3 Upgrade with the Gradle Wrapper 
+#### 方法3 Upgrade with the Gradle Wrapper 
 
 If your existing Gradle-based build uses the [Gradle Wrapper](https://docs.gradle.org/4.0.1/userguide/gradle_wrapper.html), you can easily upgrade by running the `wrapper` task, specifying the desired Gradle version:
 
 ```
-$ ./gradlew wrapper --gradle-version=4.0.1 --distribution-type=bin
-
+$ ./gradlew wrapper --gradle-version=4.0.1 --distribution-type=bin 
 ```
 
 Note that it is not necessary for Gradle to be installed to use the Gradle wrapper. The next invocation of `gradlew` or `gradlew.bat` will download and cache the specified version of Gradle.
@@ -299,33 +315,12 @@ Downloading https://services.gradle.org/distributions/gradle-4.0.1-bin.zip
 ... 
 ```
 
-
-
-## Git 的安装 (apt 方式)
-
-> http://blog.csdn.net/yhl_leo/article/details/50760140 
-
-``` 
-$ sudo add-apt-repository ppa:git-core/ppa 
-$ sudo apt-get update
-$ sudo apt-get install git  
-$ git --version 
-```
-
-
-
 ## Mysql 的安装 
 
-替换了淘宝源后，mysql安装不了，把备份的初始源追加到淘宝源后面。
-
-``` 
-$ cd /etc/apt  
-$ cat source.list.bak >> source.list  
-```
+### 安装   
 
 安装 mysql-server： 
 Update: Before installing mysql, make sure that no other mysql packages are present:
-
 ``` 
 dpkg -l | grep mysql - returns list of mysql packages.
 ```
@@ -333,10 +328,17 @@ dpkg -l | grep mysql - returns list of mysql packages.
 Use apt-get purge <package name> to purge them. 
 
 ``` 
-$ sudo apt-get install mysql-server 
+$ sudo apt-get install mysql-server (命令执行完成后会要求输入数据库密码)
 $ sudo apt install mysql-client 
 $ sudo apt install libmysqlclient-dev 
 ```
+> 替换了淘宝源后，mysql安装不了，把备份的初始源追加到淘宝源后面。
+>  
+>  ``` 
+>  $ cd /etc/apt  
+>  $ cat source.list.bak >> source.list  
+>  ```
+
 安装指定版本:
 ```
 # 依赖
@@ -363,7 +365,7 @@ $ tar -xvf mysql-server_5.6.34-1ubuntu14.04_amd64.deb-bundle.tar
 CREATE DATABASE test2 DEFAULT CHARACTER SET utf8;  
 ```
 
-## Mysql 的卸载 
+### 卸载 
 > http://www.linuxidc.com/Linux/2013-04/82934.htm 
 
 ``` 
@@ -387,8 +389,10 @@ sudo apt-get update
 sudo apt-get install curl  
 ```
 
-## Node.JS 安装
-包方式安装
+## Node.JS 的安装 
+
+### 安装 
+#### 方法1 包方式安装(推荐方式)
 ``` 
 $ sudo apt-get install -y python-software-properties software-properties-common
 $ sudo add-apt-repository ppa:chris-lea/node.js
@@ -398,12 +402,9 @@ $ nodejs -v
 
 $ sudo apt install nodejs-legacy
 $ node -v 
-
-$ sudo apt-get install npm 
-$ npm -v 
 ```  
 
-源码方式安装 
+#### 方法2 源码方式安装 
 > http://blog.csdn.net/awj3584/article/details/18401539  
 
 ``` 
@@ -415,33 +416,34 @@ $ sudo apt-get install python
 $ sudo apt-get install build-essential 
 $ sudo apt-get install gcc 
 $ sudo apt-get install g++ 
-
+  
 # 解压
 tar -xzf node-latest.tar.gz 
 cd node-latest.tar.gz 
-
+  
 # 编译并安装
 ./configure
 make
 make install 
-
+  
 # 测试安装成功
 node -v  
 ```
 
-卸载
+### 卸载
 ``` 
 $ sudo apt-get autoremove nodejs-legacy
 $ sudo apt-get autoremove nodejs 
+$ sudo rm -fr /usr/local/bin/node (which node 命令查看路经)
+此时输入 node -v,没有打印版本号. 
 ```
 
-nodejs 更新 
+### 更新 
 ```
+$ sudo chmod -R 777 /usr/local 
 $ sudo npm install -g n
 $ n stable
-
 ```
-
 如果此时报：
 ``` 
 cp: 无法获取 "/usr/local/n/versions/node/0.10.40/bin" 的文件状态 (stat): 没有那个文件或目录
@@ -468,13 +470,18 @@ $ sudo rm -fr /usr/local/n/versions/node/
 v8.4.0
 ```
 
-## Yarn 安装
+### 使用淘宝源 
+``` 
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+```
+
+## Yarn 的安装
 ``` 
 $ sudo npm install -g yarn 
 $ yarn -v 
 ```
 
-## Bower 安装
+## Bower 的安装
 ``` 
 # npm 方式安装
 $ sudo npm install -g bower
@@ -485,14 +492,60 @@ $
 $ bower -v  
 ```
 
-## Atom 安装
+## Gulp 的安装
+``` 
+npm install --global gulp-cli
+```
+
+## openssh-server 的安装
+安装
+``` 
+sudo apt-get install openssh-server
+```
+输入下面命令检查是否安装成功
+``` 
+ps -e|grep ssh
+```
+
+## Google Chrome 的安装 
+> [Ubuntu14.04下安装google chrome浏览器](http://blog.csdn.net/xuwenneng/article/details/52316743) 
+``` 
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
+dpkg -i google-chrome-stable_current_amd64.deb
+```
+安装时若提示：
+``` 
+dpkg: 依赖关系问题使得 google-chrome-stable 的配置工作不能继续：
+ google-chrome-stable 依赖于 libappindicator1；然而：
+  未安装软件包 libappindicator1。
+```
+解决办法：
+``` 
+sudo apt-get -f install libappindicator1 libindicator7
+```
+
+## IntelliJ IDEA 的安装 
+下载安装包
+
+解压
+
+运行启动脚本:
+``` 
+./bin/idea.sh 
+```
+
+## Eclipse 的安装 
+进入下载页面 [https://www.1eclipse.org/downloads/packages/](https://www.eclipse.org/downloads/packages/)
+选择合适的系统版本点击下载. 
+
+
+## Atom 的安装
 ``` 
 sudo add-apt-repository ppa:webupd8team/atom 
 
 sudo apt-get update  
 
 sudo apt-get install atom 
-
 ```
 
 

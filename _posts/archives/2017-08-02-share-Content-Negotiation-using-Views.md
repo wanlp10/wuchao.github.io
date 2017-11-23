@@ -28,7 +28,7 @@ https://zhidao.baidu.com/link?url=7HnHsR-s4AxVw4YSkuThV-pKEqZchyOS-QTyCCpiNNwnMA
 > - URL parameter (eg. ?format=jpg)
 > - HTTP Accept header (eg. Accept: image/jpg)  
 
-
+<!--break-->
 
 Spring 默认是根据 extension 判断而不是 `Accept` header ,如果你实现了一个 `@Configuration` 类并继承了 `WebMvcConfigurerAdapter`  类, 这种默认的行为将会被改变. 
 

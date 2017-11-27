@@ -1,13 +1,15 @@
 ---
 layout: post
 title: 表单重复提交
-category : [Spring]
+category : [Java]
 tagline: "Supporting tagline"
-tags : [Spring，form]
+tags : [Java, 表单重复提交]
 ---
 {% include JB/setup %}
 # 表单重复提交
 ---
+
+
 
 
 

@@ -369,9 +369,7 @@ CREATE DATABASE test2 DEFAULT CHARACTER SET utf8;
 
 ``` 
 # 删除 mysql
-
 $ sudo apt-get autoremove --purge mysql-server-5.x
-
 $ sudo apt-get remove mysql-common
 
 # 清理残留数据
@@ -382,9 +380,7 @@ $ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
 ## CRUL 安装 
 ``` 
 sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports  
-  
 sudo apt-get update  
-  
 sudo apt-get install curl  
 ```
 
@@ -399,8 +395,8 @@ $ sudo apt-get update
 $ sudo apt-get install nodejs  
 $ nodejs -v
 
-$ sudo apt install nodejs-legacy
-$ node -v 
+$ sudo apt-get install nodejs-legacy
+$ node -v
 ```  
 
 #### 方法2 源码方式安装 
@@ -546,5 +542,3 @@ sudo apt-get update
 
 sudo apt-get install atom 
 ```
-
-

@@ -329,8 +329,8 @@ Use apt-get purge <package name> to purge them.
 
 ``` 
 $ sudo apt-get install mysql-server (命令执行完成后会要求输入数据库密码)
-$ sudo apt install mysql-client 
-$ sudo apt install libmysqlclient-dev 
+$ sudo apt-get install mysql-client 
+$ sudo apt-get install libmysqlclient-dev 
 ```
 > 替换了淘宝源后，mysql安装不了，把备份的初始源追加到淘宝源后面。
 >  
@@ -343,7 +343,6 @@ $ sudo apt install libmysqlclient-dev
 ```
 # 依赖
 $ sudo apt-get install mysql-client-core-5.6 mysql-client-5.6 
-
 $ apt-get install mysql-server-5.6
 ``` 
 或者通过下载安装包安装指定版本:   

@@ -11,6 +11,41 @@ tags : [Ubuntu]
 
 <!--break-->
 
+## unetbootin 的安装 
+> [ubuntu下制作u盘启动盘](http://blog.csdn.net/l0605020112/article/details/20048899) 
+> 
+> [Ubuntu下格式化U盘的方法(基于格式化命令)](http://mtoou.info/ubuntu-geshihua-upan/)
+
+### 安装u盘制作工具unetbootin 
+``` 
+sudo apt-get install unetbootin 
+``` 
+
+### 格式化u盘 
+对于要格式化的分区必须要先用umount卸载掉才能格式化： 
+```  
+sudo fdisk -l #查看U盘盘符，假设为/dev/sdb
+sudo umount /dev/sdb #先卸载u盘
+```
+
+格式化为FAT分区（对于u盘我们一般格式化为FAT格式或者FAT32格式，不过在linux下这些会都显示为FAT格式。）：
+``` 
+sudo mkfs.vfat -F 32 /dev/sdb  #格式化为fat32格式
+``` 
+
+格式化为NTFS分区，先要安装ntfsprogs： 
+``` 
+sudo apt-get install ntfsprogs 
+sudo mkfs.ntfs /dev/sdb
+```
+
+格式化为ext4/3/2： 
+```  
+sudo mkfs.ext4 /dev/sda1 # 格式化为ext4分区
+sudo mkfs.ext3 /dev/sda1 # 格式化为ext3分区
+sudo mkfs.ext2 /dev/sda1 #格式化为ext2分区
+```
+
 
 ## Vim 的安装
 
@@ -386,7 +421,7 @@ sudo apt-get install curl
 ## Node.JS 的安装
 
 ### 安装
-#### 方法1 包方式安装(推荐方式)
+#### 方法1 包方式安装gong(推荐方式)
 ```
 $ sudo apt-get install -y python-software-properties software-properties-common
 $ sudo add-apt-repository ppa:chris-lea/node.js

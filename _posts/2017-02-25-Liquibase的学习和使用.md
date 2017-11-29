@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Liquibase 的学习和使用
-category : [JavaEE]
+category : [JavaEE, Liquibase]
 tagline: "Supporting tagline"
 tags : [Liquibase]
 ---

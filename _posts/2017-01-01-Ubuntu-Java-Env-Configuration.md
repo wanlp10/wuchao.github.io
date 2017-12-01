@@ -12,6 +12,7 @@ tags : [Ubuntu]
 <!--break-->
 
 ## unetbootin 的安装 
+
 > [ubuntu下制作u盘启动盘](http://blog.csdn.net/l0605020112/article/details/20048899) 
 > 
 > [Ubuntu下格式化U盘的方法(基于格式化命令)](http://mtoou.info/ubuntu-geshihua-upan/)

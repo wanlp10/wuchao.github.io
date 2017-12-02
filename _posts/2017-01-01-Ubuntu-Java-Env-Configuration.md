@@ -413,7 +413,7 @@ $ sudo apt-get remove mysql-common
 $ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P 
 ```
 
-## CRUL 安装 
+## curl 安装 
 ``` 
 sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports  
 sudo apt-get update  
@@ -553,6 +553,16 @@ dpkg: 依赖关系问题使得 google-chrome-stable 的配置工作不能继续�
 解决办法：
 ``` 
 sudo apt-get -f install libappindicator1 libindicator7
+``` 
+
+## shadowsocks 的安装 
+
+> [Ubuntu下ss的安装与使用](https://www.cnblogs.com/Dumblidor/p/5450248.html)  
+
+```  
+sudo apt-get install python-pip 
+sudo pip install shadowsocks
+sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080 
 ```
 
 ## IntelliJ IDEA 的安装 

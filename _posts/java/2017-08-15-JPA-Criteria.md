@@ -1,9 +1,9 @@
 ---
 layout: post
 title: JPA Criteria 
-category : [JavaEE, Hibernate]
+category : [JavaEE]
 tagline: "Supporting tagline"
-tags : [Java, Hibernate]
+tags : [Java, JPA]
 ---
 {% include JB/setup %}
 # JPA Criteria 查询 
@@ -12,7 +12,11 @@ tags : [Java, Hibernate]
 
 
 
-###  
+### 元模型（Metamodel）
+
+> [Hibernate JPA 2 Metamodel Generator](http://docs.jboss.org/hibernate/jpamodelgen/1.0/reference/en-US/html_single/) 
+
+
 
 ### JPA Criteria Multiselect 
 
@@ -235,3 +239,8 @@ public String index(@RequestParam(value = "activated", required = false, default
 }
 ```
 
+### Querydsl
+
+> 介绍： [Spring Data JPA with QueryDSL: Repositories made easy](http://dontpanic.42.nl/2011/06/spring-data-jpa-with-querydsl.html)
+> 
+> 

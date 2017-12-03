@@ -563,7 +563,9 @@ sudo apt-get -f install libappindicator1 libindicator7
 sudo apt-get install python-pip 
 sudo pip install shadowsocks
 sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080 
-```
+``` 
+-s后面跟你的服务器ip ， -p后面跟你远程端口号（默认8388） ，-k后面跟你的密码（写在双引号之间），其他的用默认选项就好。 
+
 
 ## IntelliJ IDEA 的安装 
 下载安装包

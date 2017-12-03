@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Java inner class
+title: Java 内部类
 category : [Java]
 tagline: "Supporting tagline"
 tags : [Java, 内部类]
 ---
 {% include JB/setup %}
-# Java anonymous inner class
+# Java 内部类
 --- 
 
 ### 内部类

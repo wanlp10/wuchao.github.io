@@ -11,6 +11,42 @@ tags : [Ubuntu]
 
 <!--break-->
 
+## unetbootin 的安装 
+
+> [ubuntu下制作u盘启动盘](http://blog.csdn.net/l0605020112/article/details/20048899) 
+> 
+> [Ubuntu下格式化U盘的方法(基于格式化命令)](http://mtoou.info/ubuntu-geshihua-upan/)
+
+### 安装u盘制作工具unetbootin 
+``` 
+sudo apt-get install unetbootin 
+``` 
+
+### 格式化u盘 
+对于要格式化的分区必须要先用umount卸载掉才能格式化： 
+```  
+sudo fdisk -l #查看U盘盘符，假设为/dev/sdb
+sudo umount /dev/sdb #先卸载u盘
+```
+
+格式化为FAT分区（对于u盘我们一般格式化为FAT格式或者FAT32格式，不过在linux下这些会都显示为FAT格式。）：
+``` 
+sudo mkfs.vfat -F 32 /dev/sdb  #格式化为fat32格式
+``` 
+
+格式化为NTFS分区，先要安装ntfsprogs： 
+``` 
+sudo apt-get install ntfsprogs 
+sudo mkfs.ntfs /dev/sdb
+```
+
+格式化为ext4/3/2： 
+```  
+sudo mkfs.ext4 /dev/sda1 # 格式化为ext4分区
+sudo mkfs.ext3 /dev/sda1 # 格式化为ext3分区
+sudo mkfs.ext2 /dev/sda1 #格式化为ext2分区
+```
+
 
 ## Vim 的安装 
 
@@ -329,8 +365,8 @@ Use apt-get purge <package name> to purge them.
 
 ``` 
 $ sudo apt-get install mysql-server (命令执行完成后会要求输入数据库密码)
-$ sudo apt install mysql-client 
-$ sudo apt install libmysqlclient-dev 
+$ sudo apt-get install mysql-client 
+$ sudo apt-get install libmysqlclient-dev 
 ```
 > 替换了淘宝源后，mysql安装不了，把备份的初始源追加到淘宝源后面。
 >  
@@ -343,7 +379,6 @@ $ sudo apt install libmysqlclient-dev
 ```
 # 依赖
 $ sudo apt-get install mysql-client-core-5.6 mysql-client-5.6 
-
 $ apt-get install mysql-server-5.6
 ``` 
 或者通过下载安装包安装指定版本:   
@@ -370,9 +405,7 @@ CREATE DATABASE test2 DEFAULT CHARACTER SET utf8;
 
 ``` 
 # 删除 mysql
-
 $ sudo apt-get autoremove --purge mysql-server-5.x
-
 $ sudo apt-get remove mysql-common
 
 # 清理残留数据
@@ -380,12 +413,10 @@ $ sudo apt-get remove mysql-common
 $ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P 
 ```
 
-## CRUL 安装 
+## curl 安装 
 ``` 
 sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports  
-  
 sudo apt-get update  
-  
 sudo apt-get install curl  
 ```
 
@@ -400,8 +431,8 @@ $ sudo apt-get update
 $ sudo apt-get install nodejs  
 $ nodejs -v
 
-$ sudo apt install nodejs-legacy
-$ node -v 
+$ sudo apt-get install nodejs-legacy
+$ node -v
 ```  
 
 #### 方法2 源码方式安装 
@@ -522,7 +553,19 @@ dpkg: 依赖关系问题使得 google-chrome-stable 的配置工作不能继续�
 解决办法：
 ``` 
 sudo apt-get -f install libappindicator1 libindicator7
-```
+``` 
+
+## shadowsocks 的安装 
+
+> [Ubuntu下ss的安装与使用](https://www.cnblogs.com/Dumblidor/p/5450248.html)  
+
+```  
+sudo apt-get install python-pip 
+sudo pip install shadowsocks
+sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080 
+``` 
+-s后面跟你的服务器ip ， -p后面跟你远程端口号（默认8388） ，-k后面跟你的密码（写在双引号之间），其他的用默认选项就好。 
+
 
 ## IntelliJ IDEA 的安装 
 下载安装包
@@ -547,5 +590,3 @@ sudo apt-get update
 
 sudo apt-get install atom 
 ```
-
-

@@ -519,9 +519,9 @@ private String groupAuthoritiesByUsernameQuery = "select g.id, g.group_name, ga.
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
+    @Autowired
     private DataSource dataSource;
-
+    
     @Override
     public void configure(WebSecurity webSecurity) {
         
@@ -1405,5 +1405,3 @@ public class UserServiceImpl implements UserService {
 
 
 ## Thymeleaf 与 Spring Security 
-
-http://elim.iteye.com/blog/2161056 

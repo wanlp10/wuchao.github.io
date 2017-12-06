@@ -3,7 +3,7 @@ layout: post
 title: JPA Criteria 
 category : [JavaEE]
 tagline: "Supporting tagline"
-tags : [Java, JPA]
+tags : [Java, JPA, Criteria, Querydsl]
 ---
 {% include JB/setup %}
 # JPA Criteria 查询 
@@ -241,6 +241,121 @@ public String index(@RequestParam(value = "activated", required = false, default
 
 ### Querydsl
 
-> 介绍： [Spring Data JPA with QueryDSL: Repositories made easy](http://dontpanic.42.nl/2011/06/spring-data-jpa-with-querydsl.html)
+> 介绍： [Spring Data JPA with QueryDSL: Repositories made easy](http://dontpanic.42.nl/2011/06/spring-data-jpa-with-querydsl.html) 
 > 
-> 
+> [QueryDSL+gradle+idea](http://blog.csdn.net/plm609337931/article/details/66968444?locationNum=4&fps=1)  
+>
+> [spring boot-jpa整合QueryDSL来简化复杂操作](http://blog.csdn.net/liuchuanhong1/article/details/70244261?utm_source=gold_browser_extension) 
+>
+> [Spring Boot JPA - Querydsl](https://lufficc.com/blog/spring-boot-jpa-querydsl) 
+
+#### 配置 
+build.gradle 
+``` 
+dependencies {
+    ... 
+    compile "com.querydsl:querydsl-jpa:4.1.4"
+    compile "com.querydsl:querydsl-apt:4.1.4:jpa"
+    ...
+}
+``` 
+启动项目后，会将项目中所有添加了 `@Entity` 注解的实体类会在 `src/main/generated/` 目录下生成对应的查询类型。每个查询类型都以大写字母Q开头。
+
+修改默认生成路径，在 build.gradle 中添加： 
+``` 
+apply plugin: 'idea'
+idea {
+    module {
+        sourceDirs += file('generated/')
+        generatedSourceDirs += file('generated/')
+    }
+}
+``` 
+
+然后在 idea 中设置：
+![](/images/2017-12-06-store-generated-sources-relative-to.png)   
+
+
+#### QueryDslPredicateExecutor 接口  
+继承了 QueryDslPredicateExecutor 接口和继承了 JpaRepository 接口一样，可以直接使用其自带的方法： 
+``` 
+public interface QueryDslPredicateExecutor<T> {  
+  
+    T findOne(Predicate predicate);  
+  
+    Iterable<T> findAll(Predicate predicate);  
+  
+    Iterable<T> findAll(Predicate predicate, Sort sort);  
+  
+    Iterable<T> findAll(Predicate predicate, OrderSpecifier<?>... orders);  
+  
+    Iterable<T> findAll(OrderSpecifier<?>... orders);  
+  
+    Page<T> findAll(Predicate predicate, Pageable pageable);  
+  
+    long count(Predicate predicate);  
+  
+    boolean exists(Predicate predicate);  
+}  
+```  
+示例： 
+``` 
+@GetMapping(value = {"", "/", "home", "/index", "/index.html"})
+public String index(@PageableDefault Pageable pageable, Model model) {
+    QBlog qBlog = QBlog.blog;
+    Predicate predicate = qBlog.id.gt(2);
+    //likeIgnoreCase() 方法实参前后要加上 % 
+    predicate = qBlog.title.containsIgnoreCase("spring").and(predicate);
+    Page<Blog> blogs = blogRepository.findAll(predicate, pageable);
+    model.addAttribute("articles", blogs);
+    return "blogs/index";
+}
+``` 
+然后请求： 
+``` 
+http://localhost:8008/blog?id=2&title=spring // 搜索id大于2并且标题忽略大小写匹配“spring”字符串
+```
+
+
+#### QueryDslPredicateExecutor 接口  
+Spring 参数支持解析 com.querydsl.core.types.Predicate，根据用户请求的参数自动生成 Predicate，这样搜索方法不用自己写啦，比如：
+``` 
+@GetMapping(value = {"", "/", "home", "/index", "/index.html"})
+public String index(@QuerydslPredicate(root = Blog.class) Predicate predicate, 
+                    @PageableDefault Pageable pageable, Model model) {
+    Page<Blog> blogs = blogRepository.findAll(predicate, pageable);
+    model.addAttribute("articles", blogs);
+    return "blogs/index";
+}
+``` 
+然后请求：
+``` 
+http://localhost:8080/blog?id=1 //列表页面仅显示id为1的博客
+``` 
+还可以自定义 Predicate，继承 QueryDslPredicateExecutor 接口： 
+``` 
+@GetMapping(value = {"", "/", "home", "/index", "/index.html"})
+public String index(@QuerydslPredicate(root = Blog.class) Predicate predicate,
+                    @PageableDefault Pageable pageable, Model model) {
+    Page<Blog> blogs = blogRepository.findAll(predicate, pageable);
+    model.addAttribute("articles", blogs);
+    return "blogs/index";
+}
+``` 
+
+``` 
+public interface BlogRepository extends JpaRepository<Blog, Long>, QueryDslPredicateExecutor<Blog>, QuerydslBinderCustomizer<QBlog> {
+
+    default void customize(QuerydslBindings bindings, QBlog root) {
+        bindings.bind(root.id).first((path, value) -> path.gt(value));
+        bindings.bind(root.title).first((StringPath path, String value) -> path.contains(value));
+    }
+}
+```
+然后请求：
+``` 
+http://localhost:8008/blog?id=2&title=xx //列表页面仅显示id大于2且标题含有xx字符串的博客
+```
+
+#### 单表操作 
+  

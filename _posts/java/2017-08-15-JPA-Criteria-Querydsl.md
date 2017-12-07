@@ -10,7 +10,7 @@ tags : [Java, JPA, Criteria, Querydsl]
 
 > [JPA criteria 查询: 类型安全与面向对象](http://blog.csdn.net/dracotianlong/article/details/28445725) 
 
-
+<!--break-->  
 
 ### 元模型（Metamodel）
 
@@ -242,14 +242,14 @@ public String index(@RequestParam(value = "activated", required = false, default
 ### Querydsl
 
 > 介绍： [Spring Data JPA with QueryDSL: Repositories made easy](http://dontpanic.42.nl/2011/06/spring-data-jpa-with-querydsl.html) 
-> 
-> [QueryDSL+gradle+idea](http://blog.csdn.net/plm609337931/article/details/66968444?locationNum=4&fps=1)  
->
-> [spring boot-jpa整合QueryDSL来简化复杂操作](http://blog.csdn.net/liuchuanhong1/article/details/70244261?utm_source=gold_browser_extension) 
->
-> [Spring Boot JPA - Querydsl](https://lufficc.com/blog/spring-boot-jpa-querydsl) 
+ 
+Querydsl 是一个类型安全的 Java 查询框架，支持 JPA, JDO, JDBC, Lucene, Hibernate Search 等标准。类型安全（Type safety）和一致性（Consistency）是它设计的两大准则。在 Spring Boot 中可以很好的弥补 JPA 的不灵活，实现更强大的逻辑。
+ 
 
 #### 配置 
+
+> [QueryDSL+gradle+idea](http://blog.csdn.net/plm609337931/article/details/66968444?locationNum=4&fps=1) 
+
 build.gradle 
 ``` 
 dependencies {
@@ -304,8 +304,9 @@ public interface QueryDslPredicateExecutor<T> {
 public String index(@PageableDefault Pageable pageable, Model model) {
     QBlog qBlog = QBlog.blog;
     Predicate predicate = qBlog.id.gt(2);
-    //likeIgnoreCase() 方法实参前后要加上 % 
+    // likeIgnoreCase() 方法实参前后要加上 % 
     predicate = qBlog.title.containsIgnoreCase("spring").and(predicate);
+    // 搜索id大于2并且标题忽略大小写匹配“spring”字符串
     Page<Blog> blogs = blogRepository.findAll(predicate, pageable);
     model.addAttribute("articles", blogs);
     return "blogs/index";
@@ -313,7 +314,7 @@ public String index(@PageableDefault Pageable pageable, Model model) {
 ``` 
 然后请求： 
 ``` 
-http://localhost:8008/blog?id=2&title=spring // 搜索id大于2并且标题忽略大小写匹配“spring”字符串
+http://localhost:8008/blog 
 ```
 
 
@@ -331,7 +332,9 @@ public String index(@QuerydslPredicate(root = Blog.class) Predicate predicate,
 然后请求：
 ``` 
 http://localhost:8080/blog?id=1 //列表页面仅显示id为1的博客
-``` 
+```  
+> 字符串会自动忽略大小写，但是不能模糊匹配，必须要全文匹配。
+
 还可以自定义 Predicate，继承 QueryDslPredicateExecutor 接口： 
 ``` 
 @GetMapping(value = {"", "/", "home", "/index", "/index.html"})
@@ -348,14 +351,103 @@ public interface BlogRepository extends JpaRepository<Blog, Long>, QueryDslPredi
 
     default void customize(QuerydslBindings bindings, QBlog root) {
         bindings.bind(root.id).first((path, value) -> path.gt(value));
-        bindings.bind(root.title).first((StringPath path, String value) -> path.contains(value));
+        bindings.bind(root.title).first((StringPath path, String value) -> path.containsIgnoreCase(value));
     }
 }
 ```
-然后请求：
+
+然后请求： 
+
 ``` 
-http://localhost:8008/blog?id=2&title=xx //列表页面仅显示id大于2且标题含有xx字符串的博客
+http://localhost:8008/blog?id=2&title=xx // 列表页面仅显示id大于2且标题忽略大小写匹配xx字符串的博客
 ```
 
-#### 单表操作 
-  
+#### 类 SQL 查询 
+
+> [spring boot-jpa整合QueryDSL来简化复杂操作](http://blog.csdn.net/liuchuanhong1/article/details/70244261?utm_source=gold_browser_extension) 
+>
+> [Spring Boot JPA - Querydsl](https://lufficc.com/blog/spring-boot-jpa-querydsl) 
+> 
+> [QueryDSL JPA 查询示例](http://blog.csdn.net/xichenguan/article/details/75039816)  
+
+配置 JPAQueryFactory： 
+``` 
+import com.querydsl.jpa.HQLTemplates;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.persistence.EntityManager;
+
+@Configuration
+public class JpaConfiguration {
+
+    @Bean
+    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
+        return new JPAQueryFactory(new HQLTemplates(), entityManager);
+    }
+
+}
+``` 
+
+查询： 
+``` 
+@Autowired
+private JPAQueryFactory queryFactory;
+
+@GetMapping(value = {"", "/", "home", "/index", "/index.html"})
+public String index(@PageableDefault Pageable pageable, Model model) {
+    QBlog qBlog = QBlog.blog;
+
+//        String title = queryFactory.select(qBlog.title).from(qBlog).where(qBlog.id.eq(Long.valueOf(1))).fetchFirst();
+//        System.out.println("title: " + title);
+
+    List<Blog> blogList = queryFactory.selectFrom(qBlog)
+            .where(qBlog.title.containsIgnoreCase("spring"))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .orderBy(qBlog.createdDate.desc())
+            .fetch();
+    Long totalElements = queryFactory.selectFrom(qBlog).where(qBlog.title.containsIgnoreCase("spring")).fetchCount();
+    Page<Blog> blogs = new PageImpl<Blog>(blogList, pageable, totalElements);
+
+    model.addAttribute("articles", blogs);
+
+    return "blogs/index";
+}
+``` 
+
+结合 @QuerydslPredicate 查询： 
+``` 
+@Autowired
+private JPAQueryFactory queryFactory; 
+
+@GetMapping(value = {"", "/", "home", "/index", "/index.html"})
+public String index(@QuerydslPredicate(root = Blog.class) Predicate predicate,
+                    @PageableDefault Pageable pageable, Model model) {
+    QBlog qBlog = QBlog.blog;
+
+    List<Blog> blogList = queryFactory.selectFrom(qBlog)
+            .where(predicate)
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .orderBy(qBlog.createdDate.desc())
+            .fetch();
+
+    Long totalElements = queryFactory.selectFrom(qBlog).where(predicate).fetchCount();
+    Page<Blog> blogs = new PageImpl<Blog>(blogList, pageable, totalElements);
+
+    model.addAttribute("articles", blogs);
+
+    return "blogs/index";
+}
+``` 
+
+然后请求： 
+
+``` 
+http://localhost:8008/blog?title=spring // 列表页显示忽略大小写模糊匹配”spring“字符串的博客
+```
+
+#### JPAExpressions 
+

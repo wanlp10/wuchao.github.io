@@ -43,6 +43,8 @@ $ go version
 go version go1.9.2 linux/amd64 
 ```  
 
+<!--break-->   
+
 ### 在 idea 中的使用 
 
 #### 在 idea 中安装 “go” 插件。

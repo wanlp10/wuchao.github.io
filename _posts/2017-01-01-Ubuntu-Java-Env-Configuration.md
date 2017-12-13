@@ -19,32 +19,32 @@ tags : [Ubuntu]
 
 ### 安装u盘制作工具unetbootin 
 ``` 
-sudo apt-get install unetbootin 
+$ sudo apt-get install unetbootin 
 ``` 
 
 ### 格式化u盘 
 对于要格式化的分区必须要先用umount卸载掉才能格式化： 
 ```  
-sudo fdisk -l #查看U盘盘符，假设为/dev/sdb
-sudo umount /dev/sdb #先卸载u盘
+$ sudo fdisk -l #查看U盘盘符，假设为/dev/sdb
+$ sudo umount /dev/sdb #先卸载u盘
 ```
 
 格式化为FAT分区（对于u盘我们一般格式化为FAT格式或者FAT32格式，不过在linux下这些会都显示为FAT格式。）：
 ``` 
-sudo mkfs.vfat -F 32 /dev/sdb  #格式化为fat32格式
+$ sudo mkfs.vfat -F 32 /dev/sdb  #格式化为fat32格式
 ``` 
 
 格式化为NTFS分区，先要安装ntfsprogs： 
 ``` 
-sudo apt-get install ntfsprogs 
-sudo mkfs.ntfs /dev/sdb
+$ sudo apt-get install ntfsprogs 
+$ sudo mkfs.ntfs /dev/sdb
 ```
 
 格式化为ext4/3/2： 
 ```  
-sudo mkfs.ext4 /dev/sda1 # 格式化为ext4分区
-sudo mkfs.ext3 /dev/sda1 # 格式化为ext3分区
-sudo mkfs.ext2 /dev/sda1 #格式化为ext2分区
+$ sudo mkfs.ext4 /dev/sda1 # 格式化为ext4分区
+$ sudo mkfs.ext3 /dev/sda1 # 格式化为ext3分区
+$ sudo mkfs.ext2 /dev/sda1 #格式化为ext2分区
 ```
 
 
@@ -135,7 +135,7 @@ $ sudo apt-get upgrade
 打开终端，使用下面的命令：
 
 ```
-java -version
+$ java -version
 ```
 
 如果你看到像下面的输出，这就意味着你并没有安装过 Java:
@@ -163,8 +163,8 @@ Try: sudo apt-get install
 在终端，使用下面的命令安装 OpenJDK Java 开发工具包：
 
 ```
-sudo apt-get install default-jre
-sudo apt-get install default-jdk
+$ sudo apt-get install default-jre
+$ sudo apt-get install default-jdk
 ```
 
 特殊地, 如果你想要安装 `Java 7` 或者 `Java 6` 等等，你可以使用 `openjdk-7-jdk/openjdk-6jdk`, 但是记住在此之前安装 `openjdk-7-jre/openjdk-6-jre`
@@ -178,10 +178,10 @@ sudo apt-get install default-jdk
 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：
 
 ```
-sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
-sudo apt-get install oracle-java8-installer
-sudo apt-get install oracle-java8-set-default
+$ sudo add-apt-repository ppa:webupd8team/java
+$ sudo apt-get update
+$ sudo apt-get install oracle-java8-installer
+$ sudo apt-get install oracle-java8-set-default
 ```
 
 如果你想安装`Java 7(i.e Java 1.7)`, 在上面的命令中用`java7`代替`java8`.
@@ -201,7 +201,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 使用如下命令解压：
 
 ```
-sudo tar zxvf ./jdk-8u144-linux-x64.tar.gz
+$ sudo tar zxvf ./jdk-8u144-linux-x64.tar.gz
 ```
 
 #### 3.3 配置环境变量 
@@ -222,7 +222,7 @@ JAVA_HOME=/usr/lib/jvm/java-8-oracle
 通过以上步骤，JDK 已安装完成，输入以下命令验证。
 
 ``` 
-java -version
+$ java -version
 ```
 正确打印：
 ``` 
@@ -310,7 +310,7 @@ distribution 的地址： https://services.gradle.org/distributions/
 ##### 安装
 
 ``` 
-$ sudo unzip gradle-2.6-all.zip -d /opt/gradle/ 
+$ sudo unzip gradle-3.5-bin.zip -d /usr/local/gradle/ 
 ```
 
 ##### 配置 
@@ -322,16 +322,17 @@ $ sudo vim /etc/profile
 文件末尾添加：
 
 ```
-export GRADLE_HOME=/opt/gradle/gradle-2.6
+export GRADLE_HOME=/usr/local/gradle/gradle-3.5
 export PATH=$GRADLE_HOME/bin:$PATH 
+``` 
+
+载执行： 
+``` 
+$ source /etc/profile 
 ```
 
-##### 重启
-
-重启机器，然后就可以运行 `gradle -v`
-
+##### 验证
 ```
-$ sudo reboot
 $ gradle -v 
 ```
 
@@ -358,7 +359,7 @@ Downloading https://services.gradle.org/distributions/gradle-4.0.1-bin.zip
 安装 mysql-server： 
 Update: Before installing mysql, make sure that no other mysql packages are present:
 ``` 
-dpkg -l | grep mysql - returns list of mysql packages.
+$ dpkg -l | grep mysql - returns list of mysql packages.
 ```
 
 Use apt-get purge <package name> to purge them. 
@@ -413,11 +414,11 @@ $ sudo apt-get remove mysql-common
 $ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P 
 ```
 
-## curl 安装 
+## curl 的安装 
 ``` 
-sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports  
-sudo apt-get update  
-sudo apt-get install curl  
+$ sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports  
+$ sudo apt-get update  
+$ sudo apt-get install curl  
 ```
 
 ## Node.JS 的安装 
@@ -434,6 +435,11 @@ $ nodejs -v
 $ sudo apt-get install nodejs-legacy
 $ node -v
 ```  
+Deepin 系统安装完成后没有默认安装 npm，需要手动安装： 
+``` 
+$ sudo apt-get install npm 
+$ npm -v 
+```
 
 #### 方法2 源码方式安装 
 > http://blog.csdn.net/awj3584/article/details/18401539  
@@ -449,16 +455,16 @@ $ sudo apt-get install gcc
 $ sudo apt-get install g++ 
   
 # 解压
-tar -xzf node-latest.tar.gz 
-cd node-latest.tar.gz 
+$ tar -xzf node-latest.tar.gz 
+$ cd node-latest.tar.gz 
   
 # 编译并安装
-./configure
-make
-make install 
+$ ./configure
+$ make
+$ make install 
   
 # 测试安装成功
-node -v  
+$ node -v  
 ```
 
 ### 卸载
@@ -503,7 +509,7 @@ v8.4.0
 
 ### 使用淘宝源 
 ``` 
-npm install -g cnpm --registry=https://registry.npm.taobao.org
+$ npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 
 ## Yarn 的安装
@@ -525,23 +531,35 @@ $ bower -v
 
 ## Gulp 的安装
 ``` 
-npm install --global gulp-cli
+$ npm install --global gulp-cli
 ```
 
 ## openssh-server 的安装
 安装
 ``` 
-sudo apt-get install openssh-server
+$ sudo apt-get install openssh-server
 ```
 输入下面命令检查是否安装成功
 ``` 
-ps -e|grep ssh
+$ ps -e|grep ssh
+``` 
+
+## Lantern 的安装 
+下载安装包（https://github.com/getlantern/lantern），Deepin 操作系统也可以下载 Ubuntu 的安装包。
+
+安装：
+``` 
+$ sudo dpkg -i lantern-installer-64-bit.deb  
+``` 
+Deepin 安装好之后启动不起来，解决办法： 
+``` 
+$ sudo apt-get install libappindicator3-dev -y  
 ```
 
 ## Google Chrome 的安装 
 > [Ubuntu14.04下安装google chrome浏览器](http://blog.csdn.net/xuwenneng/article/details/52316743) 
 ``` 
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
+$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
 dpkg -i google-chrome-stable_current_amd64.deb
 ```
 安装时若提示：
@@ -552,7 +570,7 @@ dpkg: 依赖关系问题使得 google-chrome-stable 的配置工作不能继续�
 ```
 解决办法：
 ``` 
-sudo apt-get -f install libappindicator1 libindicator7
+$ sudo apt-get -f install libappindicator1 libindicator7
 ``` 
 
 ## shadowsocks 的安装 
@@ -560,9 +578,9 @@ sudo apt-get -f install libappindicator1 libindicator7
 > [Ubuntu下ss的安装与使用](https://www.cnblogs.com/Dumblidor/p/5450248.html)  
 
 ```  
-sudo apt-get install python-pip 
-sudo pip install shadowsocks
-sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080 
+$ sudo apt-get install python-pip 
+$ sudo pip install shadowsocks
+$ sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080 
 ``` 
 -s后面跟你的服务器ip ， -p后面跟你远程端口号（默认8388） ，-k后面跟你的密码（写在双引号之间），其他的用默认选项就好。 
 
@@ -574,7 +592,7 @@ sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080
 
 运行启动脚本:
 ``` 
-./bin/idea.sh 
+$ ./bin/idea.sh 
 ```
 
 ## Eclipse 的安装 
@@ -584,9 +602,7 @@ sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080
 
 ## Atom 的安装
 ``` 
-sudo add-apt-repository ppa:webupd8team/atom 
-
-sudo apt-get update  
-
-sudo apt-get install atom 
+$ sudo add-apt-repository ppa:webupd8team/atom 
+$ sudo apt-get update  
+$ sudo apt-get install atom 
 ```

@@ -459,6 +459,8 @@ $ node -v
 # 安装 npm （nodejs默认npm，但是有时安装后没有安装npm，可以试着先升级看看是否安装了npm）
 $ sudo apt-get install npm
 $ npm -v
+# 更新 npm 
+$ sudo npm i -g npm  
 ```
 
 #### 方法2 源码方式安装
@@ -631,7 +633,9 @@ $ sudo dpkg -i sogoupinyin_2.2.0.0102_amd64.deb
 重启电脑：
 ```
 sudo reboot 
-```
+``` 
+搜狗输入法只能输入英文不能输入中文：    
+打开 Home 目录窗口，按 `Ctrl + H` 快捷键查看当前目录的隐藏文件和文件夹。找到 `.config` 文件夹，删除其中的 `SogouPY`，`SogouPY.users` 和 `sogou-qimpanel` 这三个文件夹，重启电脑。 
 
 
 ## IntelliJ IDEA 的安装

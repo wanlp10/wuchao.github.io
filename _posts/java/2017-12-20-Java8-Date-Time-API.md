@@ -20,6 +20,8 @@ tags : [Java, Date, Time]
 
 在现有的日期和日历类中定义的方法还存在一些其他的问题，但以上问题已经很清晰地表明：Java需要一个健壮的日期/时间类。这也是为什么Joda Time在Java日期/时间需求中扮演了高质量替换的重要角色。 
 
+<!--break--> 
+
 ### Java 8日期/时间API 
 Java 8日期/时间API是JSR-310的实现，它的实现目标是克服旧的日期时间实现中所有的缺陷，新的日期/时间API的一些设计原则是： 
 1. 不变性：新的日期/时间API中，所有的类都是不可变的，这对多线程环境有好处。
@@ -39,7 +41,8 @@ Java日期/时间API包含以下相应的包：
 ### Java日期/时间API示例 
 我们已经浏览了Java日期/时间API的大多数重要部分，现在是时候根据示例仔细看一下最重要的一些类了。
 1. java.time.LocalDate：LocalDate是一个不可变的类，它表示默认格式(yyyy-MM-dd)的日期，我们可以使用now()方法得到当前时间，也可以提供输入年份、月份和日期的输入参数来创建一个LocalDate实例。该类为now()方法提供了重载方法，我们可以传入ZoneId来获得指定时区的日期。该类提供与java.sql.Date相同的功能，对于如何使用该类，我们来看一个简单的例子： 
-``` 
+
+```  
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
@@ -84,6 +87,7 @@ public class LocalDateExample {
 }
 ``` 
 示例方法的详解都包含在注释内，当我们运行程序时，可以得到以下输出： 
+
 ``` 
 Current Date=2014-04-28
 Specific Date=2014-01-01
@@ -93,6 +97,7 @@ Current Date in IST=2014-04-29
 ``` 
 
 2. java.time.LocalTime：LocalTime是一个不可变的类，它的实例代表一个符合人类可读格式的时间，默认格式是hh:mm:ss.zzz。像LocalDate一样，该类也提供了时区支持，同时也可以传入小时、分钟和秒等输入参数创建实例，我们来看一个简单的程序，演示该类的使用方法： 
+
 ``` 
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -135,6 +140,7 @@ public class LocalTimeExample {
 }
 ```
 当运行以上程序时，可以看到如下输出： 
+
 ``` 
 Current Time=15:51:45.240
 Specific Time of Day=12:20:25.000000040
@@ -143,6 +149,7 @@ Current Time in IST=04:21:45.276
 ``` 
 
 3. java.time.LocalDateTime：LocalDateTime是一个不可变的日期-时间对象，它表示一组日期-时间，默认格式是yyyy-MM-dd-HH-mm-ss.zzz。它提供了一个工厂方法，接收LocalDate和LocalTime输入参数，创建LocalDateTime实例。我们来看一个简单的例子： 
+
 ``` 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -189,6 +196,7 @@ public class LocalDateTimeExample {
 ``` 
 在所有这三个例子中，我们已经看到如果我们提供了无效的参数去创建日期/时间，那么系统会抛出java.time.DateTimeException，这是一种运行时异常，我们并不需要显式地捕获它。
 同时我们也看到，能够通过传入ZoneId得到日期/时间数据，你可以从它的Javadoc中得到支持的Zoneid的列表，当运行以上类时，可以得到以下输出： 
+
 ``` 
 Current DateTime=2014-04-28T16:00:49.455
 Current DateTime=2014-04-28T16:00:49.493
@@ -198,6 +206,7 @@ Current Date in IST=2014-04-29T04:30:49.493
 ``` 
 
 4. java.time.Instant：Instant类是用在机器可读的时间格式上的，它以Unix时间戳的形式存储日期时间，我们来看一个简单的程序： 
+
 ``` 
 import java.time.Duration;
 import java.time.Instant;
@@ -224,6 +233,7 @@ public class InstantExample {
 ``` 
 <span style="font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif; font-size: 13px; line-height: 19px;">上述程序的输出是：</span>
 ``` 
+
 ``` 
 Current Timestamp = 2014-04-28T23:20:08.489Z
 Specific Time = 2014-04-28T23:20:08.489Z
@@ -231,6 +241,7 @@ PT720H
 ``` 
 
 5. 日期API工具：我们早些时候提到过，大多数日期/时间API类都实现了一系列工具方法，如：加/减天数、周数、月份数，等等。还有其他的工具方法能够使用TemporalAdjuster调整日期，并计算两个日期间的周期： 
+
 ``` 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -273,6 +284,7 @@ public class DateAPIUtilities {
 }
 ``` 
 上述程序的输出是：
+
 ``` 
 Year 2014 is Leap Year? false
 Today is before 01/01/2015? true
@@ -290,6 +302,7 @@ Months remaining in the year= 8
 ``` 
 
 6. 解析和格式化：将一个日期格式转换为不同的格式，之后再解析一个字符串，得到日期时间对象，这些都是很常见的。我们来看一下简单的例子： 
+
 ``` 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -328,6 +341,7 @@ public class DateParseFormatExample {
 }
 ``` 
 当运行以上程序时，可以看到如下输出： 
+
 ``` 
 Default format of LocalDate=2014-04-28
 28::Apr::2014
@@ -340,6 +354,7 @@ Default format after parsing = 2014-04-27T21:39:48
 ``` 
 
 7. 旧的日期时间支持：旧的日期/时间类已经在几乎所有的应用程序中使用，因此做到向下兼容是必须的。这也是为什么会有若干工具方法帮助我们将旧的类转换为新的类，反之亦然。我们来看一下简单的例子： 
+
 ``` 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -387,6 +402,7 @@ public class DateAPILegacySupport {
 }
 ``` 
 当运行以上程序时，可以看到如下输出： 
+
 ``` 
 Date = 2014-04-28T16:28:54.340
 2014-04-28T23:28:54.395Z

@@ -9,6 +9,7 @@ tags : [Spring, i18n]
 # Spring 验证和国际化
 --- 
 
+<!--break-->  
 
 ### Validator 国际化
 

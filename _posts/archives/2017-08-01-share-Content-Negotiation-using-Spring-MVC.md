@@ -10,7 +10,7 @@ tags : [Spring MVC]
 
 > [Content Negotiation using Spring MVC](https://spring.io/blog/2013/05/11/content-negotiation-using-spring-mvc)   
 >
-> https://www.ibm.com/support/knowledgecenter/en/SSAW57_8.5.5/com.ibm.websphere.nd.doc/ae/twbs_jaxrs_defresource_mediatype.html 
+> [Defining media types for resources in RESTful applications](https://www.ibm.com/support/knowledgecenter/en/SSAW57_8.5.5/com.ibm.websphere.nd.doc/ae/twbs_jaxrs_defresource_mediatype.html)  
 
 
 

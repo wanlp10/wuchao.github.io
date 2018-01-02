@@ -7,5 +7,6 @@ tags : [Hibernate]
 ---
 {% include JB/setup %}
 # Hibernate 的学习和使用
-https://www.cnblogs.com/redcoatjk/p/4236445.html
+
+> [Hibernate之mappedBy](https://www.cnblogs.com/redcoatjk/p/4236445.html) 
 

@@ -9,17 +9,13 @@ tags : [Spring Security]
 # Spring Security 的学习和使用
 ---
 
-> 转载自
->
 > [Elim 的博客](http://elim.iteye.com/category/182468)  
->
-> 参考：  
 >
 > [Spring Security Reference](http://docs.spring.io/spring-security/site/docs/current/reference/html/) 
 >
 > [mkyong.com - Spring Security Tutorial](http://www.mkyong.com/spring-security/spring-security-hibernate-annotation-example/) 
 >
-> http://blog.sina.com.cn/s/blog_6fda308501016wjh.html 
+> [spring security只要熟悉每个filter的作用和顺序 ](http://blog.sina.com.cn/s/blog_6fda308501016wjh.html)  
 
 Spring 是一个非常流行和成功的 Java 应用开发框架。Spring Security 基于 Spring 框架，提供了一套 Web 应用安全性的完整解决方案。一般来说，Web 应用的安全性包括用户认证（Authentication）和用户授权（Authorization）两个部分。用户认证指的是验证某个用户是否为系统中的合法主体，也就是说用户能否访问该系统。用户认证一般要求用户提供用户名和密码。系统通过校验用户名和密码来完成认证过程。用户授权指的是验证某个用户是否有权限执行某个操作。在一个系统中，不同用户所具有的权限是不同的。比如对一个文件来说，有的用户只能进行读取，而有的用户可以进行修改。一般来说，系统会为不同的用户分配不同的角色，而每个角色则对应一系列的权限。 
 

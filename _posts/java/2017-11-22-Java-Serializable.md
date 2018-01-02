@@ -9,7 +9,7 @@ tags : [Java, Serializable]
 # Java Serializable
 --- 
 
-> http://blog.csdn.net/zzjjiandan/article/details/32336079  
+> [serialVersionUID的作用](http://blog.csdn.net/zzjjiandan/article/details/32336079)   
 > 
 > [Java基础篇 - Serializable与serialVersionUID的简单说明](http://blog.csdn.net/zhengliebin/article/details/60869629)
 > 

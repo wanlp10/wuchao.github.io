@@ -25,7 +25,7 @@ tags : [Java, Serializable]
 类的具体属性而生成，当类属性有变动时，该值会更改。 
 建议采用第一种自动生成方法，当对类进行了不兼容性修改时，需要修改UID。 
 采用第二种方法时，如果修改了属性，不重新生成UID时，默认值是不会变的，也可以正常反序列化，但不推荐，毕竟UID的值与实际不符。 
-对类进行兼容性和不兼容性修改的情况请参见以下url：http://docs.oracle.com/javase/7/docs/platform/serialization/spec/version.html。 
+对类进行兼容性和不兼容性修改的情况请参见 [Versioning of Serializable Objects](http://docs.oracle.com/javase/7/docs/platform/serialization/spec/version.html)。 
 Hibernate的pojo类建议也采用上述方法，便于扩展。 
 对于继承关系，父类实现序列化接口，子类可以继承接口的实现，但需显示定义UID，因为父类UID类型为private static，不可被继承，同时子类作为单独的类需要单独的UID。 
 
@@ -33,7 +33,7 @@ Hibernate的pojo类建议也采用上述方法，便于扩展。
 
 对于继承关系，父类实现序列化接口，子类可以继承接口的实现，但需显示定义UID，因为父类UID类型为private static，不可被继承，同时子类作为单独的类需要单独的UID。
 当一个类有父类有  serialVersionUID   
-子类没有重写serialVersionUID ，那么jvm会自动生成一个serialVersionUID 
+子类没有重写serialVersionUID，那么jvm会自动生成一个serialVersionUID 
 
 ### FAQ 
 更新账户时调用了下面的方法：

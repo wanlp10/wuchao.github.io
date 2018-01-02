@@ -9,7 +9,7 @@ tags : [Java, Java Template]
 # Java Template
 ---
 
-> [https://stackoverflow.com/questions/2068951/can-not-use-resultset-setfetchdirectionresultset-type-scroll-sensitive-with-sp](https://stackoverflow.com/questions/2068951/can-not-use-resultset-setfetchdirectionresultset-type-scroll-sensitive-with-sp) 
+> [can't use resultSet.setFetchDirection(ResultSet.TYPE_SCROLL_SENSITIVE)](https://stackoverflow.com/questions/2068951/can-not-use-resultset-setfetchdirectionresultset-type-scroll-sensitive-with-sp) 
 > 
 > [更改Spring JdbcTemplate的ResultSet行为](http://www.iteye.com/topic/128636)  
 > 

@@ -11,11 +11,10 @@ tags : [Spring MVC]
 > [Content Negotiation using Spring MVC](https://spring.io/blog/2013/05/11/content-negotiation-using-spring-mvc)   
 >
 > [Defining media types for resources in RESTful applications](https://www.ibm.com/support/knowledgecenter/en/SSAW57_8.5.5/com.ibm.websphere.nd.doc/ae/twbs_jaxrs_defresource_mediatype.html)  
+> 
+> [HTTP协议详解](https://www.cnblogs.com/li0803/archive/2008/11/03/1324746.html)    
 
 
-
-> > https://www.cnblogs.com/li0803/archive/2008/11/03/1324746.html   
->
 > Accept 请求报头域用于指定客户端接受哪些类型的信息。eg：
 >
 > Accept：image/gif，表明客户端希望接受 GIF 图象格式的资源；

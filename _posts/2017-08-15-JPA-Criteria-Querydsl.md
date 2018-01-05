@@ -18,14 +18,15 @@ tags : [Java, JPA, Criteria, Querydsl]
 
 ``` 
 @Entity
-public class Advisor extends AbstractAuditingEntity implements Serializable {
+public class Advisor extends AbstractAuditingEntity implements Serializable { 
+   
 	private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
-
+         
 	@NotNull
     @Column(name = "name", nullable = false)
     private String name;
@@ -33,14 +34,14 @@ public class Advisor extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Column(name = "activated", nullable = false)
     private Boolean activated;
-
+    
   	@OneToMany(mappedBy = "advisor", fetch = FetchType.LAZY)
     private Set<Product> products = new HashSet<>();
-
+    
     @OneToMany(mappedBy = "advisor", fetch = FetchType.LAZY)
     @OrderBy("lastModifiedDate desc")
     private Set<Manager> managers = new HashSet<>();
-    
+      
     //...
 }
 ```
@@ -48,24 +49,25 @@ public class Advisor extends AbstractAuditingEntity implements Serializable {
 ``` 
 @Entity
 public class Product extends AbstractAuditingEntity implements Serializable {
+  	   
   	private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
-    
+      
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-    
+      
     @NotNull
     @Column(name = "rate", nullable = false)
     private Double rate;
-    
+      
     @ManyToOne(fetch = FetchType.LAZY)
     private Advisor advisor;
-    
+      
     //...
 }
 ```
@@ -73,20 +75,21 @@ public class Product extends AbstractAuditingEntity implements Serializable {
 ``` 
 @Entity
 public class Manager extends AbstractAuditingEntity implements Serializable {
+  	  
   	private static final long serialVersionUID = 1L;
-
+      
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
-
+      
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-    
+      
     @ManyToOne(fetch = FetchType.LAZY)
     private Advisor advisor;
-    
+      
     //...
 }
 ```

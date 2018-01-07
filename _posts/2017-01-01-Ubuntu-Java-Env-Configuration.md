@@ -638,6 +638,97 @@ sudo reboot
 打开 Home 目录窗口，按 `Ctrl + H` 快捷键查看当前目录的隐藏文件和文件夹。找到 `.config` 文件夹，删除其中的 `SogouPY`，`SogouPY.users` 和 `sogou-qimpanel` 这三个文件夹，重启电脑。 
 
 
+## Redshift 的安装 
+安装 
+``` 
+sudo add-apt-repository ppa:dobey/redshift-daily   
+sudo apt-get update  
+sudo apt-get install redshift-gtk  
+``` 
+
+在 `~/.config/` 目录下创建 `redshift.conf` 文件，将以下配置内容复制到该配置文件中（配置内容原文件来自于 ： https://github.com/jonls/redshift/blob/master/redshift.conf.sample ）: 
+   
+``` 
+; Global settings for redshift
+[redshift]
+; Set the day and night screen temperatures
+temp-day=4500
+temp-night=3500
+
+; Disable the smooth fade between temperatures when Redshift starts and stops.
+; 0 will cause an immediate change between screen temperatures.
+; 1 will gradually apply the new screen temperature over a couple of seconds.
+fade=1
+
+; Solar elevation thresholds.
+; By default, Redshift will use the current elevation of the sun to determine
+; whether it is daytime, night or in transition (dawn/dusk). When the sun is
+; above the degrees specified with elevation-high it is considered daytime and
+; below elevation-low it is considered night.
+;elevation-high=3
+;elevation-low=-6
+
+; Custom dawn/dusk intervals.
+; Instead of using the solar elevation, the time intervals of dawn and dusk
+; can be specified manually. The times must be specified as HH:MM in 24-hour
+; format.
+;dawn-time=6:00-7:45
+;dusk-time=18:35-20:15
+
+; Set the screen brightness. Default is 1.0.
+;brightness=0.9
+; It is also possible to use different settings for day and night
+; since version 1.8.
+;brightness-day=0.7
+;brightness-night=0.4
+; Set the screen gamma (for all colors, or each color channel
+; individually)
+gamma=0.8
+;gamma=0.8:0.7:0.8
+; This can also be set individually for day and night since
+; version 1.10.
+;gamma-day=0.8:0.7:0.8
+;gamma-night=0.6
+
+; Set the location-provider: 'geoclue2', 'manual'
+; type 'redshift -l list' to see possible values.
+; The location provider settings are in a different section.
+location-provider=manual
+
+; Set the adjustment-method: 'randr', 'vidmode'
+; type 'redshift -m list' to see all possible values.
+; 'randr' is the preferred method, 'vidmode' is an older API.
+; but works in some cases when 'randr' does not.
+; The adjustment method settings are in a different section.
+adjustment-method=randr
+
+; Configuration of the location-provider:
+; type 'redshift -l PROVIDER:help' to see the settings.
+; ex: 'redshift -l manual:help'
+; Keep in mind that longitudes west of Greenwich (e.g. the Americas)
+; are negative numbers.
+[manual] 
+; 上海的经纬度 
+lat=31.23
+lon=121.47
+
+; Configuration of the adjustment-method
+; type 'redshift -m METHOD:help' to see the settings.
+; ex: 'redshift -m randr:help'
+; In this example, randr is configured to adjust only screen 0.
+; Note that the numbering starts from 0, so this is actually the first screen.
+; If this option is not specified, Redshift will try to adjust _all_ screens.
+[randr]
+screen=0
+```  
+
+启动 
+``` 
+redshift-gtk
+``` 
+然后设置为 “开机自启”。   
+
+
 ## IntelliJ IDEA 的安装
 下载安装包
 

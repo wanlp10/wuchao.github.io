@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 天才宝宝
+title: 学习笔记
 tagline: 一天为码农，终身为码农……
 ---
 {% include JB/setup %}

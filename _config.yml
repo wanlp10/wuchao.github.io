@@ -9,10 +9,10 @@ safe: false
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : 天才宝宝
+title : 学习笔记
 tagline: Site Tagline
 author :
-  name : 天才宝宝
+  name : chao
   email : chao@gmx.com
   github : username
   twitter : username

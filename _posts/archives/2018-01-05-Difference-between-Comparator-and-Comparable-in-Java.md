@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Difference between Comparator and Comparable in Java
-category : [JavaEE]
+category : [Java]
 tagline: "Supporting tagline"
 tags : [Java, Comparator, Comparable]
 ---

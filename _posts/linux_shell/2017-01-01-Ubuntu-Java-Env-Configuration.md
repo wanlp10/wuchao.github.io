@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Ubuntu 系统的开发环境安装和配置
-category : [Ubuntu]
+category : [Linux]
 tagline: "Supporting tagline"
 tags : [Ubuntu]
 ---
@@ -646,7 +646,9 @@ sudo apt-get update
 sudo apt-get install redshift-gtk  
 ``` 
 
-在 `~/.config/` 目录下创建 `redshift.conf` 文件，将以下配置内容复制到该配置文件中（配置内容原文件来自于 ： https://github.com/jonls/redshift/blob/master/redshift.conf.sample ）: 
+下载 [redshift.conf.sample](https://github.com/jonls/redshift/blob/master/redshift.conf.sample)，将名称改为 `redshift.conf`，并复制到 `~/.config/` 目录下。 
+
+然后根据实际情况修改该配置文件的经纬度等参数： 
    
 ``` 
 ; Global settings for redshift

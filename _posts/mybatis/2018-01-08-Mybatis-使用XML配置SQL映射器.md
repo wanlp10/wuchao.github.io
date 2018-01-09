@@ -132,24 +132,24 @@ long studentId = student.getStudId();
 假设我们有一个名为 STUD_ID_SEQ 的序列来生成 STUD_ID 主键值。使用如下代码来生成主键： 
 ``` 
 <insert id="insertStudent" parameterType="Student">  
-    <selectKey keyProperty="studId" resultType="long" order="BEFORE">  
+    &lt;selectKey keyProperty="studId" resultType="long" order="BEFORE"&gt;  
         SELECT ELEARNING.STUD_ID_SEQ.NEXTVAL FROM DUAL  
-    </selectKey>  
+    &lt;/selectKey&gt;  
     INSERT INTO STUDENTS(STUD_ID,NAME,EMAIL, PHONE)  
         VALUES(#{studId},#{name},#{email},#{phone})  
 </insert>  
 ```  
 
-这里我们使用了 `<selectKey>` 子元素来生成主键值，并将值保存到 Student 对象的 studId 属性上。 属性 `order=“before”` 表示 MyBatis 将取得序列的下一个值作为主键值，并且在执行 INSERT SQL 语句之前将值设置到 studId 属性上。
+这里我们使用了 `&lt;selectKey>` 子元素来生成主键值，并将值保存到 Student 对象的 studId 属性上。 属性 `order=“before”` 表示 MyBatis 将取得序列的下一个值作为主键值，并且在执行 INSERT SQL 语句之前将值设置到 studId 属性上。
 
 我们也可以在获取序列的下一个值时，使用触发器（trigger）来设置主键值，并且在执行 INSERT SQL 语句之前将值设置到主键列上。如果你采取这样的方式，则对应的 INSERT 映射语句如下所示： 
 ``` 
 <insert id="insertStudent" parameterType="Student">  
     INSERT INTO STUDENTS(NAME,EMAIL, PHONE)  
         VALUES(#{name},#{email},#{phone})  
-    <selectKey keyProperty="studId" resultType="long" order="AFTER">  
+    &lt;selectKey keyProperty="studId" resultType="long" order="AFTER">  
         SELECT ELEARNING.STUD_ID_SEQ.CURRVAL FROM DUAL  
-    </selectKey>  
+    &lt;/selectKey&gt;  
 </insert>  
 ``` 
 
@@ -220,12 +220,12 @@ MyBatis 真正强大的功能，在于映射 SELECT 查询结果到 JavaBean 方
 
 让我们看看一个简单的 select 查询是如何（在MyBatis中）配置的，如下所示： 
 ``` 
-<select id="findStudentById" parameterType="long"   
+&lt;select id="findStudentById" parameterType="long"   
 resultType="Student">  
     SELECT STUD_ID, NAME, EMAIL, PHONE   
         FROM STUDENTS   
     WHERE STUD_ID=#{studId}  
-</select> 
+&lt;/select&gt;
 ``` 
 
 我们可以如下调用此语句： 
@@ -253,8 +253,8 @@ Student student = mapper.findStudentById(studId);
 
 为了解决这一问题，我们可以为列名起一个可以与 JavaBean 中属性名匹配的别名，如下所示： 
 ``` 
-<select id="findStudentById" parameterType="long"   
-resultType="Student">  
+&lt;select id="findStudentById" parameterType="long"   
+resultType="Student"&gt;  
     SELECT STUD_ID AS studId, NAME,EMAIL, PHONE   
         FROM STUDENTS   
     WHERE STUD_ID=#{studId}  
@@ -265,7 +265,7 @@ resultType="Student">
 
 现在，让我们看一下如何执行返回多条结果的 SELECT 语句查询，如下所示： 
 ``` 
-<select id="findAllStudents" resultType="Student">  
+&lt;select id="findAllStudents" resultType="Student"&gt;  
     SELECT STUD_ID AS studId, NAME,EMAIL, PHONE   
     FROM STUDENTS  
 </select> 
@@ -314,13 +314,13 @@ ResultMap 被用来 将 SQL SELECT 语句的结果集映射到 JavaBean 的属�
   <result property="phone" column="phone" />  
 </resultMap>  
   
-<select id="findAllStudents" resultMap="StudentResult">  
+&lt;select id="findAllStudents" resultMap="StudentResult"&gt; 
     SELECT * FROM STUDENTS  
 </select>  
   
-<select id="findStudentById" parameterType="long" resultMap="StudentResult">  
+&lt;select id="findStudentById" parameterType="long" resultMap="StudentResult"&gt; 
     SELECT * FROM STUDENTS WHERE STUD_ID=#{studId}  
-</select>   
+&lt;select&gt;   
 ``` 
 
 resultMap的id值StudentResult应该在此名空间内是唯一的。并且type属性应该是完全限定类名或者是返回类型的别名。
@@ -329,7 +329,7 @@ resultMap的id值StudentResult应该在此名空间内是唯一的。并且type�
 
 <id>元素和<result>元素功能相同，不过它被用来映射到唯一标识属性，用来区分和比较对象（一般和主键列相对应）。
 
-在 `&lt;select&gt` 语句中，我们使用了 resultMap 属性，而不是 resultType 来引用 StudentResult 映射。当 `&lt;select&gt` 语句中配置了 resutlMap 属性，MyBatis 会使用此数据库列名与对象属性映射关系来填充 JavaBean 中的属性。 
+在 `&lt;select&gt;` 语句中，我们使用了 resultMap 属性，而不是 resultType 来引用 StudentResult 映射。当 `&lt;select&gt;` 语句中配置了 resutlMap 属性，MyBatis 会使用此数据库列名与对象属性映射关系来填充 JavaBean 中的属性。 
 
 > resultType 和 resultMap 二者只能用其一，不能同时使用。 
 > 
@@ -337,14 +337,14 @@ resultMap的id值StudentResult应该在此名空间内是唯一的。并且type�
 > 
 > resultMap 可以自定义将查询的结果填充到对象的属性，对象的关联对象和关联集合上。
 
-让我们来看另外一个 `&lt;select&gt` 映射语句定义的例子，怎样将查询结果填充到 HashMap 中。如下所示： 
+让我们来看另外一个 `&lt;select&gt;` 映射语句定义的例子，怎样将查询结果填充到 HashMap 中。如下所示： 
 ``` 
-<select id="findStudentById" parameterType="long" resultType="map">  
+&lt;select id="findStudentById" parameterType="long" resultType="map"&gt;  
     SELECT * FROM STUDENTS WHERE STUD_ID=#{studId}  
-</select>  
+&lt;select&gt;  
 ``` 
 
-在上述的 `&lt;select&gt` 语句中，我们将 resultType 配置成 map，即 `java.util.HashMap` 的别名。在这种情况下，结果集的列名将会作为 Map 中的 key 值，而列值将作为 Map 的 value 值。 
+在上述的 `&lt;select&gt;` 语句中，我们将 resultType 配置成 map，即 `java.util.HashMap` 的别名。在这种情况下，结果集的列名将会作为 Map 中的 key 值，而列值将作为 Map 的 value 值。 
 ``` 
 HashMap<String,Object> studentMap = 
     sqlSession.selectOne("com.mybatis3.mappers.StudentMapper.findStudentById", studId);  
@@ -356,9 +356,9 @@ System.out.println("phone :"+studentMap.get("phone"));
 
 让我们再看一个 使用 `resultType=”map”` ,返回多行结果的例子： 
 ``` 
-<select id="findAllStudents" resultType="map">  
+&lt;select id="findAllStudents" resultType="map"&gt;  
     SELECT STUD_ID, NAME, EMAIL, PHONE FROM STUDENTS  
-</select>  
+&lt;select&gt;  
 ``` 
 
 由于 `resultType=”map”` 和语句返回多行，则最终返回的数据类型应该是 `List<HashMap<String,Object>>` ，如下所示： 
@@ -396,22 +396,22 @@ id 为 StudentWithAddressResult 的 resultMap 拓展了 id 为 StudentResult 的
 
 如果你只想映射 Student 数据，你可以使用 id 为 StudentResult 的 resultMap,如下所示： 
 ``` 
-<select id="findStudentById" parameterType="long"   
-resultMap="StudentResult">  
+&lt;select id="findStudentById" parameterType="long"   
+resultMap="StudentResult"&gt;  
     SELECT * FROM STUDENTS WHERE STUD_ID=#{studId}  
-</select>  
+&lt;select&gt;  
 ``` 
 
 如果你想将映射 Student 数据和 Address 数据，你可以使用 id 为 StudentWithAddressResult 的 resultMap： 
 ``` 
-<select id="selectStudentWithAddress" parameterType="long"   
-resultMap="StudentWithAddressResult">  
+&lt;select id="selectStudentWithAddress" parameterType="long"   
+resultMap="StudentWithAddressResult"&gt;  
 SELECT STUD_ID, NAME, EMAIL, PHONE, A.ADDR_ID, STREET, CITY,    
         STATE, ZIP, COUNTRY  
     FROM STUDENTS S LEFT OUTER JOIN ADDRESSES A ON   
             S.ADDR_ID=A.ADDR_ID  
     WHERE STUD_ID=#{studId}  
-</select>  
+&lt;select&gt;  
 ``` 
 
 ## 一对一映射 
@@ -452,14 +452,14 @@ public class Student {
   <result property="address.country" column="country" />  
 </resultMap>  
   
-<select id="selectStudentWithAddress" parameterType="long"   
-resultMap="StudentWithAddressResult">  
+&lt;select id="selectStudentWithAddress" parameterType="long"   
+resultMap="StudentWithAddressResult"&gt;  
     SELECT STUD_ID, NAME, EMAIL, A.ADDR_ID, STREET, CITY, STATE,   
         ZIP, COUNTRY  
     FROM STUDENTS S LEFT OUTER JOIN ADDRESSES A ON   
         S.ADDR_ID=A.ADDR_ID  
     WHERE STUD_ID=#{studId}  
-</select>  
+&lt;select&gt;  
 ``` 
 
 我们可以使用圆点记法为内嵌的对象的属性赋值。在上述的 resultMap 中，Student 的 address 属性使用了圆点记法被赋上了 address 对应列的值。同样地，我们可以访问任意深度的内嵌对象的属性。我们可以如下访问内嵌对象属性： 
@@ -500,14 +500,14 @@ System.out.println("Address :" + student.getAddress());
   <association property="address" resultMap="AddressResult" />  
 </resultMap>  
   
-<select id="findStudentWithAddress" parameterType="long"   
-resultMap="StudentWithAddressResult">  
+&lt;select id="findStudentWithAddress" parameterType="long"   
+resultMap="StudentWithAddressResult"&gt;  
     SELECT STUD_ID, NAME, EMAIL, A.ADDR_ID, STREET, CITY, STATE,   
     ZIP, COUNTRY  
     FROM STUDENTS S LEFT OUTER JOIN ADDRESSES A ON   
     S.ADDR_ID=A.ADDR_ID  
     WHERE STUD_ID=#{studId}  
-</select>  
+&lt;select&gt;  
 ``` 
 
 元素 `<association>` 被用来导入“有一个”(has-one)类型的关联。在上述的例子中，我们使用了 `<association>` 元素引用了另外的在同一个 XML 文件中定义的 `<resultMap>` 。
@@ -542,10 +542,10 @@ resultMap="StudentWithAddressResult">
   <result property="country" column="country" />  
 </resultMap>  
   
-<select id="findAddressById" parameterType="long"   
-resultMap="AddressResult">  
+&lt;select id="findAddressById" parameterType="long"   
+resultMap="AddressResult"&gt;  
     SELECT * FROM ADDRESSES WHERE ADDR_ID=#{id}  
-</select>  
+&lt;select&gt;  
   
 <resultMap type="Student" id="StudentWithAddressResult">  
   <id property="studId" column="stud_id" />  
@@ -554,10 +554,10 @@ resultMap="AddressResult">
   <association property="address" column="addr_id" select="findAddressById" />  
 </resultMap>  
   
-<select id="findStudentWithAddress" parameterType="long"   
-resultMap="StudentWithAddressResult">  
+&lt;select id="findStudentWithAddress" parameterType="long"   
+resultMap="StudentWithAddressResult"&gt;  
     SELECT * FROM STUDENTS WHERE STUD_ID=#{Id}  
-</select> 
+&lt;select&gt; 
 ``` 
 
 在此方式中，`<association>` 元素的 select 属性被设置成了 id 为 findAddressById 的语句。这里，两个分开的 SQL 语句将会在数据库中执行，第一个调用 findStudentById 加载 student 信息，而第二个调用 findAddressById 来加载 address 信息。
@@ -619,14 +619,14 @@ public class Tutor {
   <collection property="courses" resultMap="CourseResult" />  
 </resultMap>  
   
-<select id="findTutorById" parameterType="long"   
-resultMap="TutorResult">  
+&lt;select id="findTutorById" parameterType="long"   
+resultMap="TutorResult"&gt;  
 SELECT T.TUTOR_ID, T.NAME AS TUTOR_NAME, EMAIL, C.COURSE_ID,   
 C.NAME, DESCRIPTION, START_DATE, END_DATE  
 FROM TUTORS T LEFT OUTER JOIN ADDRESSES A ON T.ADDR_ID=A.ADDR_ID  
 LEFT OUTER JOIN COURSES C ON T.TUTOR_ID=C.TUTOR_ID  
 WHERE T.TUTOR_ID=#{tutorId}  
-</select>  
+&lt;select&gt;  
 ``` 
 
 这里我们使用了一个简单的使用了 JOINS 连接的 Select 语句获取讲师及其所教课程信息。`<collection>` 元素的 resultMap 属性设置成了 CourseResult，CourseResult 包含了 Course 对象属性与表列名之间的映射。 
@@ -650,13 +650,13 @@ WHERE T.TUTOR_ID=#{tutorId}
   <collection property="courses" column="tutor_id" select="findCoursesByTutor" />  
 </resultMap>  
   
-<select id="findTutorById" parameterType="long" resultMap="TutorResult">  
+&lt;select id="findTutorById" parameterType="long" resultMap="TutorResult"&gt;  
     SELECT T.TUTOR_ID, T.NAME AS TUTOR_NAME, EMAIL   
     FROM TUTORS T WHERE T.TUTOR_ID=#{tutorId}  
-</select>  
-<select id="findCoursesByTutor" parameterType="long" resultMap="CourseResult">  
+&lt;select&gt;  
+&lt;select id="findCoursesByTutor" parameterType="long" resultMap="CourseResult"&gt;  
     SELECT * FROM COURSES WHERE TUTOR_ID=#{tutorId}  
-</select> 
+&lt;select&gt; 
 ``` 
 
 在这种方式中，`<aossication>` 元素的 select 属性被设置为 id 为 findCourseByTutor 的语句，用来触发单独的 SQL 查询加载课程信息。tutor_id 这一列值将会作为输入参数传递给 findCouresByTutor 语句。   
@@ -704,7 +704,7 @@ MyBatis 通过使用 `<if>` , `<choose>` , `<where>`, `<foreach>`, `<trim>` 元�
   <result column="end_date" property="endDate" />  
 </resultMap>  
   
-<select id="searchCourses" parameterType="hashmap" resultMap="CourseResult"></select>  
+&lt;select id="searchCourses" parameterType="hashmap" resultMap="CourseResult">  
     SELECT * FROM COURSES  
         WHERE TUTOR_ID= #{tutorId}  
     <if test="courseName != null">  
@@ -716,7 +716,7 @@ MyBatis 通过使用 `<if>` , `<choose>` , `<where>`, `<foreach>`, `<trim>` 元�
     <if test="endDate != null">  
     AND END_DATE <= #{endDate}  
     </if>  
-</select>  
+&lt;select&gt;  
 ``` 
 
 ``` 
@@ -748,7 +748,7 @@ MyBatis 提供了 `<choose>` 元素支持此类型的 SQL 预处理。
 
 现在让我们书写一个适用此情景的 SQL 映射语句。如果没有选择查询类别，则查询开始时间在今天之后的课程，代码如下： 
 ``` 
-<select id="searchCourses" parameterType="hashmap" resultMap="CourseResult">  
+&lt;select id="searchCourses" parameterType="hashmap" resultMap="CourseResult"&gt;  
     SELECT * FROM COURSES  
     <choose>  
         <when test="searchBy == 'Tutor'">  
@@ -761,7 +761,7 @@ MyBatis 提供了 `<choose>` 元素支持此类型的 SQL 预处理。
             WHERE TUTOR start_date >= now()  
         </otherwise>  
     </choose>  
-</select>  
+&lt;select&gt;  
 ``` 
 
 MyBatis 计算 `<choose>` 测试条件的值，且使用第一个值为 TRUE 的子句。如果没有条件为 true，则使用 `<otherwise>` 内的子句。 
@@ -772,8 +772,8 @@ MyBatis 计算 `<choose>` 测试条件的值，且使用第一个值为 TRUE 的
 在我们查询课程界面，我们假设所有的查询条件是可选的。进而，当需要提供一个或多个查询条件时，应该改使用 WHERE 子句。 
 
 ``` 
-<select id="searchCourses" parameterType="hashmap"   
-resultMap="CourseResult">  
+&lt;select id="searchCourses" parameterType="hashmap"   
+resultMap="CourseResult"&gt;  
     SELECT * FROM COURSES  
     <where>   
         <if test=" tutorId != null ">  
@@ -789,7 +789,7 @@ resultMap="CourseResult">
             AND end_date <= #{endDate}  
         </if>  
     </where>  
-</select> 
+&lt;select&gt; 
 ``` 
 
 `<where>` 元素只有在其内部标签有返回内容时才会在动态语句上插入 WHERE 条件语句。并且，如果 WHERE 子句以 AND 或者 OR 打头，则打头的 AND 或 OR 将会被移除。
@@ -800,8 +800,8 @@ resultMap="CourseResult">
 `<trim>` 元素和 `<where>` 元素类似，但是 `<trim>` 提供了在添加前缀/后缀 或者移除前缀/后缀方面提供更大的灵活性。 
 
 ``` 
-<select id="searchCourses" parameterType="hashmap"   
-resultMap="CourseResult">  
+&lt;select id="searchCourses" parameterType="hashmap"   
+resultMap="CourseResult"&gt;  
 SELECT * FROM COURSES  
 <trim prefix="WHERE" prefixOverrides="AND | OR">  
 <if test=" tutorId != null ">  
@@ -811,7 +811,7 @@ TUTOR_ID= #{tutorId}
 AND name like #{courseName}  
 </if>  
 </trim>  
-</select> 
+&lt;select&gt; 
 ``` 
 
 这里如果任意一个 `<if>` 条件为 true， `<trim>` 元素会插入 WHERE,并且移除紧跟 WHERE 后面的 AND 或 OR。 
@@ -821,8 +821,8 @@ AND name like #{courseName}
 
 假设我们想找到 tutor_id 为1，3，6的讲师所教授的课程，我们可以传递一个 tutor_id 组成的列表给映射语句，然后通过 `<foreach>` 遍历此列表构造动态 SQL。 
 ``` 
-<select id="searchCoursesByTutors" parameterType="map"   
-resultMap="CourseResult">  
+&lt;select id="searchCoursesByTutors" parameterType="map"   
+resultMap="CourseResult"&gt;  
 SELECT * FROM COURSES  
 <if test="tutorIds != null">  
 <where>  
@@ -831,7 +831,7 @@ OR tutor_id=#{tutorId}
 </foreach>  
 </where>   
 </if>   
-</select> 
+&lt;select&gt; 
 ```  
 
 ``` 
@@ -857,8 +857,8 @@ public void searchCoursesByTutors() {
 
 现在让我们来看一下怎样使用 `<foreach>` 生成 IN 子句： 
 ``` 
-<select id="searchCoursesByTutors" parameterType="map"   
-resultMap="CourseResult">  
+&lt;select id="searchCoursesByTutors" parameterType="map"   
+resultMap="CourseResult"&gt;  
     SELECT * FROM COURSES  
     <if test="tutorIds != null">  
         <where>  
@@ -869,7 +869,7 @@ resultMap="CourseResult">
             </foreach>  
         </where>  
     </if>  
-</select>  
+&lt;select&gt;  
 ```
 
 ### set 条件 
@@ -967,9 +967,9 @@ public class UserPic {
     INSERT INTO USER_PICS(NAME, PIC,BIO)  
     VALUES(#{name},#{pic},#{bio})  
 </insert>  
-<select id="getUserPic" parameterType="long" resultType="UserPic">  
+&lt;select id="getUserPic" parameterType="long" resultType="UserPic"&gt;  
     SELECT * FROM USER_PICS WHERE ID=#{id}  
-</select> 
+&lt;select&gt; 
 ```  
 
 下列的 insertUserPic() 展示了如何将数据插入到 CLOB/BLOB 类型的列上：
@@ -1043,10 +1043,10 @@ Public interface StudentMapper {
 
 MyBatis 支持将多个输入参数传递给映射语句，并以 `#{param}` 的语法形式引用它们： 
 ``` 
-<select id="findAllStudentsByNameEmail" resultMap="StudentResult">  
+&lt;select id="findAllStudentsByNameEmail" resultMap="StudentResult"&gt;  
     select stud_id, name,email, phone from Students  
         where name=#{param1} and email=#{param2}  
-</select>  
+&lt;select&gt;  
 ```
 
 这里 `#{param1}` 引用第一个参数 name，而 `#{param2}` 引用了第二个参数 email。 
@@ -1059,9 +1059,9 @@ studentMapper.findAllStudentsByNameEmail(name, email);
 ### 多行结果集映射成 Map 
 如果你有一个映射语句返回多行记录，并且你想以 HashMap 的形式存储记录的值，使用记录列名作为 key 值，而记录对应值或为 value 值。我们可以使用 sqlSession.selectMap(),如下所示： 
 ``` 
-<select id=" findAllStudents" resultMap="StudentResult">  
+&lt;select id=" findAllStudents" resultMap="StudentResult"&gt;  
     select * from Students  
-</select>  
+&lt;select&gt;  
 ``` 
 
 查询： 
@@ -1079,9 +1079,9 @@ MyBatis 可以使用 RowBounds 逐页加载表数据。RowBounds 对象可以使
 
 假设如果你想每页加载并显示25条学生的记录，你可以使用如下的代码： 
 ``` 
-<select id="findAllStudents" resultMap="StudentResult">  
+&lt;select id="findAllStudents" resultMap="StudentResult"&gt;  
     select * from Students  
-</select> 
+&lt;select&gt; 
 ``` 
 
 然后，你可以如下加载第一页数据（前25条）： 
@@ -1141,7 +1141,7 @@ public Map<Long, String> getStudentIdNameMap() {
 我们可以在 SQL 映射器 XML 配置文件中使用 `<cache />` 元素添加全局二级缓存。
 
 当你加入了 `<cache />` 元素，将会出现以下情况： 
-- 所有的在映射语句文件定义的 `&lt;select&gt` 语句的查询结果都会被缓存
+- 所有的在映射语句文件定义的 `&lt;select&gt;` 语句的查询结果都会被缓存
 - 所有的在映射语句文件定义的 `<insert>` , `<update>` 和 `<delete>` 语句将会刷新缓存
 - 缓存根据最近最少被使用（Least Recently Used，LRU）算法管理
 - 缓存不会被任何形式的基于时间表的刷新（没有刷新时间间隔），即不支持定时刷新机制
@@ -1164,7 +1164,7 @@ readOnly="true"/>
 
 默认的映射语句的 cache 配置如下： 
 ``` 
-<select ... flushCache="false" useCache="true"/>  
+&lt;select ... flushCache="false" useCache="true"/&gt;  
 <insert ... flushCache="true"/>  
 <update ... flushCache="true"/>  
 <delete ... flushCache="true"/> 

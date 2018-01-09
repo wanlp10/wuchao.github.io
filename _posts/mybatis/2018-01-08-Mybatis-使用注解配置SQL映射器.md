@@ -359,12 +359,231 @@ Tutor findTutorById(long tutorId);
 
 但是使用字符串拼接的方法来构建 SQL 语句是非常困难的，并且容易出错。所以MyBaits提供了一个SQL工具类不使用字符串拼接的方式，简化构造动态SQL语句。
 
-现在，让我们看看如何使用org.apache.ibatis.jdbc.SQL工具类来准备相同的SQL语句。
+现在，让我们看看如何使用 `org.apache.ibatis.jdbc.SQL` 工具类来准备相同的 SQL 语句： 
+``` 
+package com.mybatis3.sqlproviders;  
+import org.apache.ibatis.jdbc.SQL;  
+public class TutorDynaSqlProvider {  
+    public String findTutorByIdSql(final long tutorId) {  
+        return new SQL() 
+        {  
+            {  
+                SELECT("tutor_id as tutorId, name, email");  
+                FROM("tutors");  
+                WHERE("tutor_id=" + tutorId);  
+            }  
+        }.toString();  
+    }  
+}
+``` 
 
+SQ L工具类会处理以合适的空格前缀和后缀来构造 SQL 语句。
 
+动态 SQL provider 方法可以接收以下其中一种参数： 
+- 无参数 
+- 和映射器 Mapper 接口的方法同类型的参数 
+- `java.util.Map` 
 
+#### 使用不带参数的 SQL Provider 
+``` 
+public String findTutorByIdSql()  
+{  
+    return new SQL()  
+    {  
+        {  
+            SELECT("tutor_id as tutorId, name, email");  
+            FROM("tutors");  
+            WHERE("tutor_id = #{tutorId}");  
+        }  
+    }.toString();  
+}  
+``` 
 
+这里我们没有使用输入参数构造 SQL 语句，所以它可以是一个无参方法。 
 
+#### 使用和映射器 Mapper 接口的方法同类型的参数 
+如果映射器 Mapper 接口方法只有一个参数，那么可以定义 SQL Provider 方法，它接受一个与 Mapper 接口方法相同类型的参数。
+例如映射器 Mapper 接口有如下定义： 
+``` 
+Tutor findTutorById(long tutorId); 
+``` 
 
+这里 findTutorById(int) 方法只有一个 long 类型的参数。我们可以定义 findTutorByIdSql(long) 方法作为 SQL provider 方法： 
+``` 
+public String findTutorByIdSql(final long tutorId)  
+{  
+    return new SQL()  
+    {  
+        {  
+            SELECT("tutor_id as tutorId, name, email");  
+            FROM("tutors");  
+            WHERE("tutor_id=" + tutorId);  
+        }  
+    }.toString();  
+} 
+``` 
+
+#### 使用 `java.util.Map` 参数类型的 SQL Provider 
+如果映射器 Mapper 接口有多个输入参数，我们可以使用参数类型为 `java.util.Map` 的方法作为 SQL Provider 方法。然后映射器 Mapper 接口方法所有的输入参数将会被放到 map 中，以 param1，param2 等等作为 key，将输入参数按序作为 value。你也可以使用 0，1，2 等作为 key 值来取的输入参数： 
+``` 
+@SelectProvider(type = TutorDynaSqlProvider.class,  
+                method = "findTutorByNameAndEmailSql")  
+Tutor findTutorByNameAndEmail(String name, String email);  
+    
+public String findTutorByNameAndEmailSql(Map<String, Object> map) {  
+    String name = (String) map.get("param1");  
+    String email = (String) map.get("param2");  
+    //you can also get those values using 0,1 keys  
+    //String name = (String) map.get("0");  
+    //String email = (String) map.get("1");  
+    return new SQL()  
+    {  
+        {  
+            SELECT("tutor_id as tutorId, name, email");  
+            FROM("tutors");  
+            WHERE("name=#{name} AND email=#{email}");  
+        }  
+    }.toString();  
+} 
+``` 
+
+SQL 工具类也提供了其他的方法来表示 `JOINS` ， `ORDER_BY` ， `GROUP_BY` 等等。 
+让我们看一个使用 `LEFT_OUTER_JOIN` 的例子： 
+``` 
+public class TutorDynaSqlProvider {  
+    public String selectTutorById() {  
+        return new SQL()  
+        {  
+            {  
+                SELECT("t.tutor_id, t.name as tutor_name, email");  
+                SELECT("a.addr_id, street, city, state, zip, country");  
+                SELECT("course_id, c.name as course_name, description,  
+                       start_date, end_date");  
+                FROM("TUTORS t");  
+                LEFT_OUTER_JOIN("addresses a on t.addr_id=a.addr_id");  
+                LEFT_OUTER_JOIN("courses c on t.tutor_id=c.tutor_id");  
+                WHERE("t.TUTOR_ID = #{id}");  
+            }  
+        }.toString();  
+    }  
+}  
+  
+public interface TutorMapper {  
+    @SelectProvider(type = TutorDynaSqlProvider.class,  
+                    method = "selectTutorById")  
+    @ResultMap("com.mybatis3.mappers.TutorMapper.TutorResult")  
+    Tutor selectTutorById(int tutorId);  
+} 
+``` 
+
+由于没有支持使用内嵌结果 ResultMap 的一对多关联映射的注解支持，我们可以使用基于 XML 的 `<resultMap>` 配置，然后与 `@ResultMap` 映射： 
+``` 
+<mapper namespace="com.mybatis3.mappers.TutorMapper">  
+  <resultMap type="Address" id="AddressResult">  
+    <id property="id" column="addr_id" />  
+    <result property="street" column="street" />  
+    <result property="city" column="city" />  
+    <result property="state" column="state" />  
+    <result property="zip" column="zip" />  
+    <result property="country" column="country" />  
+  </resultMap>  
+  <resultMap type="Course" id="CourseResult">  
+    <id column="course_id" property="id" />  
+    <result column="course_name" property="name" />  
+    <result column="description" property="description" />  
+    <result column="start_date" property="startDate" />  
+    <result column="end_date" property="endDate" />  
+  </resultMap>  
+  <resultMap type="Tutor" id="TutorResult">  
+    <id column="tutor_id" property="id" />  
+    <result column="tutor_name" property="name" />  
+    <result column="email" property="email" />  
+    <association property="address" resultMap="AddressResult" />  
+    <collection property="courses" resultMap="CourseResult"></collection>  
+  </resultMap>  
+</mapper>  
+``` 
+
+### @InsertProvider 
+我们可以使用 `@InsertProvider` 注解创建动态的 INSERT 语句，如下所示： 
+``` 
+public class TutorDynaSqlProvider {  
+    public String insertTutor(final Tutor tutor) {  
+        return new SQL()  
+        {  
+            {  
+                INSERT_INTO("TUTORS");  
+                if (tutor.getName() != null)  
+                {  
+                    VALUES("NAME", "#{name}");  
+                }  
+                if (tutor.getEmail() != null)  
+                {  
+                    VALUES("EMAIL", "#{email}");  
+                }  
+            }  
+        }.toString();  
+    }  
+}   
+    
+public interface TutorMapper {  
+    @InsertProvider(type = TutorDynaSqlProvider.class,  
+                    method = "insertTutor")  
+    @Options(useGeneratedKeys = true, keyProperty = "tutorId")  
+    int insertTutor(Tutor tutor);  
+} 
+```  
+
+### @UpdateProvider 
+我们可以通过 `@UpdateProvider` 注解创建 UPDATE 语句，如下所示： 
+``` 
+public class TutorDynaSqlProvider {  
+    public String updateTutor(final Tutor tutor) {  
+        return new SQL()  
+        {  
+            {  
+                UPDATE("TUTORS");  
+                if (tutor.getName() != null)  
+                {  
+                    SET("NAME = #{name}");  
+                }  
+                if (tutor.getEmail() != null)  
+                {  
+                    SET("EMAIL = #{email}");  
+                }  
+                WHERE("TUTOR_ID = #{tutorId}");  
+            }  
+        }.toString();  
+    }  
+}   
+   
+public interface TutorMapper {  
+    @UpdateProvider(type = TutorDynaSqlProvider.class,  
+                    method = "updateTutor")  
+    int updateTutor(Tutor tutor);  
+}
+``` 
+
+### @DeleteProvider 
+我们可以使用 `@DeleteProvider` 注解创建动态地 DELETE 语句,如下所示： 
+``` 
+public class TutorDynaSqlProvider {  
+    public String deleteTutor(long tutorId) {  
+        return new SQL()  
+        {  
+            {  
+                DELETE_FROM("TUTORS");  
+                WHERE("TUTOR_ID = #{tutorId}");  
+            }  
+        } .toString();  
+    }  
+}  
+   
+public interface TutorMapper {  
+    @DeleteProvider(type = TutorDynaSqlProvider.class,  
+                    method = "deleteTutor")  
+    int deleteTutor(long tutorId);  
+}  
+```  
 
 

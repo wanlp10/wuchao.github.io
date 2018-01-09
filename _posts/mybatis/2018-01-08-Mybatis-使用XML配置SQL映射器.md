@@ -329,7 +329,7 @@ resultMap 的 id 值 StudentResult 应该在此名空间内是唯一的。并且
 
 &lt;id&gt; 元素和 &lt;result&gt; 元素功能相同，不过它被用来映射到唯一标识属性，用来区分和比较对象（一般和主键列相对应）。
 
-在 &lt;select&gt; 语句中，我们使用了 resultMap 属性，而不是 resultType 来引用 StudentResult 映射。当 &lt;select&gt; 语句中配置了 resutlMap 属性，MyBatis 会使用此数据库列名与对象属性映射关系来填充 JavaBean 中的属性。 
+在 `&lt;select&gt` ; 语句中，我们使用了 resultMap 属性，而不是 resultType 来引用 StudentResult 映射。当 &lt;select&gt; 语句中配置了 resutlMap 属性，MyBatis 会使用此数据库列名与对象属性映射关系来填充 JavaBean 中的属性。 
 
 > resultType 和 resultMap 二者只能用其一，不能同时使用。 
 > 

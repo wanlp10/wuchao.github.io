@@ -374,7 +374,7 @@ for(HashMap<String, Object> studentMap : studentMapList) {
 ``` 
 
 ### 拓展 ResultMap 
-我们可以从另外一个 &lt;resultMap&gt; ，拓展出一个新的 &lt;resultMap&gt; ，这样，原先的属性映射可以继承过来。 
+我们可以从另外一个 `resultMap` ，拓展出一个新的 `resultMap` ，这样，原先的属性映射可以继承过来。 
 ``` 
 <resultMap type="Student" id="StudentResult">  
   <id property="studId" column="stud_id" />  
@@ -961,7 +961,7 @@ public class UserPic {
 }  
 ``` 
 
-创建 `UserPicMapper.xml` 文件，配置映射语句，代码如下： 
+创建 UserPicMapper.xml 文件，配置映射语句，代码如下： 
 ``` 
 <insert id="insertUserPic" parameterType="UserPic">  
     INSERT INTO USER_PICS(NAME, PIC,BIO)  
@@ -1141,8 +1141,8 @@ public Map<Long, String> getStudentIdNameMap() {
 我们可以在 SQL 映射器 XML 配置文件中使用 `<cache />` 元素添加全局二级缓存。
 
 当你加入了 `<cache />` 元素，将会出现以下情况： 
-- 所有的在映射语句文件定义的 &lt;select&gt; 语句的查询结果都会被缓存
-- 所有的在映射语句文件定义的 &lt;insert&gt; , &lt;update&gt; 和 &lt;delete&gt; 语句将会刷新缓存
+- 所有的在映射语句文件定义的 `select` 语句的查询结果都会被缓存
+- 所有的在映射语句文件定义的 `insert`，`update` 和 `delete` 语句将会刷新缓存
 - 缓存根据最近最少被使用（Least Recently Used，LRU）算法管理
 - 缓存不会被任何形式的基于时间表的刷新（没有刷新时间间隔），即不支持定时刷新机制
 - 缓存将存储 1024 个查询方法返回的列表或者对象的引用

@@ -140,7 +140,7 @@ long studentId = student.getStudId();
 </insert>  
 ```  
 
-这里我们使用了 `&lt;selectKey>` 子元素来生成主键值，并将值保存到 Student 对象的 studId 属性上。 属性 `order=“before”` 表示 MyBatis 将取得序列的下一个值作为主键值，并且在执行 INSERT SQL 语句之前将值设置到 studId 属性上。
+这里我们使用了 &lt;selectKey&gt; 子元素来生成主键值，并将值保存到 Student 对象的 studId 属性上。 属性 `order=“before”` 表示 MyBatis 将取得序列的下一个值作为主键值，并且在执行 INSERT SQL 语句之前将值设置到 studId 属性上。
 
 我们也可以在获取序列的下一个值时，使用触发器（trigger）来设置主键值，并且在执行 INSERT SQL 语句之前将值设置到主键列上。如果你采取这样的方式，则对应的 INSERT 映射语句如下所示： 
 ``` 
@@ -323,13 +323,13 @@ ResultMap 被用来 将 SQL SELECT 语句的结果集映射到 JavaBean 的属�
 </select>   
 ``` 
 
-resultMap的id值StudentResult应该在此名空间内是唯一的。并且type属性应该是完全限定类名或者是返回类型的别名。
+resultMap 的 id 值 StudentResult 应该在此名空间内是唯一的。并且 type 属性应该是完全限定类名或者是返回类型的别名。
 
-<result>子元素被用来将一个resultset列映射到JavaBean的一个属性中。
+&lt;result&gt; 子元素被用来将一个 resultset 列映射到 JavaBean 的一个属性中。
 
-<id>元素和<result>元素功能相同，不过它被用来映射到唯一标识属性，用来区分和比较对象（一般和主键列相对应）。
+&lt;id&gt; 元素和 &lt;result&gt; 元素功能相同，不过它被用来映射到唯一标识属性，用来区分和比较对象（一般和主键列相对应）。
 
-在 `&lt;select&gt;` 语句中，我们使用了 resultMap 属性，而不是 resultType 来引用 StudentResult 映射。当 `&lt;select&gt;` 语句中配置了 resutlMap 属性，MyBatis 会使用此数据库列名与对象属性映射关系来填充 JavaBean 中的属性。 
+在 &lt;select&gt; 语句中，我们使用了 resultMap 属性，而不是 resultType 来引用 StudentResult 映射。当 &lt;select&gt; 语句中配置了 resutlMap 属性，MyBatis 会使用此数据库列名与对象属性映射关系来填充 JavaBean 中的属性。 
 
 > resultType 和 resultMap 二者只能用其一，不能同时使用。 
 > 
@@ -337,14 +337,14 @@ resultMap的id值StudentResult应该在此名空间内是唯一的。并且type�
 > 
 > resultMap 可以自定义将查询的结果填充到对象的属性，对象的关联对象和关联集合上。
 
-让我们来看另外一个 `&lt;select&gt;` 映射语句定义的例子，怎样将查询结果填充到 HashMap 中。如下所示： 
+让我们来看另外一个 &lt;select&gt; 映射语句定义的例子，怎样将查询结果填充到 HashMap 中。如下所示： 
 ``` 
 <select id="findStudentById" parameterType="long" resultType="map"> 
     SELECT * FROM STUDENTS WHERE STUD_ID=#{studId}  
 </select>  
 ``` 
 
-在上述的 `&lt;select&gt;` 语句中，我们将 resultType 配置成 map，即 `java.util.HashMap` 的别名。在这种情况下，结果集的列名将会作为 Map 中的 key 值，而列值将作为 Map 的 value 值。 
+在上述的 &lt;select&gt; 语句中，我们将 resultType 配置成 map，即 `java.util.HashMap` 的别名。在这种情况下，结果集的列名将会作为 Map 中的 key 值，而列值将作为 Map 的 value 值。 
 ``` 
 HashMap<String,Object> studentMap = 
     sqlSession.selectOne("com.mybatis3.mappers.StudentMapper.findStudentById", studId);  
@@ -374,7 +374,7 @@ for(HashMap<String, Object> studentMap : studentMapList) {
 ``` 
 
 ### 拓展 ResultMap 
-我们可以从另外一个 `<resultMap>` ，拓展出一个新的 `<resultMap>` ，这样，原先的属性映射可以继承过来。 
+我们可以从另外一个 &lt;resultMap&gt; ，拓展出一个新的 &lt;resultMap&gt; ，这样，原先的属性映射可以继承过来。 
 ``` 
 <resultMap type="Student" id="StudentResult">  
   <id property="studId" column="stud_id" />  
@@ -394,7 +394,7 @@ for(HashMap<String, Object> studentMap : studentMapList) {
 
 id 为 StudentWithAddressResult 的 resultMap 拓展了 id 为 StudentResult 的 resultMap。 
 
-如果你只想映射 Student 数据，你可以使用 id 为 StudentResult 的 resultMap,如下所示： 
+如果你只想映射 Student 数据，你可以使用 id 为 StudentResult 的 resultMap，如下所示： 
 ``` 
 <select id="findStudentById" parameterType="long"   
 resultMap="StudentResult">  
@@ -1141,8 +1141,8 @@ public Map<Long, String> getStudentIdNameMap() {
 我们可以在 SQL 映射器 XML 配置文件中使用 `<cache />` 元素添加全局二级缓存。
 
 当你加入了 `<cache />` 元素，将会出现以下情况： 
-- 所有的在映射语句文件定义的 `&lt;select&gt;` 语句的查询结果都会被缓存
-- 所有的在映射语句文件定义的 `<insert>` , `<update>` 和 `<delete>` 语句将会刷新缓存
+- 所有的在映射语句文件定义的 &lt;select&gt; 语句的查询结果都会被缓存
+- 所有的在映射语句文件定义的 &lt;insert&gt; , &lt;update&gt; 和 &lt;delete&gt; 语句将会刷新缓存
 - 缓存根据最近最少被使用（Least Recently Used，LRU）算法管理
 - 缓存不会被任何形式的基于时间表的刷新（没有刷新时间间隔），即不支持定时刷新机制
 - 缓存将存储 1024 个查询方法返回的列表或者对象的引用

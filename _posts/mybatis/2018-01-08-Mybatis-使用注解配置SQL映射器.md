@@ -1,18 +1,20 @@
 ---
 layout: post
-title: Mybatis - 使用注解配置SQL映射器 
+title: Mybatis - 使用注解配置 SQL 映射器 
 category : [JavaEE]
 tagline: "Supporting tagline"
 tags : [Mybatis]
 ---
 {% include JB/setup %}
-# Mybatis - 使用注解配置SQL映射器 
+# Mybatis - 使用注解配置 SQL 映射器 
 ---
 
-> 引用：   
+> 引用：    
 > [Java Persistence with MyBatis 3(中文版) 第四章 使用注解配置SQL映射器](http://blog.csdn.net/luanlouis/article/details/35780175) 
 
+
 <!--break-->
+
 
 ## 在映射器 Mapper 接口上使用 @Mapper 注解 
 

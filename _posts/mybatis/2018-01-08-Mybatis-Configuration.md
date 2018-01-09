@@ -9,7 +9,8 @@ tags : [Mybatis]
 # Mybatis 的配置
 ---
 
-> 参考： [Java Persistence with MyBatis 3(中文版) 第二章 引导MyBatis](http://blog.csdn.net/luanlouis/article/details/35570809)  
+> 引用：   
+> [Java Persistence with MyBatis 3(中文版) 第二章 引导MyBatis](http://blog.csdn.net/luanlouis/article/details/35570809)  
 
 
 <!--break-->

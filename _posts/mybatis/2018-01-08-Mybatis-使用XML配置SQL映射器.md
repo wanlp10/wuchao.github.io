@@ -1,18 +1,20 @@
 ---
 layout: post
-title: Mybatis - 使用XML配置SQL映射器 
+title: Mybatis - 使用 XML 配置 SQL 映射器 
 category : [JavaEE]
 tagline: "Supporting tagline"
 tags : [Mybatis]
 ---
 {% include JB/setup %}
-# Mybatis - 使用XML配置SQL映射器 
+# Mybatis - 使用 XML 配置 SQL 映射器 
 ---
 
 > 引用：   
 > [Java Persistence with MyBatis 3(中文版) 第三章 使用XML配置SQL映射器](http://blog.csdn.net/luanlouis/article/details/35594455) 
 
+
 <!--break-->
+
 
 ## 映射器配置文件和映射器接口 
 在 com.mybatis3.mappers 包中的 StudentMapper.xml 配置文件内，有个 id 为 ”findStudentById” 的 SQL 语句： 

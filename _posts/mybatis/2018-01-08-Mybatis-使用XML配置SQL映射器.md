@@ -44,7 +44,7 @@ public Student findStudentById(long studId) {
 ``` 
 
 我们可以通过字符串（字符串形式为：映射器配置文件所在的包名 namespace + 在文件内定义的语句 id，如上，即包名 com.mybatis3.mappers.StudentMapper 和语句 id (findStudentById) 组成调用映射的 SQL 语句，但是这种方式容易出错。你需要检查映射器配置文件中的定义，以保证你的输入参数类型和结果返回类型是有效的。
-MyBatis 通过使用映射器 Mapper 接口提供了更好的调用映射语句的方法。一旦我们通过映射器配置文件配置了映射语句，我们可以创建一个完全对应的一个映射器接口，接口名跟配置文件名相同，接口所在包名也跟配置文件所在包名完全一样(如StudentMapper.xml 所在的包名是 com.mybatis3.mappers，对应的接口名就是 com.mybatis3.mappers.StudentMapper.java）。映射器接口中的方法签名也跟映射器配置文件中完全对应：方法名为配置文件中 id 值；方法参数类型为 parameterType 对应值；方法返回值类型为 returnType 对应值。 
+MyBatis 通过使用映射器 Mapper 接口提供了更好的调用映射语句的方法。一旦我们通过映射器配置文件配置了映射语句，我们可以创建一个完全对应的一个映射器接口，接口名跟配置文件名相同，接口所在包名也跟配置文件所在包名完全一样(如 StudentMapper.xml 所在的包名是 com.mybatis3.mappers，对应的接口名就是 com.mybatis3.mappers.StudentMapper.java）。映射器接口中的方法签名也跟映射器配置文件中完全对应：方法名为配置文件中 id 值；方法参数类型为 parameterType 对应值；方法返回值类型为 returnType 对应值。 
 
 对于上述的 StudentMapper.xml 文件，我们可以创建一个映射器接口 StudentMapper.java 如下： 
 ``` 

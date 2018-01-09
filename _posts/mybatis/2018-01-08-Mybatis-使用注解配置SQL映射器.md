@@ -18,10 +18,10 @@ tags : [Mybatis]
 
 
 ## 映射语句 
-MyBatis提供了多种注解来支持不同类型的语句(statement)如SELECT,INSERT,UPDATE,DELETE。
+MyBatis 提供了多种注解来支持不同类型的语句(statement)如 SELECT，INSERT，UPDATE，DELETE。
 
 ### @Insert 
-我们可以使用 `@Insert` 注解来定义一个INSERT映射语句： 
+我们可以使用 `@Insert` 注解来定义一个 INSERT 映射语句： 
 ``` 
 package com.mybatis3.mappers;  
 public interface StudentMapper {  
@@ -42,7 +42,7 @@ public interface StudentMapper {
 int insertStudent(Student student);  
 ``` 
 
-这里STUD_ID列值将会通过MySQL数据库自动生成。并且生成的值将会被设置到student对象的studId属性中。 
+这里 STUD_ID 列值将会通过MySQL数据库自动生成。并且生成的值将会被设置到 student 对象的 studId 属性中。 
 
 ``` 
 StudentMapper mapper = sqlSession.getMapper(StudentMapper.class);  
@@ -113,10 +113,253 @@ public interface StudentMapper
 为了将列名和 Student bean 属性名匹配，我们为 stud_id 起了一个 studId 的别名。如果返回了多行结果，将抛出 `TooManyResultsException` 异常。 
 
 ## 结果映射 
+我们可以将查询结果通过别名或者是 `@Results` 注解与 JavaBean 属性映射起来。 
+现在让我们看看怎样使用 `@Results` 注解将指定列与指定 JavaBean 属性映射器来，执行 SELECT 查询的： 
+``` 
+package com.mybatis3.mappers;  
+public interface StudentMapper  
+{  
+    @Select("SELECT * FROM STUDENTS")  
+    @Results(  
+    {  
+        @Result(id = true, column = "stud_id", property = "studId"),  
+        @Result(column = "name", property = "name"),  
+        @Result(column = "email", property = "email"),  
+        @Result(column = "addr_id", property = "address.addrId")  
+    })  
+    List<Student> findAllStudents();  
+} 
+``` 
 
+> `@Results` 注解和映射器 XML 配置文件元素 `<resultMap>` 相对应，然而，`Mybatis3.2.2` 不能为 `@Results` 注解赋予一个 ID。所以，不像 `<resultMap>` 元素，我们不应该在不同的映射语句中重用 `@Results` 声明。
+> 这意味着即使 `@Results` 注解完全相同，我们也需要（在不同的映射接口中）重复 `@Results` 声明。 
 
+例如，看下面的 findStudentById() 和 findAllStudents() 方法： 
+``` 
+@Select("SELECT * FROM STUDENTS WHERE STUD_ID=#{studId}")  
+@Results(  
+{  
+    @Result(id = true, column = "stud_id", property = "studId"),  
+    @Result(column = "name", property = "name"),  
+    @Result(column = "email", property = "email"),  
+    @Result(column = "addr_id", property = "address.addrId")  
+})  
+Student findStudentById(int studId);  
+    
+@Select("SELECT * FROM STUDENTS")  
+@Results(  
+{  
+    @Result(id = true, column = "stud_id", property = "studId"),  
+    @Result(column = "name", property = "name"),  
+    @Result(column = "email", property = "email"),  
+    @Result(column = "addr_id", property = "address.addrId")  
+})  
+List<Student> findAllStudents(); 
+```  
 
+这里两个语句的` @Results` 配置完全相同，但是我必须得重复它。这里有一个解决方法。我们可以创建一个映射器 Mapper 配置文件， 然后配置 `<resultMap>` 元素，然后使用 `@ResultMap` 注解引用此 `<resultMap>`。
 
+在 StudentMapper.xml 中定义一个 ID 为 StudentResult 的 `<resultMap>` ： 
+``` 
+<mapper namespace="com.mybatis3.mappers.StudentMapper">  
+  <resultMap type="Student" id="StudentResult">  
+    <id property="studId" column="stud_id" />  
+    <result property="name" column="name" />  
+    <result property="email" column="email" />  
+    <result property="phone" column="phone" />  
+  </resultMap>  
+</mapper> 
+``` 
+
+在 StudentMapper.java 中，使用 `@ResultMap` 引用名为 StudentResult 的 resultMap： 
+``` 
+public interface StudentMapper {  
+    @Select("SELECT * FROM STUDENTS WHERE STUD_ID=#{studId}")  
+    @ResultMap("com.mybatis3.mappers.StudentMapper.StudentResult")  
+    Student findStudentById(long studId);  
+      
+    @Select("SELECT * FROM STUDENTS")  
+    @ResultMap("com.mybatis3.mappers.StudentMapper.StudentResult")  
+    List<Student> findAllStudents();  
+}  
+``` 
+
+### 一对一映射 
+MyBatis 提供了 `@One` 注解来使用嵌套 select 语句（Nested-Select）加载一对一关联查询数据。让我们看看怎样使 `用@One` 注解获取学生及其地址信息。
+``` 
+public interface StudentMapper {  
+    @Select("SELECT ADDR_ID AS ADDRID, STREET, CITY, STATE, ZIP, COUNTRY  
+            FROM ADDRESSES WHERE ADDR_ID=#{id}")  
+    Address findAddressById(long id);  
+       
+    @Select("SELECT * FROM STUDENTS WHERE STUD_ID=#{studId} ")  
+    @Results(  
+    {  
+        @Result(id = true, column = "stud_id", property = "studId"),  
+        @Result(column = "name", property = "name"),  
+        @Result(column = "email", property = "email"),  
+        @Result(property = "address", column = "addr_id",  
+        one = @One(select = "com.mybatis3.mappers.StudentMapper.findAddressById"))  
+    })  
+    Student selectStudentWithAddress(long studId);  
+} 
+```  
+
+这里我们使用了 `@One` 注解的 select 属性来指定一个使用了完全限定名的方法上，该方法会返回一个 Address 对象。使用 `column=”addr_id”` ，则 STUDENTS 表中列 addr_id 的值将会作为输入参数传递给 findAddressById() 方法。如果 `@One` SELECT 查询返回了多行结果，则会抛出 `TooManyResultsException` 异常。
+
+``` 
+long studId = 1;  
+StudentMapper studentMapper =   
+    sqlSession.getMapper(StudentMapper.class);  
+Student student = studentMapper.selectStudentWithAddress(studId);  
+System.out.println("Student :"+student);  
+System.out.println("Address :"+student.getAddress()); 
+```  
+
+在使用 XML 配置 SQL 映射器中，我们可以通过基于 XML 的映射器配置，使用嵌套结果 ResultMap 来加载一对一关联的查询。而 `MyBatis3.2.2` 版本，并没有对应的注解支持。但是我们可以在映射器 Mapper 配置文件中配置 `<resultMap>` 并且使用 `@ResultMap` 注解来引用它。
+在 StudentMapper.xml 中配置 `<resultMap>` ，如下所示： 
+``` 
+<mapper namespace="com.mybatis3.mappers.StudentMapper">  
+  <resultMap type="Address" id="AddressResult">  
+    <id property="addrId" column="addr_id" />  
+    <result property="street" column="street" />  
+    <result property="city" column="city" />  
+    <result property="state" column="state" />  
+    <result property="zip" column="zip" />  
+    <result property="country" column="country" />  
+  </resultMap>  
+  <resultMap type="Student" id="StudentWithAddressResult">  
+    <id property="studId" column="stud_id" />  
+    <result property="name" column="name" />  
+    <result property="email" column="email" />  
+    <association property="address" resultMap="AddressResult" />  
+  </resultMap>  
+</mapper> 
+``` 
+
+``` 
+public interface StudentMapper  
+{  
+    @Select("select stud_id, name, email, a.addr_id, street, city,  
+            state, zip, country" + " FROM students s left outer join addresses a  
+            on s.addr_id=a.addr_id" + " where stud_id=#{studId} ")  
+    @ResultMap("com.mybatis3.mappers.StudentMapper.  
+               StudentWithAddressResult")  
+    Student selectStudentWithAddress(long id);  
+} 
+```  
+
+### 一对多映射 
+MyBatis 提供了 `@Many` 注解，用来使用嵌套 Select 语句加载一对多关联查询。 
+现在让我们看一下如何使用 `@Many` 注解获取一个讲师及其教授课程列表信息： 
+``` 
+public interface TutorMapper  
+{  
+    @Select("select addr_id as addrId, street, city, state, zip,  
+            country from addresses where addr_id=#{id}")  
+    Address findAddressById(int id);  
+       
+    @Select("select * from courses where tutor_id=#{tutorId}")  
+    @Results(  
+    {  
+        @Result(id = true, column = "course_id", property = "courseId"),  
+        @Result(column = "name", property = "name"),  
+        @Result(column = "description", property = "description"),  
+        @Result(column = "start_date" property = "startDate"),  
+        @Result(column = "end_date" property = "endDate")  
+    })  
+    List<Course> findCoursesByTutorId(int tutorId);  
+        
+    @Select("SELECT tutor_id, name as tutor_name, email, addr_id  
+            FROM tutors where tutor_id=#{tutorId}")  
+    @Results(  
+    {  
+        @Result(id = true, column = "tutor_id", property = "tutorId"),  
+        @Result(column = "tutor_name", property = "name"),  
+        @Result(column = "email", property = "email"),  
+        @Result(property = "address", column = "addr_id",  
+        one = @One(select = " com.mybatis3.  
+        mappers.TutorMapper.findAddressById")),  
+        @Result(property = "courses", column = "tutor_id",  
+        many = @Many(select = "com.mybatis3.mappers.TutorMapper.  
+        findCoursesByTutorId"))  
+    })  
+    Tutor findTutorById(int tutorId);  
+} 
+```
+
+这里我们使用了 `@Many` 注解的 select 属性来指向一个完全限定名称的方法，该方法将返回一个 List<Course> 对象。使用 `column=”tutor_id”` ，TUTORS 表中的 tutor_id 列值将会作为输入参数传递给 findCoursesByTutorId() 方法。
+
+使用 XML 配置 SQL 映射器中，我们可以通过基于 XML 的映射器配置，使用嵌套结果 ResultMap 来加载一对多关联的查询。而 `MyBatis3.2.2` 版本，并没有对应的注解支持。但是我们可以在映射器 Mapper 配置文件中配置 `<resultMap>` 并且使用 `@ResultMap` 注解来引用它。
+在 TutorMapper.xml 中配置 `<resultMap>` ，如下所示： 
+``` 
+<mapper namespace="com.mybatis3.mappers.TutorMapper">  
+  <resultMap type="Address" id="AddressResult">  
+    <id property="addrId" column="addr_id" />  
+    <result property="street" column="street" />  
+    <result property="city" column="city" />  
+    <result property="state" column="state" />  
+    <result property="zip" column="zip" />  
+    <result property="country" column="country" />  
+  </resultMap>  
+  <resultMap type="Course" id="CourseResult">  
+    <id column="course_id" property="courseId" />  
+    <result column="name" property="name" />  
+    <result column="description" property="description" />  
+    <result column="start_date" property="startDate" />  
+    <result column="end_date" property="endDate" />  
+  </resultMap>  
+  <resultMap type="Tutor" id="TutorResult">  
+    <id column="tutor_id" property="tutorId" />  
+    <result column="tutor_name" property="name" />  
+    <result column="email" property="email" />  
+    <association property="address" resultMap="AddressResult" />  
+    <collection property="courses" resultMap="CourseResult" />  
+  </resultMap>  
+</mapper> 
+``` 
+
+``` 
+public interface TutorMapper  
+{  
+    @Select("SELECT T.TUTOR_ID, T.NAME AS TUTOR_NAME, EMAIL,  
+            A.ADDR_ID, STREET, CITY, STATE, ZIP, COUNTRY, COURSE_ID, C.NAME,  
+            DESCRIPTION, START_DATE, END_DATE  FROM TUTORS T LEFT OUTER  
+            JOIN ADDRESSES A ON T.ADDR_ID=A.ADDR_ID LEFT OUTER JOIN COURSES  
+            C ON T.TUTOR_ID=C.TUTOR_ID WHERE T.TUTOR_ID=#{tutorId}")  
+    @ResultMap("com.mybatis3.mappers.TutorMapper.TutorResult")  
+    Tutor selectTutorById(int tutorId);  
+} 
+``` 
+
+## 动态 SQL
+有时候我们需要根据输入条件动态地构建 SQL 语句。MyBatis 提供了各种注解如 `@InsertProvider` ， `@UpdateProvider` ， `@DeleteProvider` 和 `@SelectProvider` ，来帮助构建动态 SQL 语句，然后让 MyBatis 执行这些 SQL 语句。 
+
+### @SelectProvider 
+现在让我们来看一个使用 `@SelectProvider` 注解来创建一个简单的 SELECT 映射语句的例子。 
+创建一个 TutorDynaSqlProvider.java 类，以及 findTutorByIdSql() 方法，如下所示： 
+``` 
+package com.mybatis3.sqlproviders;  
+import org.apache.ibatis.jdbc.SQL;  
+public class TutorDynaSqlProvider {  
+    public String findTutorByIdSql(long tutorId) {  
+        return "SELECT TUTOR_ID AS tutorId, NAME, EMAIL FROM TUTORS  
+               WHERE TUTOR_ID=" + tutorId;  
+    }  
+}  
+```  
+
+在 TutorMapper.java 接口中创建一个映射语句，如下： 
+``` 
+@SelectProvider(type=TutorDynaSqlProvider.class, method="findTutorByIdSql")  
+Tutor findTutorById(long tutorId);  
+``` 
+
+这里我们使用了 `@SelectProvider` 来指定了一个类，及其内部的方法，用来提供需要执行的 SQL 语句。 
+
+但是使用字符串拼接的方法来构建 SQL 语句是非常困难的，并且容易出错。所以MyBaits提供了一个SQL工具类不使用字符串拼接的方式，简化构造动态SQL语句。
+
+现在，让我们看看如何使用org.apache.ibatis.jdbc.SQL工具类来准备相同的SQL语句。
 
 
 

@@ -14,18 +14,21 @@ tags : [aliyun, OSS, blob]
 页面(使用 cropper 插件需要在页面中引入 cropper.css 和 copper.js):    
 
 ``` 
-<div class="row">
-  <div class="col-md-6">
-    <label title="Upload image file" for="inputImage" class="btn btn-primary">
-    <input type="file" accept="content/images/*" name="file" id="inputImage"
-                                                 class="hide">选择图片
-    </label>
-    <button type="button" id="uploadLogo" class="btn btn-primary">上传</button>
-    <div class="image-crop m-t-xs" style="max-height: 300px;">
-        <img width="300" height="300">
+<form action="">
+    <input type="hidden" name="url" id="url"/>
+    <div class="row">
+      <div class="col-md-6">
+        <label title="Upload image file" for="inputImage" class="btn btn-primary">
+        <input type="file" accept="content/images/*" name="file" id="inputImage"
+                                                     class="hide">选择图片
+        </label>
+        <button type="button" id="uploadLogo" class="btn btn-primary">上传</button>
+        <div class="image-crop m-t-xs" style="max-height: 300px;">
+            <img width="300" height="300">
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+</form>    
 ```
 
 js:   

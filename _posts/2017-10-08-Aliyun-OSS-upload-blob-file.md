@@ -76,8 +76,10 @@ $($image).cropper({
 // 裁剪图片并上传
 $('#uploadLogo').on('click', function () {
     var dataUrl = $('.image-crop > img');
+    // canvas 对象
     var cropper = dataUrl.cropper('getCroppedCanvas');
-    // var imgUrl = dataUrl.toDataURL();
+    // canvas 转 base64
+    // var imgUrl = dataUrl.toDataURL("image/png");
     // var img = document.createElement("inputImage");
     // img.src = imgUrl;
     // document.getElementById("logoImg").appendChild(img);

@@ -67,7 +67,6 @@ google-chrome-stable : 依赖: libappindicator1 但是它将不会被安装
 sudo apt-get -f install libappindicator1 libindicator7
 ```
 
-<!--break-->
 
 ## 解压工具 unar
 可以解决 ubuntu 下解压文件后文件名中文乱码的问题
@@ -638,6 +637,38 @@ sudo reboot
 打开 Home 目录窗口，按 `Ctrl + H` 快捷键查看当前目录的隐藏文件和文件夹。找到 `.config` 文件夹，删除其中的 `SogouPY`，`SogouPY.users` 和 `sogou-qimpanel` 这三个文件夹，重启电脑。 
 
 
+## IntelliJ IDEA 的安装
+下载安装包
+
+解压
+
+运行启动脚本（要先安装 jdk）:
+```
+$ ./bin/idea.sh
+```
+
+
+## Eclipse 的安装
+进入下载页面 [https://www.1eclipse.org/downloads/packages/](https://www.eclipse.org/downloads/packages/)
+选择合适的系统版本点击下载.
+
+
+## Atom 的安装
+```
+$ sudo add-apt-repository ppa:webupd8team/atom
+$ sudo apt-get update  
+$ sudo apt-get install atom
+```
+
+
+## Ubuntu 系统升级 
+
+
+
+## 卸载软件和缓存 
+
+
+
 ## Redshift 的安装 
 安装 
 ``` 
@@ -728,28 +759,14 @@ screen=0
 ``` 
 redshift-gtk
 ``` 
-然后设置为 “开机自启”。   
+然后设置为 “开机自启”。  
 
 
-## IntelliJ IDEA 的安装
-下载安装包
-
-解压
-
-运行启动脚本（要先安装 jdk）:
-```
-$ ./bin/idea.sh
-```
-
-
-## Eclipse 的安装
-进入下载页面 [https://www.1eclipse.org/downloads/packages/](https://www.eclipse.org/downloads/packages/)
-选择合适的系统版本点击下载.
-
-
-## Atom 的安装
-```
-$ sudo add-apt-repository ppa:webupd8team/atom
-$ sudo apt-get update  
-$ sudo apt-get install atom
-```
+## TLP 的安装 
+TLP 是一款优化电源设置的软件，可以延长电池寿命。
+``` 
+sudo add-apt-repository -y ppa:linrunner/tlp 
+sudo apt-get update 
+sudo apt-get install -y tlp tlp-rdw tp-smapi-dkms acpi-call-tools 
+sudo tlp start
+``` 

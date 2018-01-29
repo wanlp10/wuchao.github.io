@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Mybatis - 使用注解配置 SQL 映射器 
-category : [JavaEE]
+category : [Mybatis]
 tagline: "Supporting tagline"
 tags : [Mybatis]
 ---

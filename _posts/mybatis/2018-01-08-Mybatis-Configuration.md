@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Mybatis 的配置
-category : [JavaEE]
+category : [Mybatis]
 tagline: "Supporting tagline"
 tags : [Mybatis]
 ---

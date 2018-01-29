@@ -589,6 +589,12 @@ $ sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080
 -s后面跟你的服务器ip ， -p后面跟你远程端口号（默认8388） ，-k后面跟你的密码（写在双引号之间），其他的用默认选项就好。
 
 
+## 基于L2TP的VPN  
+
+> [在Ubuntu使用基于L2TP的VPN设置](http://blog.csdn.net/xiaoreqing/article/details/50968467) 
+
+
+
 ## Google Chrome 的安装
 > [Ubuntu14.04下安装google chrome浏览器](http://blog.csdn.net/xuwenneng/article/details/52316743)
 ```

@@ -11,7 +11,9 @@ tags : [Ubuntu]
 
 > 安装时语言选择中文，不然不带中文输入法，且以后安装中文输入法比较麻烦。
 
+
 <!--break-->
+
 
 ## unetbootin 的安装
 
@@ -23,6 +25,7 @@ tags : [Ubuntu]
 ```
 $ sudo apt-get install unetbootin
 ```
+
 
 ### 格式化u盘
 对于要格式化的分区必须要先用umount卸载掉才能格式化：
@@ -78,6 +81,7 @@ $ sudo apt-get install unar
 unar xxx.jar  
 ```
 
+
 ### 阿里源   
 
 > http://blog.csdn.net/u011148119/article/details/50338355
@@ -109,6 +113,7 @@ deb-src http://mirrors.aliyun.com/ubuntu/ vivid-backports main restricted univer
 $ sudo apt-get update
 $ sudo apt-get upgrade
 ```
+
 
 ## JDK 的安装  
 > [http://www.linuxidc.com/Linux/2016-11/136958.htm](http://www.linuxidc.com/Linux/2016-11/136958.htm)
@@ -253,6 +258,7 @@ $ sudo update-alternatives --set javac /usr/local/java/jdk1.8.0_131/bin/javac
 $ sudo update-alternatives --set javaws /usr/local/java/jdk1.8.0_131/bin/javaws
 ```   
 
+
 ## Git 的安装
 
 ### 安装   
@@ -265,6 +271,7 @@ $ sudo apt-get update
 $ sudo apt-get install git  
 $ git --version
 ```
+
 
 ## Gradle 的安装   
 
@@ -353,6 +360,7 @@ Downloading https://services.gradle.org/distributions/gradle-4.0.1-bin.zip
 ...
 ```
 
+
 ## Mysql 的安装
 
 ### 安装   
@@ -432,7 +440,18 @@ $ sudo apt-get remove mysql-common
 # 清理残留数据
 
 $ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
+``` 
+
+## DBeaver 的安装
+> Free universal database manager and SQL client.  
+
+下载链接 : [Linux Debian package 64 bit (installer)](https://dbeaver.jkiss.org/download/)   
+  
+然后使用 `dpkg` 命令安装: 
+``` 
+sudo dpkg -i dbeaver-ce_4.3.4_amd64.deb  
 ```
+
 
 ## curl 的安装
 ```
@@ -440,6 +459,7 @@ $ sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports
 $ sudo apt-get update  
 $ sudo apt-get install curl  
 ```
+
 
 ## Node.JS 的安装
 
@@ -532,11 +552,13 @@ v8.4.0
 $ npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 
+
 ## Yarn 的安装
 ```
 $ sudo npm install -g yarn
 $ yarn -v
 ```
+
 
 ## Bower 的安装
 ```
@@ -549,10 +571,12 @@ $
 $ bower -v  
 ```
 
+
 ## Gulp 的安装
 ```
 $ npm install --global gulp-cli
 ```
+
 
 ## openssh-server 的安装
 安装
@@ -563,6 +587,7 @@ $ sudo apt-get install openssh-server
 ```
 $ ps -e|grep ssh
 ```
+
 
 ## Lantern 的安装
 下载安装包（https://github.com/getlantern/lantern），Deepin 操作系统也可以下载 Ubuntu 的安装包。

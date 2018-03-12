@@ -635,7 +635,10 @@ dpkg: 依赖关系问题使得 google-chrome-stable 的配置工作不能继续�
 解决办法：
 ```
 $ sudo apt-get -f install libappindicator1 libindicator7
-```
+``` 
+
+#### 登陆谷歌账号
+从谷歌浏览器打开“拓展程序”页面，将[谷歌访问助手-2.3.0-Crx4Chrome.com.crx](/attachments/谷歌访问助手-2.3.0-Crx4Chrome.com.crx)拖到页面上，然后就可以使用谷歌了。 
 
 
 ## 搜狗输入法 for Linux 的安装

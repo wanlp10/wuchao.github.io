@@ -22,53 +22,50 @@ tags : [Mybatis]
 
 批量 insert： 
 ``` 
-<insert id="batchInsert" parameterType="Test">
-    INSERT INTO 
-    test_table(test_x, test_y, test_z)
-    VALUES
-    <foreach item="item" index="index" collection="list" open="(" close=")" separator=",">
-        #{item}.x, #{item.y}, #{item}.z
+<insert id="batchSaveOrUpdate" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO favorite_group(id, name, user_id) VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.id}, #{item.name}, #{item.userId})
     </foreach>
 </insert>
-``` 
-最终的语句类似： 
 ```  
-insert into test_table(x, y, z) values (1, 1, 1), (2, 2, 2), (3, 3, 3)
+
+最终的语句类似：  
+
+```  
+insert into favorite_group(id, name, user_id) values (1, 1, 1), (2, 2, 2), (3, 3, 3)
 ``` 
 
-批量 insert 或 update： 
+批量 insert 或 update：  
+> [](http://blog.sina.com.cn/s/blog_13bde781c0102wjpd.html) 
+
 ``` 
-<insert id="batchInsertOrUpdate" parameterType="Test">
-    INSERT INTO 
-    test_table(test_x, test_y, test_z)
-    VALUES
-    <foreach item="item" index="index" collection="list" open="(" close=")" separator=",">
-        #{item}.x, #{item.y}, #{item}.z
+<insert id="batchSaveOrUpdate" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO favorite_group(id, name, user_id) VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.id}, #{item.name}, #{item.userId})
     </foreach>
     ON DUPLICATE KEY UPDATE
-    test_x = VALUES(test_x),
-    test_y = VALUES(test_y),
-    test_z = VALUES(test_z)
-    END 
+    name = CASE id
+    <foreach collection="list" item="item" index="index">
+        WHEN #{item.id} THEN #{item.name}
+    </foreach>
+    END
 </insert>
 ```  
-
-> [](http://blog.sina.com.cn/s/blog_13bde781c0102wjpd.html) 
+ 
 > 如果有多个字段要改动，`END` 后面加逗号分隔。 
 
 批量 delete： 
 ``` 
-<delete id="deleteTestList" parameterType="Test">
-    DELETE FROM 
-    test_table
-    WHERE
-    <foreach item="item" index="index" collection="list" open="(" close=")" separator="or">
-        test_x = #{item.x} AND test_y = #{item.y} AND test_z = #{item.z}
+<delete id="batchDelete" parameterType="long">
+    DELETE FROM favorite_group where id IN
+    <foreach collection="array" item="id" open="(" separator="," close=")">
+        #{groupIds}
     </foreach>
 </delete>
 ``` 
 最终的语句类似于： 
 ``` 
-delete from test_table where (test_x = 1 AND test_y = 1 AND test_z = 1) or (test_x = 2 AND test_y = 2 AND test_z = 2) or (test_x = 3 AND test_y = 3 AND test_z = 3) 
+delete from favorite_group where id in (1, 2, 3) 
 ``` 
-> 上面的代码为 x,y,z 为联合主键的情况，普通情况使用 `where id in`。 

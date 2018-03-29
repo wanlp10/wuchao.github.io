@@ -453,6 +453,41 @@ sudo dpkg -i dbeaver-ce_4.3.4_amd64.deb
 ```
 
 
+## 开启 SSH 服务
+SSH 分客户端 openssh-client 和 openssh-server
+如果你只是想登陆别的机器的 SSH 只需要安装 openssh-client（ubuntu 有默认安装），如果没有则： 
+``` 
+sudo apt-get install openssh-client
+``` 
+如果要使本机开放 SSH 服务就需要安装 openssh-server：
+``` 
+sudo apt-get install openssh-server
+``` 
+然后确认 sshserver 是否启动了：
+``` 
+ps -e | grep ssh
+```
+如果看到sshd那说明 ssh-server 已经启动了。
+如果没有则可以这样启动：
+``` 
+sudo /etc/init.d/ssh start 
+```
+ssh-server 配置文件位于 `/etc/ssh/sshd_config`，在这里可以定义 SSH 的服务端口，默认端口是 22，你可以自己定义成其他端口号，如 222。
+然后重启 SSH 服务：
+``` 
+sudo /etc/init.d/ssh stop  
+sudo /etc/init.d/ssh start
+```
+然后使用以下方式登陆 SSH：
+``` 
+ssh tuns@192.168.xx.xx    # tuns 为 192.168.xx.xx 机器上的用户名，需要输入密码。
+```
+断开连接：
+``` 
+exit
+```
+
+
 ## curl 的安装
 ```
 $ sudo add-apt-repository ppa:costamagnagianfranco/ettercap-stable-backports  

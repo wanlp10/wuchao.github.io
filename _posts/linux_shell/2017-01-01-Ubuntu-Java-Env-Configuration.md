@@ -14,6 +14,9 @@ tags : [Ubuntu]
 
 <!--break-->
 
+## 安装 Ubuntu 16.04 后要做的事 
+> https://blog.csdn.net/whatlookingfor/article/details/52382538
+
 
 ## unetbootin 的安装
 

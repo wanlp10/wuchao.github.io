@@ -247,4 +247,8 @@ for (Iterator<String> it = names.iterator(); it.hasNext();) {
 t.commit();
 ```
 
-> 参考：[Java三大框架之——Hibernate中的三种数据持久状态和缓存机制](https://www.cnblogs.com/hcl22/p/6100191.html)
+> 参考：  
+> 
+> [Java三大框架之——Hibernate中的三种数据持久状态和缓存机制](https://www.cnblogs.com/hcl22/p/6100191.html)
+> 
+> [Hibernate object states](https://docs.jboss.org/hibernate/orm/3.3/reference/en/html/objectstate.html)

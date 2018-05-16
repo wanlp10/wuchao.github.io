@@ -11,15 +11,18 @@ tags : [Java]
 
 <!--break-->
 
- ## Array、List、Set 互转实例
- ### Array、List 互转
+## Array、List、Set 互转实例
+### Array、List 互转
 
- #### Array 转 List
- ```
- String[] s = new String[]{"A", "B", "C", "D", "E"};
- List<String> list = Arrays.asList(s);
- ```
+#### Array 转 List
+
+```
+String[] s = new String[]{"A", "B", "C", "D", "E"};
+List<String> list = Arrays.asList(s);
+```
+
 注意这里 list 里面的元素直接是 s 里面的元素（list backed by the specified array），换句话就是说：对 s 的修改，直接影响 list。
+
 ```
 s[0] = "AA";
 System.out.println("list: " + list);
@@ -29,7 +32,8 @@ System.out.println("list: " + list);
 list: [AA, B, C, D, E]
 ```
 
-#### List 转 Array
+#### List 转 Array 
+
 ```
 String[] dest = list.toArray(new String[0]); // new String[0]是指定返回数组的类型
 System.out.println("dest: " + Arrays.toString(dest));
@@ -58,6 +62,7 @@ dest: [AA, B, C, D, E]
 // List 转 Set
 Set<String> set = new HashSet<>(list);
 System.out.println("set: " + set);
+
 // Set 转 List
 List<String> list_1 = new ArrayList<>(set);
 System.out.println("list_1: " + list_1);
@@ -71,6 +76,7 @@ System.out.println("list_1: " + list_1);
 s = new String[]{"A", "B", "C", "D","E"};
 set = new HashSet<>(Arrays.asList(s));
 System.out.println("set: " + set);
+
 // set 转 array
 dest = set.toArray(new String[0]);
 System.out.println("dest: " + Arrays.toString(dest));

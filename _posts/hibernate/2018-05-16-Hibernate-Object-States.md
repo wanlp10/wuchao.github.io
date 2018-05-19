@@ -39,7 +39,7 @@ stu.setId(“100”);
 // 将 stu 对象持久化操作
 session.save(stu);
 
-stu.setCardId(“20076548”);
+stu.setCardId("20076548");
 
 // 再次对 stu 对象进行持久化操作
 session.save(stu); // 无效
@@ -63,11 +63,6 @@ User user = new User();
 user.setUsername("aaa");
 user.setPassword("aaa");
 user.setBorn(new Date());
-/*
- *  以上 user 就是一个 Transient(瞬时状态),此时 user 并没有被 session 进行托管，即在 session 的
- *  缓存中还不存在 user 这个对象，当执行完 save 方法后，此时 user 被 session 托管，并且数据库中存在了该对象
- *  user 就变成了一个 Persistent(持久化对象)
- */
 session.save(user);
 session.getTransaction().commit();
 ```
@@ -84,15 +79,17 @@ User user = new User();
 user.setUsername("aaa");
 user.setPassword("aaa");
 user.setBorn(new Date());
-// 以上 u 就是 Transient（瞬时状态），表示没有被 session 管理并且数据库中没有该记录
-// 执行 save 之后，被 session 所管理，而且，数据库中已经存在，此时就是 Persistent 状态
 session.save(user);
-// 此时 u 是持久化状态，已经被 session 所管理，当在提交时，会把 session 中的对象和目前的对象进行比较
-// 如果两个对象中的值不一致就会继续发出相应的 sql 语句
 user.setPassword("bbb");
-// 此时会发出 2 条 sql，一条用户做插入，一条用来做更新
 session.getTransaction().commit();
-```
+``` 
+在调用了 save 方法后，此时 user 对象被保存在了 session 缓存当中，这时 user 又重新修改了属性值，那么在提交事务时，
+此时 hibernate 对象就会拿当前这个 user 对象和保存在 session 缓存中的 user 对象进行比较，如果两个对象相同，
+则不会发送 update 语句，否则，如果两个对象不同，则会发出 update 语句。
 
 
-> 参考：[深入hibernate的三种状态](https://www.cnblogs.com/xiaoluo501395377/p/3380270.html)
+> 参考： 
+
+> [Hibernate 缓存、快照与对象状态的深入理解](https://blog.csdn.net/boboma_dut/article/details/79659061)
+> 
+> [深入hibernate的三种状态](https://www.cnblogs.com/xiaoluo501395377/p/3380270.html)

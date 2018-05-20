@@ -83,13 +83,226 @@ session.save(user);
 user.setPassword("bbb");
 session.getTransaction().commit();
 ``` 
-在调用了 save 方法后，此时 user 对象被保存在了 session 缓存当中，这时 user 又重新修改了属性值，那么在提交事务时，
-此时 hibernate 对象就会拿当前这个 user 对象和保存在 session 缓存中的 user 对象进行比较，如果两个对象相同，
-则不会发送 update 语句，否则，如果两个对象不同，则会发出 update 语句。
+执行 sql：
+``` 
+Hibernate: insert into t_user (born, password, username) values (?, ?, ?)
+Hibernate: update t_user set born=?, password=?, username=? where id=?
+```  
+
+### 3. 
+``` 
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = new User();
+u.setBorn(new Date());
+u.setUsername("zhangsan");
+u.setPassword("zhangsan");
+session.save(u);
+u.setPassword("222");
+// 该条语句没有意义
+session.save(u);
+u.setPassword("zhangsan111");
+// 没有意义
+session.update(u);
+u.setBorn(sdf.parse("1988-12-22"));
+// 没有意义
+session.update(u);
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+Hibernate: insert into t_user (born, password, username) values (?, ?, ?)
+Hibernate: update t_user set born=?, password=?, username=? where id=?
+``` 
+
+### 4. 
+``` 
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = new User();
+u.setBorn(sdf.parse("1976-2-3"));
+u.setUsername("zhangsan2");
+u.setPassword("zhangsan2");
+session.save(u);
+/*
+ * 以下三条语句没有任何意义
+ */
+session.save(u);
+session.update(u);
+session.update(u);
+u.setUsername("zhangsan3");
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+Hibernate: insert into t_user (born, password, username) values (?, ?, ?)
+Hibernate: update t_user set born=?, password=?, username=? where id=?
+``` 
+
+### 5. 
+``` 
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = (User)session.load(User.class, 4);
+u.setUsername("bbb");
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+Hibernate: select user0_.id as id0_0_, user0_.born as born0_0_, user0_.password as password0_0_, user0_.username as username0_0_ from t_user user0_ where user0_.id=?
+Hibernate: update t_user set born=?, password=?, username=? where id=?
+```
+
+### 6. 
+``` 
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = (User)session.load(User.class, 4);
+u.setUsername("123");
+session.clear();
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+Hibernate: select user0_.id as id0_0_, user0_.born as born0_0_, user0_.password as password0_0_, user0_.username as username0_0_ from t_user user0_ where user0_.id=?
+```
+
+### 7. 
+``` 
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = new User();
+u.setId(4);
+u.setPassword("hahahaha");
+session.save(u);
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+Hibernate: insert into t_user (born, password, username) values (?, ?, ?)
+``` 
+
+### 8. 
+``` 
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = new User();
+u.setId(5);
+session.update(u);
+u.setBorn(sdf.parse("1998-12-22"));
+u.setPassword("world");
+u.setUsername("world");
+session.update(u);
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+Hibernate: update t_user set born=?, password=?, username=? where id=? 
+``` 
+
+### 9. 
+``` 
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = new User();
+u.setId(5);
+session.update(u);
+u.setBorn(sdf.parse("1998-12-22"));
+u.setPassword("lisi");
+u.setUsername("lisi");
+u.setId(333);
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+org.hibernate.HibernateException: identifier of an instance of com.xiaoluo.bean.User was altered from 5 to 333
+``` 
+
+### 10. 
+``` 
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = new User();
+u.setId(5);
+session.delete(u);
+u.setPassword("wangwu");
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+Hibernate: delete from t_user where id=?
+``` 
+
+### 11. 
+``` 
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u = new User();
+u.setId(4);
+u.setPassword("zhaoliu");
+session.saveOrUpdate(u);
+session.getTransaction().commit();
+``` 
+执行 sql：
+``` 
+Hibernate: delete from t_user where id=?
+``` 
+这里我们来看看 saveOrUpdate这个方法，这个方法其实是一个"偷懒"的方法，如果对象是一个离线对象，那么在执行这个方法后，其实是调用了update方法，如果对象是一个瞬时对象，则会调用save方法，记住：如果对象设置了ID值，例如u.setId(4)，那么该对象会被假设当作一个离线对象，此时就会执行update操作。
+``` 
+Hibernate: update t_user set born=?, password=?, username=? where id=?
+```
+如果此时我将u.setId(4)这句话注释掉，那么此时u就是一个瞬时的对象，那么此时就会执行save操作，就会发送一条insert语句
+``` 
+Hibernate: insert into t_user (born, password, username) values (?, ?, ?)
+```
+
+### 12. 
+``` 
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u1 = (User)session.load(User.class, 3);
+System.out.println(u1.getUsername());
+User u2 = new User();
+u2.setId(3);
+u2.setPassword("123456789");
+session.saveOrUpdate(u2);
+``` 
+我们再来看一下这个例子，此时我们的u1已经是持久化的对象了，保存在session缓存中，u2通过调用saveOrUpdate方法后也变成了一个持久化的对象，此时也会保存在session缓存中，这个时候session缓存中就存在了一个持久化对象有两个引用拷贝了，这个时候hibernate就会报错 
+``` 
+org.hibernate.NonUniqueObjectException: a different object with the same identifier value was already associated with the session: [com.xiaoluo.bean.User#3]
+``` 
+一个session中不能存在对一个持久化对象的双重copy的，要解决这个方法，我们这里又要介绍session的另一个方法  merge方法，这个方法的作用就是解决一个持久化对象两分拷贝的问题，这个方法会将两个对象合并在一起成为一个对象。
+``` 
+session = HibernateUtil.openSession();
+session.beginTransaction();
+User u1 = (User)session.load(User.class, 3);
+System.out.println(u1.getUsername());
+User u2 = new User();
+u2.setId(3);
+u2.setPassword("123456789");
+session.merge(u2);
+session.getTransaction().commit();
+``` 
+我们看到通过调用了merge方法以后，此时会将session中的两个持久化对象合并为一个对象，但是merge方法不建议被使用
+``` 
+Hibernate: select user0_.id as id0_0_, user0_.born as born0_0_, user0_.password as password0_0_, user0_.username as username0_0_ from t_user user0_ where user0_.id=?
+zhangsan
+Hibernate: update t_user set born=?, password=?, username=? where id=?
+``` 
+
+总结：  
+
+①.对于刚创建的一个对象，如果session中和数据库中都不存在该对象，那么该对象就是瞬时对象(Transient)。
+
+②.瞬时对象调用save方法，或者离线对象调用update方法可以使该对象变成持久化对象，如果对象是持久化对象时，那么对该对象的任何修改，都会在提交事务时才会与之进行比较，如果不同，则发送一条update语句，否则就不会发送语句。
+
+③.离线对象就是，数据库存在该对象，但是该对象又没有被session所托管。
 
 
 > 参考： 
-
-> [Hibernate 缓存、快照与对象状态的深入理解](https://blog.csdn.net/boboma_dut/article/details/79659061)
 > 
 > [深入hibernate的三种状态](https://www.cnblogs.com/xiaoluo501395377/p/3380270.html)

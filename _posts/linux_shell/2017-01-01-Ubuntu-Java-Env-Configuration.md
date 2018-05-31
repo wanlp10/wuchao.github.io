@@ -733,105 +733,56 @@ $ sudo apt-get install atom
 ```
 
 
-## Ubuntu 系统升级 
+## WPS 
+``` 
+wget http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb
+sudo dpkg -i wps-office_10.1.0.5672_a21_amd64.deb 
+```
+anzhuangbaocuo:
+``` 
+dpkg: 依赖关系问题使得 wps-office 的配置工作不能继续：
+ wps-office 依赖于 libpng12-0；然而：
+  未安装软件包 libpng12-0。 
+``` 
+> [Linux for Ubuntu 解决WPS安装缺少libpng12-0的问题](https://blog.csdn.net/tydyz/article/details/74991048)
 
+``` 
+sudo dpkg -i libpng12-0_1.2.54-1ubuntu1_amd64.deb
+``` 
+启动 WPS 提示 No necessary symbol fonts : 
+> [WPS for Linux（ubuntu）字体配置(字体缺失解决办法)](https://www.cnblogs.com/liangml/p/5969404.html) 
+
+
+
+## Ubuntu 系统升级 
+> [将 Ubuntu 16.04 LTS 升级到 Ubuntu 18.04 LTS](https://jingyan.baidu.com/article/2f9b480de8b64941cb6cc2a1.html) 
+
+``` 
+# 建议升级之前更新/升级所有已安装的软件包:
+sudo apt update 
+sudo apt dist-upgrade 
+sudo apt autoremove 
+  
+# 安装 Ubuntu update manager: 
+sudo apt-get install update-manager-core
+   
+# 打开 update-manager 配置文件并确保提示行设置为 lts
+# sudo vim /etc/update-manager/release-upgrades 
+  
+# 执行升级命令:
+sudo do-release-upgrade -d
+  
+# 升级系统后重启电脑
+``` 
+
+> [最新的ubuntu 18.04触控板右键失灵的解决方法](https://blog.csdn.net/qq_36317016/article/details/80143557)
+``` 
+gsettings set org.gnome.desktop.peripherals.touchpad click-method areas 
+```
 
 
 ## 卸载软件和缓存 
 
-
-
-## Redshift 的安装 
-安装 
-``` 
-sudo add-apt-repository ppa:dobey/redshift-daily   
-sudo apt-get update  
-sudo apt-get install redshift-gtk  
-``` 
-
-下载 [redshift.conf.sample](https://github.com/jonls/redshift/blob/master/redshift.conf.sample)，将名称改为 `redshift.conf`，并复制到 `~/.config/` 目录下。 
-
-然后根据实际情况修改该配置文件的经纬度等参数： 
-   
-``` 
-; Global settings for redshift
-[redshift]
-; Set the day and night screen temperatures
-temp-day=4500
-temp-night=3500
-
-; Disable the smooth fade between temperatures when Redshift starts and stops.
-; 0 will cause an immediate change between screen temperatures.
-; 1 will gradually apply the new screen temperature over a couple of seconds.
-fade=1
-
-; Solar elevation thresholds.
-; By default, Redshift will use the current elevation of the sun to determine
-; whether it is daytime, night or in transition (dawn/dusk). When the sun is
-; above the degrees specified with elevation-high it is considered daytime and
-; below elevation-low it is considered night.
-;elevation-high=3
-;elevation-low=-6
-
-; Custom dawn/dusk intervals.
-; Instead of using the solar elevation, the time intervals of dawn and dusk
-; can be specified manually. The times must be specified as HH:MM in 24-hour
-; format.
-;dawn-time=6:00-7:45
-;dusk-time=18:35-20:15
-
-; Set the screen brightness. Default is 1.0.
-;brightness=0.9
-; It is also possible to use different settings for day and night
-; since version 1.8.
-;brightness-day=0.7
-;brightness-night=0.4
-; Set the screen gamma (for all colors, or each color channel
-; individually)
-gamma=0.8
-;gamma=0.8:0.7:0.8
-; This can also be set individually for day and night since
-; version 1.10.
-;gamma-day=0.8:0.7:0.8
-;gamma-night=0.6
-
-; Set the location-provider: 'geoclue2', 'manual'
-; type 'redshift -l list' to see possible values.
-; The location provider settings are in a different section.
-location-provider=manual
-
-; Set the adjustment-method: 'randr', 'vidmode'
-; type 'redshift -m list' to see all possible values.
-; 'randr' is the preferred method, 'vidmode' is an older API.
-; but works in some cases when 'randr' does not.
-; The adjustment method settings are in a different section.
-adjustment-method=randr
-
-; Configuration of the location-provider:
-; type 'redshift -l PROVIDER:help' to see the settings.
-; ex: 'redshift -l manual:help'
-; Keep in mind that longitudes west of Greenwich (e.g. the Americas)
-; are negative numbers.
-[manual] 
-; 上海的经纬度 
-lat=31.23
-lon=121.47
-
-; Configuration of the adjustment-method
-; type 'redshift -m METHOD:help' to see the settings.
-; ex: 'redshift -m randr:help'
-; In this example, randr is configured to adjust only screen 0.
-; Note that the numbering starts from 0, so this is actually the first screen.
-; If this option is not specified, Redshift will try to adjust _all_ screens.
-[randr]
-screen=0
-```  
-
-启动 
-``` 
-redshift-gtk
-``` 
-然后设置为 “开机自启”。  
 
 
 ## TLP 的安装 

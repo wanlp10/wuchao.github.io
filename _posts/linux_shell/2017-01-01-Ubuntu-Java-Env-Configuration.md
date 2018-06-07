@@ -24,31 +24,31 @@ tags : [Ubuntu]
 >
 > [Ubuntu下格式化U盘的方法(基于格式化命令)](http://mtoou.info/ubuntu-geshihua-upan/)
 
-### 安装u盘制作工具unetbootin
+### 安装u盘制作工具 unetbootin
 ```
 $ sudo apt-get install unetbootin
 ```
 
 
 ### 格式化u盘
-对于要格式化的分区必须要先用umount卸载掉才能格式化：
+对于要格式化的分区必须要先用 `umount` 命令卸载掉才能格式化：
 ```  
 $ sudo fdisk -l #查看U盘盘符，假设为/dev/sdb
 $ sudo umount /dev/sdb #先卸载u盘
 ```
 
-格式化为FAT分区（对于u盘我们一般格式化为FAT格式或者FAT32格式，不过在linux下这些会都显示为FAT格式。）：
+格式化为 FAT 分区（对于u盘我们一般格式化为 FAT 格式或者 FAT32 格式，不过在 linux 下这些会都显示为 FAT 格式。）：
 ```
 $ sudo mkfs.vfat -F 32 /dev/sdb  #格式化为fat32格式
 ```
 
-格式化为NTFS分区，先要安装ntfsprogs：
+格式化为 NTFS 分区，先要安装 ntfsprogs：
 ```
 $ sudo apt-get install ntfsprogs
 $ sudo mkfs.ntfs /dev/sdb
 ```
 
-格式化为ext4/3/2：
+格式化为 ext4/3/2：
 ```  
 $ sudo mkfs.ext4 /dev/sda1 # 格式化为ext4分区
 $ sudo mkfs.ext3 /dev/sda1 # 格式化为ext3分区
@@ -129,15 +129,15 @@ $ sudo apt-get upgrade
 
 #### 1.1 JRE 和 JDK
 
-- `JRE(Java Runtime Environment)`它是你运行一个基于 Java 语言应用程序的所正常需要的环境。如果你不是一个程序员的话，这些足够你的需要.
-- `JDK`代表`Java`开发工具包，如果你想做一些有关`Java`的开发 (阅读程序), 这正是你所需要的.
+- `JRE(Java Runtime Environment)` 它是你运行一个基于 Java 语言应用程序的所正常需要的环境。如果你不是一个程序员的话，这些足够你的需要。
+- `JDK` 代表 Java 开发工具包，如果你想做一些有关 Java 的开发 (阅读程序), 这正是你所需要的。
 
 #### 1.2 Open JDK 和 Oracle JDK
 
-- `OpenJDK`是`Java`开发工具包的开源实现
-- `Oracle JDK`是`Java`开发工具包的官方`Oracle`版本
+- `OpenJDK` 是 Java 开发工具包的开源实现
+- `Oracle JDK` 是 Java 开发工具包的官方 Oracle 版本
 
-尽管`OpenJDK`已经足够满足大多数的案例，但是许多程序比如 `Android Studio`建议使用`Oracle JDK`, 以避免 UI / 性问题.
+尽管 OpenJDK 已经足够满足大多数的案例，但是许多程序比如 Android Studio 建议使用 Oracle JDK， 以避免 UI / 性问题。
 
 ### 2 检查 Java 是否已经安装在 Ubuntu 上
 
@@ -147,7 +147,7 @@ $ sudo apt-get upgrade
 $ java -version
 ```
 
-如果你看到像下面的输出，这就意味着你并没有安装过 Java:
+如果你看到像下面的输出，这就意味着你并没有安装过 Java：
 
 ```
 The program ‘java’ can be found in the following packages:
@@ -161,13 +161,13 @@ Try: sudo apt-get install
 
 ### 3 在 Ubuntu 和 Linux Mint 上安装 Java
 
-看了各种类型`Java`的不同之后, 让我们看如何安装他们.
+看了各种类型 Java 的不同之后, 让我们看如何安装他们。
 
-在`Ubuntu`和`Linux Mint`上安装`JRE`
+在 Ubuntu 和 Linux Mint 上安装 JRE 
 
 #### 3.1 安装 OpenJDK
 
-在`Ubuntu`和`Linux Mint`上安装`OpenJDK`
+在 Ubuntu 和 Linux Mint 上安装 OpenJDK 
 
 在终端，使用下面的命令安装 OpenJDK Java 开发工具包：
 
@@ -176,11 +176,11 @@ $ sudo apt-get install default-jre
 $ sudo apt-get install default-jdk
 ```
 
-特殊地, 如果你想要安装 `Java 7` 或者 `Java 6` 等等，你可以使用 `openjdk-7-jdk/openjdk-6jdk`, 但是记住在此之前安装 `openjdk-7-jre/openjdk-6-jre`
+特殊地, 如果你想要安装 Java7 或者 Java6 等等，你可以使用 `openjdk-7-jdk/openjdk-6jdk`, 但是记住在此之前安装 `openjdk-7-jre/openjdk-6-jre`。
 
 #### 3.2 安装 Oracle JDK
 
-在`Ubuntu`和`Linux Mint`上安装`Oracle JDK`
+在 Ubuntu 和 Linux Mint 上安装 Oracle JDK。 
 
 ##### 3.2.1 使用源安装（推荐方式）
 
@@ -193,19 +193,19 @@ $ sudo apt-get install oracle-java8-installer
 $ sudo apt-get install oracle-java8-set-default
 ```
 
-如果你想安装`Java 7(i.e Java 1.7)`, 在上面的命令中用`java7`代替`java8`.
+如果你想安装 Java7(i.e Java 1.7) , 在上面的命令中用 java7 代替 java8。
 
 ##### 3.2.2 通过 bin 包安装
 
-此外可以用 Linux 上通用的 bin 包安装，下载官方 bin 包，终端下面安装解压，然后修改环境变量指向那个 jdk 便可
+此外可以用 Linux 上通用的 bin 包安装，下载官方 bin 包，终端下面安装解压，然后修改环境变量指向那个 jdk 便可。
 
-按照需要选择不同的版本, 下载 bin 包
+按照需要选择不同的版本，下载 bin 包。
 
 ```
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 ```
 
-将下载下来的`jdk-8u101-linux-x64.tar.gz`文件解压。
+将下载下来的 `jdk-8u101-linux-x64.tar.gz` 文件解压。
 
 使用如下命令解压：
 
@@ -214,14 +214,14 @@ $ sudo tar zxvf ./jdk-8u144-linux-x64.tar.gz
 ```
 
 #### 3.3 配置环境变量
-编辑 /etc/profile 文件：
+编辑 `/etc/profile` 文件：
 ```
 JAVA_HOME=/usr/local/java/jdk1.8.0_144
 JRE_HOME=$JAVA_HOME/jre
 PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 export JAVA_HOME JRE_HOME PATH
 ```
-如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的 JAVA_HOME 即可。（可以不配置）
+如果是使用源方法安装的, 则默认的安装路径是在 `/usr/lib/jvm/java-8-oracle` 中, 则配置对应的 JAVA_HOME 即可。（可以不配置）
 ```
 JAVA_HOME=/usr/lib/jvm/java-8-oracle
 ```
@@ -310,9 +310,9 @@ http://blog.csdn.net/stwstw0123/article/details/47809189
 >
 > Could not find method jcenter() for arguments [] on repository [Container](http://lib.csdn.net/base/docker).
 >
-> 所以，起码到现在 (2015-08-20), 不要用`$sudo apt-get install gradle`来安装 *gradle*，如果安装了，要用 `$ sudo apt-get remove gradle`卸载掉。
+> 所以，起码到现在 (2015-08-20), 不要用 `$sudo apt-get install gradle` 来安装 *gradle*，如果安装了，要用 `$ sudo apt-get remove gradle` 卸载掉。
 
-##### 下载 Gradle distribution
+##### 下载 Gradle Distribution
 
 ```
 distribution 的地址： https://services.gradle.org/distributions/
@@ -378,7 +378,7 @@ Use apt-get purge <package name> to purge them.
 
 ```
 $ sudo apt-get install mysql-server (命令执行完成后会要求输入数据库密码)
-$ sudo apt-get install mysql-client
+$ # sudo apt-get install mysql-client (上面的命令默认安装 server-client)
 $ sudo apt-get install libmysqlclient-dev
 ```
 > 替换了淘宝源后，mysql安装不了，把备份的初始源追加到淘宝源后面。
@@ -394,7 +394,7 @@ $ sudo apt-get install libmysqlclient-dev
 $ sudo apt-get install mysql-client-core-5.6 mysql-client-5.6
 $ apt-get install mysql-server-5.6
 ```
-或者通过下载安装包安装指定版本:   
+通过下载压缩包安装指定版本:   
 
 ```
 # 下载
@@ -406,6 +406,11 @@ $ tar -xvf mysql-server_5.6.34-1ubuntu14.04_amd64.deb-bundle.tar
 # 安装
 > https://www.cnblogs.com/oldfish/p/5039772.html
 ```  
+通过下载 deb 安装包安装:
+```` 
+
+````
+
 
 验证安装：
 ```
@@ -437,13 +442,68 @@ CREATE DATABASE database_name DEFAULT CHARACTER SET utf8;
 
 ```
 # 删除 mysql
-$ sudo apt-get autoremove --purge mysql-server-5.x
-$ sudo apt-get remove mysql-common
+# $ sudo apt-get autoremove --purge mysql-server-*
+# $ sudo apt-get remove mysql-common
+$ sudo apt-get autoremove --purge mysql-*
 
 # 清理残留数据
-
 $ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
 ``` 
+
+### Mysql 忘记密码
+在终端输入下面的命令进入 mysqld.cnf 
+``` 
+$ sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf 
+
+```  
+   
+在 [mysqld] 下方的 skip-external-locking 下面添加一行：
+``` 
+skip-grant-tables 
+``` 
+   
+重启 mysql 服务
+``` 
+$ sudo service mysql restart
+``` 
+  
+在终端输入下面的命令进入 mysql 
+``` 
+$ mysql
+```
+  
+输入 use mysql 切换至 mysql 数据库
+``` 
+mysql> use mysql
+```
+  
+将 root 用户的密码修改为 "root":
+``` 
+mysql> update mysql.user set authentication_string=password('root') where user='root' and host ='localhost';
+```
+  
+修改字段 plugin 
+``` 
+mysql> update user set plugin="mysql_native_password";
+```
+> plugin 字段标识可以用于验证用户身份的插件，如果字段为空，服务器使用内建授权验证机制验证用户身份。
+  
+  
+刷新 mysql 的系统权限相关表 
+``` 
+mysql> flush privileges;
+``` 
+> mysql 新设置用户或更改密码后需用 flush privileges 刷新 mysql 的系统权限相关表，否则会出现拒绝访问，还有一种方法，就是重新启动 mysql 服务器，来使新设置生效。
+    
+退出
+``` 
+mysql> quit;
+```
+
+把 `/etc/mysql/mysql.conf.d/mysqld.cnf` 文件中添加的一行注释掉
+
+> 参考: [Ubuntu 16.04下忘记MySQL密码解决方法](https://blog.csdn.net/hq815601489/article/details/78608644)
+
 
 ## DBeaver 的安装
 > Free universal database manager and SQL client.  
@@ -470,7 +530,7 @@ sudo apt-get install openssh-server
 ``` 
 ps -e | grep ssh
 ```
-如果看到sshd那说明 ssh-server 已经启动了。
+如果看到 sshd 那说明 ssh-server 已经启动了。
 如果没有则可以这样启动：
 ``` 
 sudo /etc/init.d/ssh start 
@@ -616,16 +676,6 @@ $ npm install --global gulp-cli
 ```
 
 
-## openssh-server 的安装
-安装
-```
-$ sudo apt-get install openssh-server
-```
-输入下面命令检查是否安装成功
-```
-$ ps -e|grep ssh
-```
-
 
 ## Lantern 的安装
 下载安装包（https://github.com/getlantern/lantern），Deepin 操作系统也可以下载 Ubuntu 的安装包。
@@ -640,7 +690,7 @@ $ sudo apt-get install libappindicator3-dev -y
 ```
 
 
-## shadowsocks 的安装
+## Shadowsocks 的安装
 
 > [Ubuntu下ss的安装与使用](https://www.cnblogs.com/Dumblidor/p/5450248.html)  
 
@@ -649,10 +699,10 @@ $ sudo apt-get install python-pip
 $ sudo pip install shadowsocks
 $ sslocal -s 1.1.1.1 -p 8388 -k "your passwd" -b 127.0.0.1 -l 1080
 ```
--s后面跟你的服务器ip ， -p后面跟你远程端口号（默认8388） ，-k后面跟你的密码（写在双引号之间），其他的用默认选项就好。
+-s 后面跟你的服务器 ip ， -p 后面跟你远程端口号（默认 8388），-k 后面跟你的密码（写在双引号之间），其他的用默认选项就好。
 
 
-## 基于L2TP的VPN  
+## 基于 L2TP 的 VPN  
 
 > [在Ubuntu使用基于L2TP的VPN设置](http://blog.csdn.net/xiaoreqing/article/details/50968467) 
 
@@ -738,7 +788,7 @@ $ sudo apt-get install atom
 wget http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb
 sudo dpkg -i wps-office_10.1.0.5672_a21_amd64.deb 
 ```
-anzhuangbaocuo:
+如果出现下面的错误:
 ``` 
 dpkg: 依赖关系问题使得 wps-office 的配置工作不能继续：
  wps-office 依赖于 libpng12-0；然而：

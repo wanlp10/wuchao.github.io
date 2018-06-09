@@ -103,9 +103,7 @@ build(inputStream, "reports");
 
 ### 数据源 DataSource
 dataSource 元素被用来配置数据库连接属性。 
-
 ``` 
-
 <dataSource type="POOLED">  
   <property name="driver" value="${jdbc.driverClassName}" />  
   <property name="url" value="${jdbc.url}" />  
@@ -119,10 +117,10 @@ dataSource的类型可以配置成其内置类型之一，如 UNPOOLED，POOLED�
 - 如果将属性设置成 POOLED，MyBatis 会创建一个数据库连接池，连接池中的一个连接将会被用作数据库操作。一旦数据库操作完成，MyBatis 会将此连接返回给连接池。在开发或测试环境中，经常使用此种方式。
 - 如果将类型设置成 JNDI，MyBatis 从在应用服务器向配置好的 JNDI 数据源 dataSource 获取数据库连接。在生产环境中，优先考虑这种方式。  
 
-### 务管理器 TransactionManager 
+### 事务管理器 TransactionManager 
 MyBatis 支持两种类型的事务管理器： JDBC 和 MANAGED： 
 - JDBC 事务管理器被用作当应用程序负责管理数据库连接的生命周期（提交、回退等等）的时候。当你将 TransactionManager 属性设置成 JDBC，MyBatis 内部将使用 JdbcTransactionFactory 类创建 TransactionManager。例如，部署到 Apache Tomcat 的应用程序，需要应用程序自己管理事务。
-- MANAGED 事务管理器是当由应用服务器负责管理数据库连接生命周期的时候使用。当你将TransactionManager 属性设置成MANAGED时，MyBatis内部使用ManagedTransactionFactory 类创建事务管理器 TransactionManager。例如，当一个 JavaEE 的应用程序部署在类似 JBoss，WebLogic，GlassFish 应用服务器上时，它们会使用 EJB 进行应用服务器的事务管理能力。在这些管理环境中，你可以使用 MANAGED 事务管理器。
+- MANAGED 事务管理器是当由应用服务器负责管理数据库连接生命周期的时候使用。当你将 TransactionManager 属性设置成 MANAGED 时，MyBatis 内部使用 ManagedTransactionFactory 类创建事务管理器 TransactionManager。例如，当一个 JavaEE 的应用程序部署在类似 JBoss，WebLogic，GlassFish 应用服务器上时，它们会使用 EJB 进行应用服务器的事务管理能力。在这些管理环境中，你可以使用 MANAGED 事务管理器。
 
 ### 属性 Properties 
 属性配置元素可以将配置值具体化到一个属性文件中，并且使用属性文件的 key 名作为占位符。在上述的配置中，我们将数据库连接属性具体化到了 application.properties 文件中，并且为 driver，URL 等属性使用了占位符。
@@ -163,7 +161,7 @@ jdbc.password=admin
         SELECT STUD_ID AS ID, NAME, EMAIL, DOB   
         FROM STUDENTS WHERE STUD_ID=#{Id}  
 </select>  
-<update id="updateStudent" parameterType="com.mybatis3.domain. Student">  
+<update id="updateStudent" parameterType="com.mybatis3.domain.Student">  
     UPDATE STUDENTS   
         SET NAME=#{name}, EMAIL=#{email}, DOB=#{dob}   
         WHERE STUD_ID=#{id}  
@@ -194,17 +192,14 @@ jdbc.password=admin
 </update> 
 ``` 
 
-你可以不用为每一个 JavaBean 单独定义别名, 你可以为提供需要取别名的 JavaBean 所在的包(package)，MyBatis 会自动扫描包内定义的 JavaBeans，然后分别为 JavaBean 注册一个小写字母开头的非完全限定的类名形式的别名。如下所示，提供一个需要为 JavaBeans 起别名的包名： 
+你可以不用为每一个 JavaBean 单独定义别名, 你可以为提供需要取别名的 JavaBean 所在的包 (package)，MyBatis 会自动扫描包内定义的 JavaBeans，然后分别为 JavaBean 注册一个小写字母开头的非完全限定的类名形式的别名。如下所示，提供一个需要为 JavaBeans 起别名的包名： 
 ``` 
 <typeAliases>  
   <package name="com.mybatis3.domain" />  
 </typeAliases> 
 ``` 
 
-如果 Student.java 和 Tutor.java 定义在 com.mybatis3.domain 包中，则 com.mybatis3.domain.Student 的别名会被注册为 student。而 com.mybatis3.domain.Tutor 别名将会被注册为 tutor。示例如下： 
-``` 
-
-``` 
+如果 Student.java 和 Tutor.java 定义在 com.mybatis3.domain 包中，则 com.mybatis3.domain.Student 的别名会被注册为 student。而 com.mybatis3.domain.Tutor 别名将会被注册为 tutor。 
 
 还有另外一种方式为 JavaBean 起别名，使用注解 `@Alias` : 
 ``` 
@@ -257,7 +252,7 @@ pstmt.setTimestamp(4, new Timestamp((student.getDob()).getTime()));
 
 MyBatis 是怎么知道对于 Integer 类型属性使用 setInt() 和 String 类型属性使用 setString() 方法呢？其实 MyBatis 是通过使用类型处理器（type handlers）来决定这么做的。
 
-MyBatis 对于以下的类型使用内建的类型处理器：所有的基本数据类型、基本类型的包裹类型、byte[]、java.util.Date、java.sql.Date、java,sql.Time、java.sql.Timestamp、enum 等。所以当 MyBatis 发现属性的类型属于上述类型，他会使用对应的类型处理器将值设置到 PreparedStatement 中，同样地，当从 SQL 结果集构建 JavaBean 时，也有类似的过程。
+MyBatis 对于以下的类型使用内建的类型处理器：所有的基本数据类型、基本类型的包装类型、byte[]、java.util.Date、java.sql.Date、java,sql.Time、java.sql.Timestamp、enum 等。所以当 MyBatis 发现属性的类型属于上述类型，他会使用对应的类型处理器将值设置到 PreparedStatement 中，同样地，当从 SQL 结果集构建 JavaBean 时，也有类似的过程。
 
 那如果我们给了一个自定义的对象类型，来存储存储到数据库呢？示例如下：
 
@@ -366,7 +361,7 @@ public class PhoneTypeHandler extends BaseTypeHandler<PhoneNumber> {
 注册 PhoneTypeHandler 后，MyBatis 就能够将 Phone 类型的对象值存储到 VARCHAR 类型的列上。 
 
 ### 全局参数设置 Settings 
-为满足应用特定的需求，MyBatis 默认的全局参数设置可以被覆盖(overridden)掉，如下所示： 
+为满足应用特定的需求，MyBatis 默认的全局参数设置可以被覆盖 (overridden) 掉，如下所示： 
 ``` 
 <settings>  
   <setting name="cacheEnabled" value="true" />  
@@ -386,7 +381,6 @@ public class PhoneTypeHandler extends BaseTypeHandler<PhoneNumber> {
 ``` 
 
 ### SQL 映射定义 Mappers 
-
 Mapper XML 文件中包含的 SQL 映射语句将会被应用通过使用其 statement id 来执行。我们需要在 mybatis-config.xml 文件中配置 Mapper 文件的位置： 
 ``` 
 <mappers>  
@@ -409,6 +403,7 @@ MyBatis 的 SqlSessionFactory 接口除了使用基于 XML 的配置创建外也
 使用 Java API 创建 SqlSessionFactory，代码如下： 
 ``` 
 public static SqlSessionFactory getSqlSessionFactory() {  
+    
     SqlSessionFactory sqlSessionFactory = null;  
       
     try {  
@@ -444,7 +439,6 @@ MyBatis 支持三种内建的 DataSource 类型: UNPOOLED，POOLED，和 JNDI：
 
 让我们看一下怎样通过 MyBatis 的 PooledDataSource 获得 DataSource 对象，如下： 
 ``` 
-
 public class DataSourceFactory {  
     public static DataSource getDataSource() {  
         String driver = "com.mysql.jdbc.Driver";  

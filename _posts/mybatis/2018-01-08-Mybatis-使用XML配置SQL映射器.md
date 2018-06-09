@@ -36,8 +36,7 @@ public Student findStudentById(long studId) {
     SqlSession sqlSession = MyBatisUtil.getSqlSession();  
     try {  
         Student student =  
-            sqlSession.selectOne("com.mybatis3.mappers.StudentMapper.  
-                                 findStudentById", studId);  
+            sqlSession.selectOne("com.mybatis3.mappers.StudentMapper.findStudentById", studId);  
         return student;  
     } finally {  
         sqlSession.close();  
@@ -46,7 +45,7 @@ public Student findStudentById(long studId) {
 ``` 
 
 我们可以通过字符串（字符串形式为：映射器配置文件所在的包名 namespace + 在文件内定义的语句 id，如上，即包名 com.mybatis3.mappers.StudentMapper 和语句 id (findStudentById) 组成调用映射的 SQL 语句，但是这种方式容易出错。你需要检查映射器配置文件中的定义，以保证你的输入参数类型和结果返回类型是有效的。
-MyBatis 通过使用映射器 Mapper 接口提供了更好的调用映射语句的方法。一旦我们通过映射器配置文件配置了映射语句，我们可以创建一个完全对应的一个映射器接口，接口名跟配置文件名相同，接口所在包名也跟配置文件所在包名完全一样(如 StudentMapper.xml 所在的包名是 com.mybatis3.mappers，对应的接口名就是 com.mybatis3.mappers.StudentMapper.java）。映射器接口中的方法签名也跟映射器配置文件中完全对应：方法名为配置文件中 id 值；方法参数类型为 parameterType 对应值；方法返回值类型为 returnType 对应值。 
+MyBatis 通过使用映射器 Mapper 接口提供了更好的调用映射语句的方法。**一旦我们通过映射器配置文件配置了映射语句，我们可以创建一个完全对应的一个映射器接口，接口名跟配置文件名相同，接口所在包名也跟配置文件所在包名完全一样(如 StudentMapper.xml 所在的包名是 com.mybatis3.mappers，对应的接口名就是 com.mybatis3.mappers.StudentMapper.java）**。映射器接口中的方法签名也跟映射器配置文件中完全对应：方法名为配置文件中 id 值；方法参数类型为 parameterType 对应值；方法返回值类型为 returnType 对应值。 
 
 对于上述的 StudentMapper.xml 文件，我们可以创建一个映射器接口 StudentMapper.java 如下： 
 ``` 
@@ -142,7 +141,7 @@ long studentId = student.getStudId();
 </insert>  
 ```  
 
-这里我们使用了 `selectKey` 子元素来生成主键值，并将值保存到 Student 对象的 studId 属性上。 属性 `order=“before”` 表示 MyBatis 将取得序列的下一个值作为主键值，并且在执行 INSERT SQL 语句之前将值设置到 studId 属性上。
+这里我们使用了 `selectKey` 子元素来生成主键值，并将值保存到 Student 对象的 studId 属性上。 属性 `order="before"` 表示 MyBatis 将取得序列的下一个值作为主键值，并且在执行 INSERT SQL 语句之前将值设置到 studId 属性上。
 
 我们也可以在获取序列的下一个值时，使用触发器（trigger）来设置主键值，并且在执行 INSERT SQL 语句之前将值设置到主键列上。如果你采取这样的方式，则对应的 INSERT 映射语句如下所示： 
 ``` 
@@ -203,7 +202,7 @@ int noOfRowsDeleted =
 
 sqlSession.delete() 方法返回 delete 语句执行后影响的行数。 
 
-如果不使用名空间（namespace）和语句id来调用映射语句，你可以通过创建一个映射器 Mapper 接口，并以类型安全的方式调用方法，如下所示：
+如果不使用名空间（namespace）和语句 id 来调用映射语句，你可以通过创建一个映射器 Mapper 接口，并以类型安全的方式调用方法，如下所示：
 ``` 
 package com.mybatis3.mappers;  
 public interface StudentMapper {  
@@ -232,7 +231,7 @@ resultType="Student">
 
 我们可以如下调用此语句： 
 ``` 
-long studId =1;  
+long studId = 1;  
 Student student = 
     sqlSession.selectOne("com.mybatis3.mappers.StudentMapper.findStudentById", studId); 
 ``` 
@@ -304,7 +303,7 @@ List<Student> students = mapper.findAllStudents();
 - 对于 SortedSet 类型，MyBatis 将返回 `java.util.TreeSet` 
 
 ## 结果集映射 ResultMap 
-ResultMap 被用来 将 SQL SELECT 语句的结果集映射到 JavaBean 的属性中。我们可以定义结果集映射 ResultMap 并且在一些 SELECT 语句上引用 resultMap。MyBatis 的结果集映射 ResultMap 特性非常强大，你可以使用它将简单的 SELECT 语句映射到复杂的一对一和一对多关系的 SELECT语句上。
+ResultMap 被用来将 SQL SELECT 语句的结果集映射到 JavaBean 的属性中。我们可以定义结果集映射 ResultMap 并且在一些 SELECT 语句上引用 resultMap。MyBatis 的结果集映射 ResultMap 特性非常强大，你可以使用它将简单的 SELECT 语句映射到复杂的一对一和一对多关系的 SELECT 语句上。
 
 ### 简单 ResultMap 
 一个映射了查询结果和 Student JavaBean 的简单的 resultMap 定义如下： 
@@ -356,14 +355,14 @@ System.out.println("email :"+studentMap.get("email"));
 System.out.println("phone :"+studentMap.get("phone"));  
 ``` 
 
-让我们再看一个 使用 `resultType=”map”` ,返回多行结果的例子： 
+让我们再看一个 使用 `resultType="map"` ，返回多行结果的例子： 
 ``` 
 <select id="findAllStudents" resultType="map"> 
     SELECT STUD_ID, NAME, EMAIL, PHONE FROM STUDENTS  
 </select>  
 ``` 
 
-由于 `resultType=”map”` 和语句返回多行，则最终返回的数据类型应该是 `List<HashMap<String,Object>>` ，如下所示： 
+由于 `resultType=”map"` 和语句返回多行，则最终返回的数据类型应该是 `List<HashMap<String, Object>>` ，如下所示： 
 ``` 
 List<HashMap<String, Object>> studentMapList =  
     sqlSession.selectList("com.mybatis3.mappers.StudentMapper.findAllStudents");  
@@ -471,7 +470,6 @@ public interface StudentMapper{
     Student selectStudentWithAddress(long studId);  
 }  
   
-  
 //使用  
 long studId = 1;  
 StudentMapper studentMapper =  
@@ -512,7 +510,7 @@ resultMap="StudentWithAddressResult">
 </select>  
 ``` 
 
-元素 `<association>` 被用来导入“有一个”(has-one)类型的关联。在上述的例子中，我们使用了 `<association>` 元素引用了另外的在同一个 XML 文件中定义的 `<resultMap>` 。
+元素 `<association>` 被用来导入“有一个”(has-one) 类型的关联。在上述的例子中，我们使用了 `<association>` 元素引用了另外的在同一个 XML 文件中定义的 `<resultMap>` 。
 我们也可以使用 `<association` 定义内联的 `resultMap`，代码如下所示： 
 ``` 
 <resultMap type="Student" id="StudentWithAddressResult">  
@@ -576,7 +574,7 @@ System.out.println(student.getAddress());
 
 ## 一对多映射 
 在我们的域模型样例中，一个讲师可以教授一个或者多个课程。这意味着讲师和课程之间存在一对多的映射关系。
-我们可以使用 `<collection>` 元素将 一对多类型的结果 映射到 一个对象集合上。 
+我们可以使用 `<collection>` 元素将 一对多类型的结果映射到一个对象集合上。 
 
 Course和Tutor的JavaBean定义如下： 
 ``` 
@@ -589,6 +587,7 @@ public class Course {
     private long tutorId;  
     //setters & getters  
 }  
+
 public class Tutor {  
     private long tutorId;  
     private String name;  
@@ -656,6 +655,7 @@ WHERE T.TUTOR_ID=#{tutorId}
     SELECT T.TUTOR_ID, T.NAME AS TUTOR_NAME, EMAIL   
     FROM TUTORS T WHERE T.TUTOR_ID=#{tutorId}  
 </select>  
+
 <select id="findCoursesByTutor" parameterType="long" resultMap="CourseResult">  
     SELECT * FROM COURSES WHERE TUTOR_ID=#{tutorId}  
 </select> 
@@ -667,7 +667,6 @@ WHERE T.TUTOR_ID=#{tutorId}
 public interface TutorMapper {  
     Tutor findTutorById(long tutorId);  
 }  
-
 
 //使用
 TutorMapper mapper = sqlSession.getMapper(TutorMapper.class);  
@@ -1079,7 +1078,7 @@ sqlSession.selectMap("com.mybatis3.mappers.StudentMapper.findAllStudents", "stud
 
 MyBatis 可以使用 RowBounds 逐页加载表数据。RowBounds 对象可以使用 offset 和 limit 参数来构建。参数 offset 表示开始位置，而 limit 表示要取的记录的数目。
 
-假设如果你想每页加载并显示25条学生的记录，你可以使用如下的代码： 
+假设如果你想每页加载并显示 25 条学生的记录，你可以使用如下的代码： 
 ``` 
 <select id="findAllStudents" resultMap="StudentResult">  
     select * from Students  
@@ -1098,9 +1097,9 @@ List<Student> = studentMapper.getStudents(rowBounds);
 ### 使用 ResultSetHandler 自定义处理结果集 resultSet 
 MyBatis 在将查询结果集映射到 JavaBean 方面提供了很大的选择性。但是，有时候我们会遇到由于特定的目的，需要我们自己处理 SQL 查询结果的情况。MyBatis 提供了 ResultHandler 插件形式允许我们以任何自己喜欢的方式处理结果集 ResultSet。
 
-假设我们想从学生 的stud_id 被用作 key，而 name 被用作 value 的 HashMap 中获取到 student 信息。 
+假设我们想从学生的 stud_id 被用作 key，而 name 被用作 value 的 HashMap 中获取到 student 信息。 
 
-> `mybatis-3.2.2` 并不支持使用resultMap 配置将查询的结果集映射成一个属性为 key，而另外属性为 value 的 HashMap。 
+> `mybatis-3.2.2` 并不支持使用 resultMap 配置将查询的结果集映射成一个属性为 key，而另外属性为 value 的 HashMap。 
 > sqlSession.selectMap() 则可以返回以给定列为 key，记录对象为 value 的 map。
 > 我们不能将其配置成其中一个属性作为 key，而另外的属性作为 value。 
  
@@ -1172,7 +1171,7 @@ readOnly="true"/>
 <delete ... flushCache="true"/> 
 ``` 
 
-你可以为任意特定的映射语句复写默认的 cache 行为；例如，对一个 select 语句不使用缓存，可以设置 useCache=“false”。
+你可以为任意特定的映射语句复写默认的 cache 行为；例如，对一个 select 语句不使用缓存，可以设置 useCache="false"。
 
 除了内建的缓存支持，MyBatis 也提供了与第三方缓存类库如 `Ehcache` ， `OSCache` ， `Hazelcast` 的集成支持。你可以在 [MyBatis官方网站](https://code.google.com/p/mybatis/wiki/Caches) 上找到关于继承第三方缓存类库的更多信息。  
 

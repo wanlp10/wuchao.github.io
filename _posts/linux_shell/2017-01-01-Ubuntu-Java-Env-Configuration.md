@@ -516,6 +516,24 @@ sudo dpkg -i dbeaver-ce_4.3.4_amd64.deb
 ```
 
 
+## Redis 的安装
+> [linux安装redis](https://www.cnblogs.com/oskyhg/p/7293905.html)
+
+``` 
+$ wget http://download.redis.io/releases/redis-3.0.1.tar.gz 
+$ tar xzf redis-3.0.1.tar.gz
+$ cd redis-3.0.1
+$ make 
+$ ./src/redis-server
+   
+# 直接make 编译
+make
+# 可使用root用户执行`make install`，将可执行文件拷贝到/usr/local/bin目录下。这样就可以直接敲名字运行程序了。
+make install
+```
+
+
+
 ## 开启 SSH 服务
 SSH 分客户端 openssh-client 和 openssh-server
 如果你只是想登陆别的机器的 SSH 只需要安装 openssh-client（ubuntu 有默认安装），如果没有则： 

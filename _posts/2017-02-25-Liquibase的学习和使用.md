@@ -122,7 +122,7 @@ Caused by: liquibase.exception.ValidationFailedException: Validation Failed:
      1 change sets check sum
           classpath:db/develop/db.changelog-master.yaml::47::xxx was: 7:f2ea6ec961a20a0c7af2c99ada7a75d2 but is now: 7:1fd94acb9eb54da3a9f5695189a99871
 ```
-（其中47表示 changeSet 的 id 属性值,xxx 表示 changeSet 的 author 属性值。）
+（其中 47 表示 changeSet 的 id 属性值，xxx 表示 changeSet 的 author 属性值。）
 
 如果修改了原来的 include 标签引用的 sql 文件，该标签在数据库中的记录的 MD5 校验值也会改变，项目启动时会报以下错误，sql 文件中修改的内容不会更新到数据库中。
 ```
@@ -141,7 +141,7 @@ spring.jpa.hibernate.ddl-auto=validate
 ```
 
 这样项目启动时就不会执行指定的 sql 脚本了，这时如果要引入 sql 脚本，可以在 changelog 文件中使用 include 标签引入。
-将该属性设置为 validate 在使用像mysql这样的可持久化数据库是非常必要的，因为使用了可持久化数据库，下次启动项目时会保留
+将该属性设置为 validate 在使用像 mysql 这样的可持久化数据库是非常必要的，因为使用了可持久化数据库，下次启动项目时会保留
 以前持久化到数据库中的所有数据，如果不设置该属性将使用了 `spring.jpa.properties.hibernate.hbm2ddl.import_files`
 指定的 sql 脚本文件过滤掉会污染数据库。
 

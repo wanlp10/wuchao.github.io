@@ -274,6 +274,21 @@ $ sudo apt-get update
 $ sudo apt-get install git  
 $ git --version
 ```
+### git lfs 的安装 
+``` 
+$ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash 
+$ sudo apt-get install git-lfs 
+# 切换到项目路径
+$ git lfs install 
+$ git lfs track /cache/深入深入分布式缓存\ 从原理到实践.pdf 
+$ git add .gitattributes
+$ git add cache/深入分布式缓存\ 从原理到实践.pdf 
+$ git commit -m "Add a large file"
+$ git push origin master 
+```
+> [Git LFS的使用](https://www.jianshu.com/p/493b81544f80)  
+> [https://git-lfs.github.com/](https://git-lfs.github.com/)
+
 
 
 ## Gradle 的安装   

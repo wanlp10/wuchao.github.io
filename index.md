@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 学习笔记
+title: Keep Coding
 tagline: 一天为码农，终身为码农……
 ---
 {% include JB/setup %}

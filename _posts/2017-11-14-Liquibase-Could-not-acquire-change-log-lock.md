@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Liquibase "Could not acquire change log lock."
-category : [JavaEE, Liquibase]
+category : [Liquibase]
 tagline: "Supporting tagline"
 tags : [Liquibase]
 ---

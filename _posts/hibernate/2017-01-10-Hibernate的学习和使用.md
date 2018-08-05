@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Hibernate 的学习和使用
-category : [JavaEE, Hibernate]
+category : [Java, Hibernate]
 tagline: "Supporting tagline"
 tags : [Hibernate]
 ---

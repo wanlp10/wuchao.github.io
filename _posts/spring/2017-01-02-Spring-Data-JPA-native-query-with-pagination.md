@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Spring Data JPA native query with pagination
-category : [JavaEE, Spring]
+category : [Spring]
 tagline: "Supporting tagline"
 tags : [Spring Data JPA, native query, pagination]
 ---

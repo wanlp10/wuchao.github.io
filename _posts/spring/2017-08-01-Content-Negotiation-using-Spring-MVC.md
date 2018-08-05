@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Content Negotiation using Spring MVC
-category : [JavaEE, Spring]
+category : [Spring]
 tagline: "Supporting tagline"
 tags : [Spring MVC]
 ---

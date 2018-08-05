@@ -1,12 +1,12 @@
 ---
 layout: post
-title: com.microsoft.sqlserver.jdbc.SQLServerException: The "variant" data type is not supported.
+title: SQLServerException: The "variant" data type is not supported.
 category : [学习问题记录]
 tagline: "Supporting tagline"
 tags : [SQL Server]
 ---
 {% include JB/setup %}
-# com.microsoft.sqlserver.jdbc.SQLServerException: The "variant" data type is not supported.
+# SQLServerException: The "variant" data type is not supported.
 ---
 
 <!--break-->

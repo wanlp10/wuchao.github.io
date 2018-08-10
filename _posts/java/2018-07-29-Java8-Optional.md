@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Java8 Optional
-category : [学习问题记录]
+category : [Java]
 tagline: "Supporting tagline"
-tags : [Java, Optional]
+tags : [Java]
 ---
 {% include JB/setup %}
 # Java8 Optional

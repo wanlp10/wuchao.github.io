@@ -57,7 +57,7 @@ dest: [AA, B, C, D, E]
 可以看到 list 虽然被修改了，但是 dest 数组没有没修改。
 
 ### List、Set 互转   
-因为 List 和 Set 都实现了 Collection 接口，且 addAll(Collection<? extends E> c) 方法，因此可以采用 addAll() 方法将 List 和 Set 互相转换；另外，List 和 Set 也提供了 Collection<? extends E> c 作为参数的构造函数，因此通常采用构造函数的形式完成互相转化。  
+因为 List 和 Set 都实现了 Collection 接口，且 addAll(Collection<? extends E> c) 方法，因此可以采用 addAll() 方法将 List 和 Set 互相转换；另外，List 和 Set 也提供了 `Collection<? extends E> c` 作为参数的构造函数，因此通常采用构造函数的形式完成互相转化。  
 ```
 // List 转 Set
 Set<String> set = new HashSet<>(list);
@@ -69,7 +69,7 @@ System.out.println("list_1: " + list_1);
 ```
 和 toArray() 一样，被转换的 List / Set 的修改不会对被转化后的 Set / List 造成影响。
 
-#### Array、Set 互转
+### Array、Set 互转
 由上面可完成 Array 和 Set 的互转。
 ```
 // array 转 set
@@ -80,6 +80,16 @@ System.out.println("set: " + set);
 // set 转 array
 dest = set.toArray(new String[0]);
 System.out.println("dest: " + Arrays.toString(dest));
+```
+
+### Array、Array 互转 
+使用 `org.apache.commons.beanutils.ConvertUtils.java` 提供的 `convert` 方法。
+``` 
+String str = "1,2,3,4,5,6,7,8";
+String[] strAry = str.split(",");
+// String 数组转成数字型数组
+int[] num1 = (int[]) ConvertUtils.convert(strAry, int.class);
+Integer[] num2 = (Integer[]) ConvertUtils.convert(strAry, Integer.class);
 ```
 
 ## Arrays.asList() 和 Collection.toArray()

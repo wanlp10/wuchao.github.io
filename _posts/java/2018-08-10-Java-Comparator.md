@@ -89,7 +89,7 @@ list.sort((e1, e2) -> e1.getSalary() - e2.getSalary());
 ```
 
 ##### 2.2 使用 Comparator.comparing 的方式：
-我们使用上述lambda表达式的时候，IDE 会提示我们：`can be replaced with comparator.comparing Int`。
+我们使用上述 lambda 表达式的时候，IDE 会提示我们：`can be replaced with comparator.comparing Int`。
 ```
 list.sort(Comparator.comparing(employee -> employee.getSalary()));
 ```

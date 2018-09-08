@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Java Serializable
-category : [学习问题记录]
+category : [问题记录]
 tagline: "Supporting tagline"
 tags : [Java, Serializable]
 ---

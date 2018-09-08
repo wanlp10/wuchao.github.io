@@ -1,7 +1,7 @@
 ---
 layout: post
 title: aliyun OSS 上传 blob 文件
-category : [学习问题记录]
+category : [问题记录]
 tagline: "Supporting tagline"
 tags : [aliyun, OSS, blob]
 ---

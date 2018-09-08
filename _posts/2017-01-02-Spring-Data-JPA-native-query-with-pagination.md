@@ -10,7 +10,8 @@ tags : [Spring Data JPA, native query, pagination]
 ---
 
 ## Mysql 
-> [Spring Data JPA and native queries with pagination](http://www.denismigol.com/posts/44/spring-data-jpa-native-queries-pagination) 
+> [Spring Data JPA and native queries with pagination](http://www.denismigol.com/posts/44/spring-data-jpa-native-queries-pagination)
+>  
 > [Spring Data and Native Query with pagination](https://stackoverflow.com/questions/38349930/spring-data-and-native-query-with-pagination) 
 
 ``` 

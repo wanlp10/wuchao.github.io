@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SQLServerException: The "variant" data type is not supported.
-category : [学习问题记录]
+category : [问题记录]
 tagline: "Supporting tagline"
 tags : [SQL Server]
 ---

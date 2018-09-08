@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 使用Jdbc和JdbcTemplate查询sql语句
-category : [学习问题记录]
+category : [问题记录]
 tagline: "Supporting tagline"
 tags : [JdbcTemplate]
 ---

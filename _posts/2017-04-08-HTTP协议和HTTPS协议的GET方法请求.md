@@ -1,7 +1,7 @@
 ---
 layout: post
 title: HTTP 协议和 HTTPS 协议的 GET 方法请求
-category : [学习问题记录]
+category : [问题记录]
 tagline: "Supporting tagline"
 tags : [HTTP, HTTPS]
 ---

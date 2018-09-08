@@ -1,7 +1,7 @@
 ---
 layout: post
 title: JPA Criteria 中 DATEDIFF 函数的使用
-category : [学习问题记录]
+category : [问题记录]
 tagline: "Supporting tagline"
 tags : [JPA, DATEDIFF]
 ---

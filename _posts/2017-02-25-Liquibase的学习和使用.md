@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Liquibase 的学习和使用
-category : [Liquibase]
+category : [学习记录]
 tagline: "Supporting tagline"
 tags : [Liquibase]
 ---

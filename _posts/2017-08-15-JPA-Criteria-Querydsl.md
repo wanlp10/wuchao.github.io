@@ -1,7 +1,7 @@
 ---
 layout: post
 title: JPA-Criteria-Querydsl 
-category : [Java]
+category : [学习记录]
 tagline: "Supporting tagline"
 tags : [Java, JPA, Criteria, Querydsl]
 ---
